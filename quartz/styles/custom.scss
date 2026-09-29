@@ -1,3 +1,31 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+// Scale down the base font size (everything else is in rem, so this
+// shrinks headings/body/code proportionally).
+html {
+  font-size: 90%;
+}
+
+// Match the AMOLED + Notion Dark look from the real Obsidian vault
+// (AnuPpuccin's built-in style settings don't cover the "extended
+// colorschemes" community snippet, so override its custom color slots
+// directly instead).
+:root[saved-theme="dark"] {
+  --ctp-custom-base: 10, 10, 10;
+  --ctp-custom-mantle: 5, 5, 5;
+  --ctp-custom-crust: 0, 0, 0;
+  --ctp-custom-text: 235, 237, 238;
+  --ctp-custom-subtext1: 227, 230, 232;
+  --ctp-custom-subtext0: 220, 223, 225;
+  --ctp-custom-overlay2: 214, 217, 219;
+  --ctp-custom-overlay1: 190, 194, 197;
+  --ctp-custom-overlay0: 165, 170, 174;
+  --ctp-custom-surface2: 80, 80, 80;
+  --ctp-custom-surface1: 50, 50, 50;
+  --ctp-custom-surface0: 30, 30, 30;
+  // the accent style setting's CSS is gated behind a class that never
+  // gets applied to the page, so set the accent directly instead
+  --ctp-accent: 96, 145, 226;
+}

@@ -31,15 +31,15 @@ configuration:
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#fff23688"
       darkMode:
-        light: "#161618"
-        lightgray: "#393639"
-        gray: "#646464"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        light: "#000000"
+        lightgray: "#323232"
+        gray: "#505050"
+        darkgray: "#c8cdd0"
+        dark: "#e3e6e8"
+        secondary: "#6091e2"
+        tertiary: "#52b2ca"
+        highlight: rgba(96, 145, 226, 0.15)
+        textHighlight: "#ffdc4988"
 plugins:
   - source: "@quartz-community/created-modified-date"
     enabled: true
@@ -113,8 +113,12 @@ plugins:
   - source: "@quartz-themes/core"
     enabled: true
     options:
-      theme: default
-      mode: both
+      theme: anuppuccin
+      mode: dark
+      styleSettings:
+        anuppuccin-theme-settings@@anuppuccin-theme-dark: ctp-mocha-old
+        anuppuccin-theme-settings@@anuppuccin-theme-accents: ctp-accent-blue
+        anuppuccin-theme-settings-extended@@anp-theme-ext-amoled: true
   - source: "@quartz-community/remove-draft"
     enabled: true
   - source: "@quartz-community/explicit-publish"
