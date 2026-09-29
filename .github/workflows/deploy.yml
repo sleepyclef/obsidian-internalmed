@@ -44,6 +44,8 @@ jobs:
         run: npx quartz plugin install
       - name: Build Quartz
         run: npx quartz build
+      - name: Add password gate
+        run: node scripts/add-password-gate.mjs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
