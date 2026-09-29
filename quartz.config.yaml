@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: sleepyclef.github.io
+  baseUrl: sleepyclef.github.io/obsidian-internalmed
   ignorePatterns:
     - private
     - templates
