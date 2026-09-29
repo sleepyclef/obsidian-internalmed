@@ -1,0 +1,2 @@
+Rapid referral to Pancreatic Cancer clinic PMH [https://www.uhn.ca/PrincessMargaret/Health_Professionals/Patient_Referral/Documents/McCain_New_Patient_Referral_Final.pdf](https://www.uhn.ca/PrincessMargaret/Health_Professionals/Patient_Referral/Documents/McCain_New_Patient_Referral_Final.pdf)
+Ensure no acute issue such as cholangitis, having some obs jaundice is not dc limiting
