@@ -136,3 +136,12 @@ article .ws-indent {
 article .ws-indent + br {
   display: none;
 }
+
+// Obsidian puts a list right under the line above it; drop the default
+// paragraph/list margins where a paragraph runs straight into a list.
+article p:has(+ :is(ul, ol)) {
+  margin-bottom: 0;
+}
+article p + :is(ul, ol) {
+  margin-top: 0;
+}
