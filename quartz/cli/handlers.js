@@ -754,8 +754,35 @@ export async function handleSync(argv) {
       timeStyle: "short",
     })
     const commitMessage = argv.message ?? `Quartz sync: ${currentTimestamp}`
-    spawnSync("git", ["add", "."], { stdio: "inherit" })
-    spawnSync("git", ["commit", "-m", commitMessage], { stdio: "inherit" })
+
+    // symlinked folders *inside* content (e.g. content/Internal Med -> iCloud vault)
+    // would otherwise be committed as bare links, so swap in real copies while committing
+    const nestedLinks = []
+    for (const entry of await fs.promises.readdir(contentFolder, { withFileTypes: true })) {
+      if (!entry.isSymbolicLink()) continue
+      const linkPath = path.join(contentFolder, entry.name)
+      const linkTarg = await fs.promises.readlink(linkPath)
+      const resolved = path.resolve(contentFolder, linkTarg)
+      if (!fs.existsSync(resolved) || !fs.statSync(resolved).isDirectory()) continue
+      console.log(styleText("yellow", `Dereferencing symlinked folder '${entry.name}'`))
+      await fs.promises.rm(linkPath)
+      nestedLinks.push({ linkPath, linkTarg })
+      await fs.promises.cp(resolved, linkPath, {
+        recursive: true,
+        preserveTimestamps: true,
+        filter: (src) => ![".obsidian", ".trash", ".DS_Store"].includes(path.basename(src)),
+      })
+    }
+
+    try {
+      spawnSync("git", ["add", "."], { stdio: "inherit" })
+      spawnSync("git", ["commit", "-m", commitMessage], { stdio: "inherit" })
+    } finally {
+      for (const { linkPath, linkTarg } of nestedLinks) {
+        await fs.promises.rm(linkPath, { recursive: true, force: true })
+        await fs.promises.symlink(linkTarg, linkPath, "dir")
+      }
+    }
 
     if (contentStat.isSymbolicLink()) {
       // put symlink back
