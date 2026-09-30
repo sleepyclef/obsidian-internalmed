@@ -8,24 +8,131 @@ html {
   font-size: 90%;
 }
 
-// Match the AMOLED + Notion Dark look from the real Obsidian vault
-// (AnuPpuccin's built-in style settings don't cover the "extended
-// colorschemes" community snippet, so override its custom color slots
-// directly instead).
+// Kakano (grey)-inspired look, hand-rolled on top of the palette in
+// quartz.config.yaml: warm near-black background, soft grey text, muted
+// blue accents.
+
+// headings and title: same font as body, just heavier, with a bit more room
+article h1,
+article h2,
+article h3,
+article h4 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.page-title {
+  font-weight: 700;
+}
+
+// links: no highlight box, just the muted accent with an underline on hover
+a.internal,
+a.external {
+  background-color: transparent;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+}
+
+// the accent is deliberately quiet, so links in note text get a faint
+// underline to stay recognizable (brightens on hover)
+article a.internal:not(.tag-link),
+article a.external {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 0.15em;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+// tags as soft pills
+a.internal.tag-link {
+  background-color: var(--highlight);
+  border-radius: 2em;
+  padding: 0.1rem 0.6rem;
+  font-weight: 400;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// inline code / code blocks: faint lighter tint instead of a boxed border
 :root[saved-theme="dark"] {
-  --ctp-custom-base: 10, 10, 10;
-  --ctp-custom-mantle: 5, 5, 5;
-  --ctp-custom-crust: 0, 0, 0;
-  --ctp-custom-text: 235, 237, 238;
-  --ctp-custom-subtext1: 227, 230, 232;
-  --ctp-custom-subtext0: 220, 223, 225;
-  --ctp-custom-overlay2: 214, 217, 219;
-  --ctp-custom-overlay1: 190, 194, 197;
-  --ctp-custom-overlay0: 165, 170, 174;
-  --ctp-custom-surface2: 80, 80, 80;
-  --ctp-custom-surface1: 50, 50, 50;
-  --ctp-custom-surface0: 30, 30, 30;
-  // the accent style setting's CSS is gated behind a class that never
-  // gets applied to the page, so set the accent directly instead
-  --ctp-accent: 96, 145, 226;
+  --code-tint: rgba(255, 255, 255, 0.05);
+}
+
+:root[saved-theme="light"] {
+  --code-tint: rgba(0, 0, 0, 0.05);
+}
+
+code {
+  background-color: var(--code-tint);
+  border: none;
+  border-radius: 4px;
+}
+
+pre {
+  background-color: var(--code-tint);
+  border: none;
+}
+
+// blockquotes: thin grey rule, muted text
+blockquote {
+  border-left: 2px solid var(--lightgray);
+  color: var(--gray);
+}
+
+// explorer / sidebar: quieter text so the note body stands out
+.explorer .folder-container > div,
+.breadcrumb-container {
+  color: var(--gray);
+}
+
+// Obsidian's outliner-style vertical guide lines on nested (tab-indented)
+// list items. Quartz renders the same nested <ul>/<li> structure, it just
+// doesn't draw a line down the indent by default.
+article :is(ul, ol) :is(ul, ol) {
+  border-left: 1px solid var(--lightgray);
+  margin-left: 0.3rem;
+  padding-left: 1rem;
+}
+
+// Tab/space-indented lines from the preserve-whitespace plugin. Each is its
+// own block so wrapped text keeps the indent; --ws-indent is the width in
+// spaces (a tab counts as 4).
+article .ws-indent {
+  --ws-level: 1.2em; // one tab (4 spaces * 0.3em)
+  display: block;
+  position: relative;
+  padding-left: calc(var(--ws-indent) * 0.3em);
+
+  // Obsidian-style indent guides: one thin vertical line per indent level,
+  // drawn in the left padding. Consecutive indented lines are flush blocks,
+  // so the guides join up into continuous lines down the section.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: calc(var(--ws-indent) * 0.3em);
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent 0 0.45em,
+      var(--lightgray) 0.45em calc(0.45em + 1px),
+      transparent calc(0.45em + 1px) var(--ws-level)
+    );
+    pointer-events: none;
+  }
+}
+
+// the hard line break after an indented line is redundant now it's a block
+article .ws-indent + br {
+  display: none;
 }

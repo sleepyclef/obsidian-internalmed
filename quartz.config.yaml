@@ -16,9 +16,9 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Schibsted Grotesk
-      body: Source Sans Pro
-      code: IBM Plex Mono
+      header: Roboto
+      body: Roboto
+      code: Roboto Mono
     colors:
       lightMode:
         light: "#faf8f8"
@@ -26,20 +26,20 @@ configuration:
         gray: "#b8b8b8"
         darkgray: "#4e4e4e"
         dark: "#2b2b2b"
-        secondary: "#284b63"
+        secondary: "#6b6157"
         tertiary: "#84a59d"
         highlight: rgba(143, 159, 169, 0.15)
         textHighlight: "#fff23688"
       darkMode:
-        light: "#000000"
-        lightgray: "#323232"
-        gray: "#505050"
-        darkgray: "#c8cdd0"
-        dark: "#e3e6e8"
-        secondary: "#6091e2"
-        tertiary: "#52b2ca"
-        highlight: rgba(96, 145, 226, 0.15)
-        textHighlight: "#ffdc4988"
+        light: "#0f0d0c"
+        lightgray: "#2b2825"
+        gray: "#7d7872"
+        darkgray: "#cfccc9"
+        dark: "#e8e5e2"
+        secondary: "#b5aa9c"
+        tertiary: "#d8d0c6"
+        highlight: rgba(181, 170, 156, 0.12)
+        textHighlight: "#ffdc4966"
 plugins:
   - source: "@quartz-community/created-modified-date"
     enabled: true
@@ -102,6 +102,9 @@ plugins:
   - source: "@quartz-community/hard-line-breaks"
     enabled: true
     order: 90
+  - source: ./plugins/preserve-whitespace
+    enabled: true
+    order: 95
   - source: "@quartz-community/ox-hugo"
     enabled: false
     order: 91
@@ -110,15 +113,6 @@ plugins:
     order: 92
   - source: "@quartz-community/quartz-fonts"
     enabled: true
-  - source: "@quartz-themes/core"
-    enabled: true
-    options:
-      theme: anuppuccin
-      mode: dark
-      styleSettings:
-        anuppuccin-theme-settings@@anuppuccin-theme-dark: ctp-mocha-old
-        anuppuccin-theme-settings@@anuppuccin-theme-accents: ctp-accent-blue
-        anuppuccin-theme-settings-extended@@anp-theme-ext-amoled: true
   - source: "@quartz-community/remove-draft"
     enabled: true
   - source: "@quartz-community/explicit-publish"

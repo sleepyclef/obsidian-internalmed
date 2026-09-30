@@ -44,11 +44,11 @@ What fluid can be used
 
 Empiric abx 
 <100 ml/d urine = cefazolin + tobra 
-	<60kg = cefaz 1g in 1 exchange/day plus Tobramycin 0.6 mg/kg in 1 exchange/day plus Heparin 500 units/L in EACH exchange
-	>60 Kg, Cefazolin 1.5 g in 1 exchange/day plus Tobramycin 0.6 mg/kg in 1 exchange/day plus Heparin 500 units/L in EACH exchange. Use heparin until effluent clear. 
+	- <60kg = cefaz 1g in 1 exchange/day plus Tobramycin 0.6 mg/kg in 1 exchange/day plus Heparin 500 units/L in EACH exchange
+	- >60 Kg, Cefazolin 1.5 g in 1 exchange/day plus Tobramycin 0.6 mg/kg in 1 exchange/day plus Heparin 500 units/L in EACH exchange. Use heparin until effluent clear. 
 if >100 mL/day URINE = cefaz + ceftaz 
-	<60 Kg, Cefazolin 1 g in 1 exchange/day plus Ceftazidime 1.5 g in 1 exchange/day plus Heparin 500 units/L in EACH exchange. Use heparin until effluent clear. 
-	>60 Kg, Cefazolin 1.5 g in 1 exchange/day plus Ceftazidime 1.5 g in 1 exchange/day plus Heparin 500 units/L in EACH exchange. Use heparin until effluent clear.
+	- <60 Kg, Cefazolin 1 g in 1 exchange/day plus Ceftazidime 1.5 g in 1 exchange/day plus Heparin 500 units/L in EACH exchange. Use heparin until effluent clear. 
+	- 60 Kg, Cefazolin 1.5 g in 1 exchange/day plus Ceftazidime 1.5 g in 1 exchange/day plus Heparin 500 units/L in EACH exchange. Use heparin until effluent clear.
 If allergic to ceftaz, use tobra same as above 
 If allergic to cefazolin = use vanco 1.5 g (<60kg) or 2g (>60kg) in 1 exchange q 3-7 days (based on serum levels/residual renal function) 
 Use vanco if prev MRSA peritonitis/ MRSA exit site infxn/ high incidence MRSA unit recent; get vanco lvl day 3 if >100cc/d urine, redose when lvl 15-20

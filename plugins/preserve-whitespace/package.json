@@ -1,0 +1,13 @@
+{
+  "name": "preserve-whitespace",
+  "version": "1.0.0",
+  "description": "Keep Obsidian-style leading indentation and extra blank lines visible on the site",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js"
+}
