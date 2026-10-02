@@ -1,0 +1,68 @@
+{
+  "Internal Med": {
+    "Cardiology": [
+      "ACLS",
+      "CAD",
+      "Heart Failure",
+      "Valvular Disorders",
+      "Arrhythmias",
+      "Pericardial Disorders",
+      "Cardiac Critical Care",
+      "Vascular Diseases",
+      "Other CV disease",
+      "ECGs.md"
+    ],
+    "/": [
+      "(Attachments)",
+      "Cardiology",
+      "Respirology",
+      "Critical Care",
+      "Gastroenterology",
+      "Nephrology",
+      "Infectious Disease",
+      "Hematology",
+      "Oncology",
+      "Geriatrics & Palliative Care",
+      "Rheumatology",
+      "Endocrinology",
+      "Allergy & Immunology",
+      "Neurology",
+      "Psychiatry",
+      "Primary Care",
+      "Consultants",
+      "Radiology",
+      "Procedures",
+      "Logistics",
+      "POCUS",
+      "Resources"
+    ],
+    "Respirology": [
+      "Pleural effusions.md"
+    ],
+    "Nephrology": [
+      "? PD Peritonitis.md",
+      "Dialysis info.md",
+      "HyperNa.md"
+    ],
+    "Consultants": [
+      "Urology"
+    ],
+    "Cardiology/CAD": [
+      "Acute Coronary Syndrome.md",
+      "Post-MI OMT.md",
+      "MI Complications.md",
+      "Chronic Coronary Syndrome, Stable CAD.md"
+    ],
+    "Cardiology/ACLS": [
+      "ACLS - Cardiac Arrest.md",
+      "ACLS - Tachycardia.md",
+      "ACLS - Bradycardia.md",
+      "ACLS - Defibrillation Cardioversion Pacing.md"
+    ],
+    "Cardiology/Arrhythmias": [
+      "Narrow Complex Tachycardia.md",
+      "Wide Complex Tachycardia.md",
+      "CHB⧸ high grade block.md"
+    ]
+  }
+}

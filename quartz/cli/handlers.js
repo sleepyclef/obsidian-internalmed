@@ -792,6 +792,27 @@ export async function handleSync(argv) {
       })
     }
 
+    // .obsidian isn't committed, so snapshot the Drag and Drop Sort order for the
+    // deploy build (read by plugins/explorer-order)
+    const explorerOrders = {}
+    for (const { linkPath, linkTarg } of nestedLinks) {
+      const dataFile = path.resolve(
+        contentFolder,
+        linkTarg,
+        ".obsidian/plugins/drag-drop-sort/data.json",
+      )
+      try {
+        const { orders } = JSON.parse(await fs.promises.readFile(dataFile, "utf8"))
+        if (orders) explorerOrders[path.basename(linkPath)] = orders
+      } catch {}
+    }
+    if (Object.keys(explorerOrders).length > 0) {
+      await fs.promises.writeFile(
+        "explorer-order.json",
+        JSON.stringify(explorerOrders, null, 2) + "\n",
+      )
+    }
+
     try {
       spawnSync("git", ["add", "."], { stdio: "inherit" })
       spawnSync("git", ["commit", "-m", commitMessage], { stdio: "inherit" })

@@ -105,6 +105,12 @@ plugins:
   - source: ./plugins/preserve-whitespace
     enabled: true
     order: 95
+  - source: ./plugins/image-lightbox
+    enabled: true
+    order: 96
+  - source: ./plugins/explorer-order
+    enabled: true
+    order: 97
   - source: "@quartz-community/ox-hugo"
     enabled: false
     order: 91
@@ -157,6 +163,9 @@ plugins:
     enabled: true
   - source: "@quartz-community/explorer"
     enabled: true
+    options:
+      # order set by the Obsidian Drag and Drop Sort plugin (see plugins/explorer-order)
+      sortFn: "(a, b) => window.__explorerSort(a, b)"
     layout:
       position: left
       priority: 50

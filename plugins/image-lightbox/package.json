@@ -1,0 +1,13 @@
+{
+  "name": "image-lightbox",
+  "version": "1.0.0",
+  "description": "Click an image in a note to view it enlarged",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js"
+}

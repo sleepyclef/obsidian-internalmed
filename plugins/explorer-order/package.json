@@ -1,0 +1,13 @@
+{
+  "name": "explorer-order",
+  "version": "1.0.0",
+  "description": "Order the site's file explorer the way the Obsidian Drag and Drop Sort plugin orders it",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js"
+}

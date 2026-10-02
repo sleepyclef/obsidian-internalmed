@@ -9,6 +9,8 @@
 // Real nested list items ("\t- foo" under another list item) are left alone so
 // they still render as nested lists. An indented "- foo" under an ordinary line
 // isn't a list item to Markdown (it would lose its indent), so it's wrapped too.
+// A table also ends at the first line without a "|" (as in Obsidian), instead
+// of swallowing the following lines as extra rows.
 
 const TAB_WIDTH = 4
 
@@ -17,6 +19,7 @@ const MATH_FENCE = /^[ \t]*\$\$[ \t]*$/
 const LIST_ITEM = /^([ \t]*)([-*+]|\d{1,9}[.)])([ \t]+)\S/
 // Other lines whose indentation carries Markdown meaning we want to keep
 const STRUCTURAL = /^[ \t]*([>|]|<[a-zA-Z/!])/
+const TABLE_DELIM = /^[ \t]*\|?[ \t]*:?-+:?[ \t]*(\|[ \t]*:?-+:?[ \t]*)*\|?[ \t]*$/
 
 function indentWidth(indent) {
   let width = 0
@@ -43,6 +46,7 @@ export function preserveWhitespace(src) {
   let seenText = false
   // content column of the latest real list item, or -1 when not in a list
   let listContentCol = -1
+  let inTable = false
 
   for (; i < lines.length; i++) {
     const line = lines[i]
@@ -54,6 +58,7 @@ export function preserveWhitespace(src) {
     }
 
     if (line.trim() === "") {
+      inTable = false
       blankRun++
       continue
     }
@@ -68,6 +73,14 @@ export function preserveWhitespace(src) {
       blankRun = 0
     }
     seenText = true
+
+    if (inTable && !line.includes("|")) {
+      inTable = false
+      out.push("")
+    }
+    if (!inTable && line.includes("|") && TABLE_DELIM.test(line) && out.length > 0) {
+      inTable = out[out.length - 1].includes("|")
+    }
 
     const fenceMatch = line.match(FENCE)
     if (fenceMatch) {
