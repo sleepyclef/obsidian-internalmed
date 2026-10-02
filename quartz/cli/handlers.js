@@ -764,6 +764,24 @@ export async function handleSync(argv) {
       const linkTarg = await fs.promises.readlink(linkPath)
       const resolved = path.resolve(contentFolder, linkTarg)
       if (!fs.existsSync(resolved) || !fs.statSync(resolved).isDirectory()) continue
+      // iCloud replaces offloaded files with hidden `.name.icloud` placeholders;
+      // committing then would delete those notes/attachments from the site
+      const evicted = (await fs.promises.readdir(resolved, { recursive: true })).filter((f) =>
+        f.endsWith(".icloud"),
+      )
+      if (evicted.length > 0) {
+        for (const { linkPath, linkTarg } of nestedLinks) {
+          await fs.promises.rm(linkPath, { recursive: true, force: true })
+          await fs.promises.symlink(linkTarg, linkPath, "dir")
+        }
+        if (contentStat.isSymbolicLink()) await popContentFolder(contentFolder)
+        console.log(
+          styleText("red", `'${entry.name}' has ${evicted.length} file(s) not downloaded from iCloud:`) +
+            `\n  ${evicted.slice(0, 10).join("\n  ")}` +
+            `\nRight-click the vault folder in Finder → "Download Now", then sync again.`,
+        )
+        return
+      }
       console.log(styleText("yellow", `Dereferencing symlinked folder '${entry.name}'`))
       await fs.promises.rm(linkPath)
       nestedLinks.push({ linkPath, linkTarg })

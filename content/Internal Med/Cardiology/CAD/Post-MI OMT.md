@@ -36,4 +36,3 @@
 		- part of GDMT for HFrEF when pt is symptomatic (ie. stage C/D HFrEF)
 		- post-MI start MRA if EF<40 and DM even if Ø sx HF ie. “LV dysfxn, stage B HF, NYHA n/a” (or obv if HF sx as above point)
 	EPHESUS (2015, eplerenone)
-
