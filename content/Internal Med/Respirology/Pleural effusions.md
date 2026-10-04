@@ -1,9 +1,14 @@
 
-> Quick approach
+>[!tldr] Parapneumonic effusion
 > CT chest if loculations or concern for abscess 
 > 	should do thora if >1cm enough to tap for diagnosis & therapeutic
 > 	small, simple → CAP tx with CTX 1g q24h + azithro 500 TID
 > if effusion that is large/ loculated, will need thora; empyema needs pigtail 
+
+> [!cite]
+> hello
+> 	hhello
+> 		hello
 
 <u>Parapneumonic effusions</u>
 classification
