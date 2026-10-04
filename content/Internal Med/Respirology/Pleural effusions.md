@@ -1,16 +1,18 @@
 
->[!tldr] Parapneumonic effusion
-> CT chest if loculations or concern for abscess 
-> 	should do thora if >1cm enough to tap for diagnosis & therapeutic
-> 	small, simple → CAP tx with CTX 1g q24h + azithro 500 TID
-> if effusion that is large/ loculated, will need thora; empyema needs pigtail 
-
-> [!cite]
-> hello
-> 	hhello
-> 		hello
-
 <u>Parapneumonic effusions</u>
+
+> [!cite] Parapneumonic effusion approach
+>  CT chest w contrast if loculations or concern for abscess 
+>  POCUS for effusion size/ appearance
+>  drainage
+>  -small <1cm, simple looking = no need, tx as CAP
+>  -moderate >1cm, tappable = thora to r/o complicated/empyema → may then need pigtail for ongoing source control
+>  -clearly infected/complex or empyema looking, ++WBC/septic = send for pigtail, get studies at insertion
+>  abx
+>  -CAP tx if small/simple = CTX 1g + azithro 500 
+>  -complex eff = CTX 1g + metro 500 TID IV/PO or amox-clav 875 BID IV/PO; IV 5-7d then 2-6wk PO 
+>  -complex eff (HAP) = tazo +/- vanco
+
 classification
 	- uncomplicated = no loculations/ septations, result of pleural inflammation from the near by infection, exudative (d/t inflammation) but Ø infected
 	- complicated = bacteria has gotten into the fluid, but still cx can be negative, loculations on imaging (possible), need chest drain 
@@ -28,7 +30,7 @@ w/u
 	- CT chest if loculations on US, concern for abscess/empyema/malig, pt not improving
 
 mx
-	- CTX 1g q24h (+/- azithro 500 TID IV/PO) for CAP w small simple effusion (5d)
+	- CTX 1g q24h (+/- azithro 500 IV/PO) for CAP w small simple effusion (5d)
 	- CTX 1g q24h + metro 500 TID IV/PO for CAP w complex effusion - need oral anaerobes coverage, atypicals rarely invade pleural space
 		- or Amox-clav 875 BID (IV/PO) - seen ID do this before, covers CAP typicals and anaerobes
 		- (no more clinda for anaerobes since high resistance rates) 
