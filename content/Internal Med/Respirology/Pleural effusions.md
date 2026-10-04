@@ -18,18 +18,18 @@ w/u
 	- CT chest if loculations on US, concern for abscess/empyema/malig, pt not improving
 
 mx
-	- CTX (+/- azithro) for CAP w small simple effusion 
-	- CTX+metro for CAP w complex effusion - need oral anaerobes coverage, atypicals rarely invade pleural space
-		- or Amox-clav (IV or PO) - seen ID do this before, covers CAP typicals and anaerobes
+	- CTX 1g q24h (+/- azithro 500 TID IV/PO) for CAP w small simple effusion (5d)
+	- CTX 1g q24h + metro 500 TID IV/PO for CAP w complex effusion - need oral anaerobes coverage, atypicals rarely invade pleural space
+		- or Amox-clav 875 BID (IV/PO) - seen ID do this before, covers CAP typicals and anaerobes
 		- (no more clinda for anaerobes since high resistance rates) 
-	- piptazo if HAP w complex effusion - typicals + anaerobes + PsA/res GNs 
+		- IV for 5-7d then 2-6wks PO 
+	- piptazo (± vanco) if HAP w complex effusion - typicals + anaerobes + PsA/res GNs 
 	- if Ø tap, f/u CXR as an outpatient (FMD etc) to ensure not looking worse/ infected
-
-https://www.coreimpodcast.com/2025/07/09/pleural-effusions-5-pearls-segment-2/
-https://emottawablog.com/2024/08/by-the-hammer-of-thora-pleural-effusions-in-the-ed-part-1/
 
 | ![[Screenshot 2026-09-26 at 5.48.10 PM.png\|313]] | ![[Pleural effusions-1790730017144.webp\|294]] |
 | ------------------------------------------------- | ---------------------------------------------- |
 | ![[Screenshot 2026-09-26 at 5.41.51 PM.png\|315]] |                                                |
-
+https://www.coreimpodcast.com/2025/07/09/pleural-effusions-5-pearls-segment-2/
+https://emottawablog.com/2024/08/by-the-hammer-of-thora-pleural-effusions-in-the-ed-part-1/
+https://www.cmaj.ca/content/cmaj/197/20/E569.full.pdf
 

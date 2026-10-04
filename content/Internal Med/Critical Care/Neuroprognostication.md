@@ -20,27 +20,27 @@ Ideally should be done off any sedation
 <u>more info</u>
 Neuro exam = PLR, status myoclonus, +/- GCS motor + corneal reflex
 	absent bilateral PLR ≥72h = poor prognosis
-		 Indicates significant brainstem/midbrain dysfunction
+		 Indicates significant brainstem/ midbrain dysfunction
 		 Relatively resistant to sedation
 		 Opioids → miosis → can make PLR difficult to assess, particularly visually
 		 So sedation can confound assessment, but less than for motor/corneal responses
 	status myoclonus within 7d = poor prognostic sign
 		Persistent/generalized myoclonic jerking in comatose pt
 		Here sedation causes the opposite problem: it can mask the finding
-		Propofol/benzos/ASMs can suppress myoclonus; NMB can completely eliminate visible jerking
+		Propofol/benzos/ ASMs can suppress myoclonus; NMB can completely eliminate visible jerking
 		So no visible myoclonus while heavily sedated/paralyzed doesn’t mean it isn’t occurring → correlate with EEG
 	GCS motor ≤2 ≥72h = concerning but not enough on its own; Ø reliable if on sedation
 	absent corneal reflex ≥72h = supportive but less robust than PLR
 EEG
 	early (0-48h) = diagnostic/therapeutic
-		Look for seizures/nonconvulsive status which can be caused by anoxic brain injury/ other derangements
+		Look for seizures/ nonconvulsive status which can be caused by anoxic brain injury/ other derangements
 		If seizures/status → treat + continue EEG
 		Sedation can mask seizures clinically → especially if sedated/paralyzed, which is actually one reason EEG is useful
-		Sedatives/ASMs can also suppress electrographic seizure activity
+		Sedatives/ ASMs can also suppress electrographic seizure activity
 	later (>24h) = also prognostic
 		seizures/status = suggests significant brain injury but not reliable poor prognostic sign alone → treat as may still recover
-		highly malignant background = poor prognostic sign: suppression/burst suppression, isoelectric EEG, GPDs on suppressed background
-		prop/midaz etc can mimic suppression/burst suppression → ideally interpret off sedation
+		highly malignant background = poor prognostic sign: suppression/ burst suppression, isoelectric EEG, GPDs on suppressed background
+		prop/midaz etc can mimic suppression/ burst suppression → ideally interpret off sedation
 CT head; should be 48h post
 	low grey:white ratio (~≤1.15–1.20) = poor prognostic sign
 	can be normal early as HIBI can take hrs to develop 
