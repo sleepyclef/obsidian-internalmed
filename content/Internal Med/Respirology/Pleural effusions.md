@@ -1,17 +1,31 @@
 
 <u>Parapneumonic effusions</u>
 
-> [!cite] Parapneumonic effusion approach
->  CT chest w contrast if loculations or concern for abscess 
->  POCUS for effusion size/ appearance
->  drainage
->  -small <1cm, simple looking = no need, tx as CAP
->  -moderate >1cm, tappable = thora to r/o complicated/empyema → may then need pigtail for ongoing source control
->  -clearly infected/complex or empyema looking, ++WBC/septic = send for pigtail, get studies at insertion
->  abx
->  -CAP tx if small/simple = CTX 1g + azithro 500 
->  -complex eff = CTX 1g + metro 500 TID IV/PO or amox-clav 875 BID IV/PO; IV 5-7d then 2-6wk PO 
->  -complex eff (HAP) = tazo +/- vanco
+```
+#PNA + effusion 
+- POCUS shows effusion (*** size, simple/ complex) 
+- CT chest w contrast (if loculations or concern for abscess), Bcx, VBG
+drain?
+	- Defer drainage given small <1cm, simple appearance, tx as CAP 
+	- Moderate >1cm, tappable = thora to r/o complicated/empyema → may then need pigtail for ongoing source control
+	- Clearly infected/complex or empyema looking, ++WBC/septic = send for pigtail, get studies at insertion
+empiric abx
+- CAP tx if small/simple = CTX 1g q24h + azithro 500 daily
+- complex eff/empyema = CTX 1g q24h + metro 500 TID IV/PO (need cover anaerobes for pleural infxn, Ø need atypicals), or amox-clav 875 BID IV/PO; duration IV 5-7d then 2-6wk PO
+- if complex eff (HAP) = tazo +/- vanco (if MRSA RF)
+```
+
+> [!cite] PNA + effusion
+>  POCUS shows effusion (size, looks complex or simple)
+>  CT chest w contrast (if loculations or concern for abscess), Bcx, VBG
+>  drainage?
+> 	 -small <1cm, simple looking = no need, tx as CAP
+> 	 -moderate >1cm, tappable = thora to r/o complicated/empyema → may then need pigtail for ongoing source control
+> 	 -clearly infected/complex or empyema looking, ++WBC/septic = send for pigtail, get studies at insertion
+>  empiric abx
+> 	 -CAP tx if small/simple = CTX 1g + azithro 500 
+> 	 -complex eff = CTX 1g + metro 500 TID IV/PO or amox-clav 875 BID IV/PO; IV 5-7d then 2-6wk PO 
+> 	 -complex eff (HAP) = tazo +/- vanco
 
 classification
 	- uncomplicated = no loculations/ septations, result of pleural inflammation from the near by infection, exudative (d/t inflammation) but Ø infected
