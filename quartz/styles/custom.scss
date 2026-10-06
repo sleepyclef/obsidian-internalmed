@@ -82,6 +82,18 @@ pre {
   border: none;
 }
 
+// wrap long lines in code blocks instead of scrolling sideways
+pre > code,
+pre > code > [data-line] {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+// a bit more breathing room between code and the block's edges
+pre > code {
+  padding: 0.8rem 0.6rem;
+}
+
 // blockquotes: thin grey rule, muted text
 blockquote {
   border-left: 2px solid var(--lightgray);
