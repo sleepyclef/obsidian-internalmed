@@ -37,7 +37,8 @@
       "Resources"
     ],
     "Respirology": [
-      "Pleural effusions.md"
+      "Pleural effusions.md",
+      "GGOs.md"
     ],
     "Nephrology": [
       "? PD Peritonitis.md",
@@ -64,6 +65,30 @@
       "Narrow Complex Tachycardia.md",
       "Wide Complex Tachycardia.md",
       "CHB⧸ high grade block.md"
+    ],
+    "Infectious Disease": [
+      "Empiric Antibiotics.md",
+      "Multidrug resistant organisms.md",
+      "Communit Acquired Pneumonia (CAP).md",
+      "HAP⧸VAP & Aspiration Pneumonia.md",
+      "Viral Respiratory infections.md",
+      "Head & Neck Infections.md",
+      "Urinary Tract Infections.md",
+      "Skin & Soft Tissue Infections.md",
+      "Osteomyelitis.md",
+      "Bloodstream Infections.md",
+      "Endocarditis.md",
+      "Meningitis & Encephalitis.md",
+      "C. Difficile Infection.md",
+      "Invasive Fungal Infections.md",
+      "Tuberculosis.md",
+      "HIV⧸AIDS & Opportunistic Infections.md",
+      "Transplant ID.md",
+      "STIs & Travel Medicine.md",
+      "Tick-Borne Diseases.md",
+      "Fever of Unknown Origin.md",
+      "Rare Diseases.md",
+      "Infected⧸septic stone.md"
     ]
   }
 }

@@ -157,3 +157,19 @@ article p:has(+ :is(ul, ol)) {
 article p + :is(ul, ol) {
   margin-top: 0;
 }
+
+.procedure-builder > p {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+}
+
+article iframe.procedure-builder-frame {
+  display: block;
+  width: 100%;
+  height: 78vh;
+  min-height: 560px;
+  max-height: 960px;
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  background: var(--light);
+}

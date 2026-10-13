@@ -1,0 +1,13 @@
+{
+  "name": "procedure-notes",
+  "version": "1.0.0",
+  "description": "Embed the local procedure note builder in the Resources note",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js"
+}

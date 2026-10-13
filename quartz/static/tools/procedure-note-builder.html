@@ -1,0 +1,4344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bedside Procedure Note Builder</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #faf8f8;
+        --card: #faf8f8;
+        --card-2: #f1eeee;
+        --ink: #2b2b2b;
+        --muted: #4e4e4e;
+        --line: #e5e5e5;
+        --accent: #6b6157;
+        --accent-soft: rgba(143, 159, 169, 0.15);
+        --on-accent: #faf8f8;
+        --danger: #a54438;
+        --body-font: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --code-font: "Roboto Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #0f0d0c;
+        --card: #0f0d0c;
+        --card-2: #1b1917;
+        --ink: #e8e5e2;
+        --muted: #cfccc9;
+        --line: #2b2825;
+        --accent: #b5aa9c;
+        --accent-soft: rgba(181, 170, 156, 0.12);
+        --on-accent: #0f0d0c;
+        --danger: #e39a8b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--body-font);
+        font-size: 14px;
+        line-height: 1.45;
+        color: var(--ink);
+        background: var(--bg);
+      }
+      .app {
+        max-width: 1180px;
+        margin: auto;
+        padding: 18px;
+      }
+      .topbar {
+        margin-bottom: 16px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 21px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .sub,
+      .privacy,
+      .footer,
+      .helper,
+      .clinical-note {
+        color: var(--muted);
+      }
+      .sub {
+        font-size: 13px;
+        margin-top: 4px;
+      }
+      .privacy {
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      .procedure-tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      button {
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 8px 10px;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      button:hover {
+        filter: brightness(0.94);
+      }
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible,
+      select:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .tab-button {
+        background: var(--bg);
+        color: var(--muted);
+      }
+      .tab-button.active,
+      .primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--on-accent);
+      }
+      .procedure-form {
+        display: none;
+      }
+      .procedure-form.active {
+        display: block;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+        gap: 16px;
+        align-items: start;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        background: var(--card);
+        overflow: hidden;
+      }
+      .section {
+        padding: 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .section:last-child {
+        border: 0;
+      }
+      .section-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0 0 14px;
+        color: var(--accent);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        margin-bottom: 13px;
+      }
+      .row:last-child {
+        margin-bottom: 0;
+      }
+      .label {
+        font-size: 13px;
+        padding-top: 8px;
+        color: var(--muted);
+      }
+      .label strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      input[type="text"],
+      input[type="number"],
+      input[type="datetime-local"],
+      textarea,
+      select {
+        width: 100%;
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--card-2);
+        padding: 8px 9px;
+        font: inherit;
+        color: var(--ink);
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: var(--muted);
+        opacity: 0.8;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 78px;
+      }
+      .short {
+        max-width: 180px;
+      }
+      .choice-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .choice {
+        position: relative;
+        display: inline-block;
+      }
+      .choice input {
+        position: absolute;
+        opacity: 0;
+      }
+      .choice span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 5px 9px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--card-2);
+        color: var(--ink);
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .choice input:checked + span {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--on-accent);
+      }
+      .choice input:focus-visible + span {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .mini-grid,
+      .inline-fields,
+      .attempt-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px 12px;
+      }
+      .checkline {
+        display: flex;
+        align-items: start;
+        gap: 8px;
+        font-size: 13px;
+      }
+      .checkline input {
+        margin-top: 3px;
+        accent-color: var(--accent);
+      }
+      .field-caption {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .test-groups,
+      .attempt-list {
+        display: grid;
+        gap: 10px;
+      }
+      .test-group,
+      .attempt-card {
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--card-2);
+      }
+      .test-group-title,
+      .attempt-card-title {
+        margin: 0 0 8px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .attempt-card-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .attempt-grid .full {
+        grid-column: 1 / -1;
+      }
+      .attempt-actions {
+        margin-top: 10px;
+      }
+      .note-panel {
+        position: sticky;
+        top: 16px;
+      }
+      .note-head {
+        padding: 14px 16px 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      .note-head h2 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .note-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .secondary,
+      .view-button {
+        background: var(--card-2);
+        color: var(--ink);
+      }
+      .danger,
+      .remove-attempt {
+        background: transparent;
+        color: var(--danger);
+        border-color: var(--line);
+      }
+      .remove-attempt {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
+      #noteOutput {
+        display: block;
+        min-height: 420px;
+        height: 58vh;
+        border: 0;
+        border-radius: 0;
+        padding: 16px;
+        background: var(--bg);
+        font-family: var(--code-font);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      .helper,
+      .clinical-note {
+        font-size: 12px;
+        margin-top: 6px;
+      }
+      .small-sep {
+        height: 1px;
+        background: var(--line);
+        margin: 12px 0;
+      }
+      .footer {
+        font-size: 12px;
+        padding-top: 12px;
+      }
+      .compact-views,
+      #printOutput {
+        display: none;
+      }
+      @media screen and (min-width: 761px) {
+        :root[data-embedded="true"] {
+          zoom: 0.8;
+        }
+      }
+      @media (max-width: 1050px) {
+        .row {
+          grid-template-columns: 1fr;
+          gap: 5px;
+        }
+        .label {
+          padding-top: 0;
+        }
+        .mini-grid,
+        .inline-fields {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 760px) {
+        .app {
+          padding: 14px;
+        }
+        .procedure-tabs {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .tab-button {
+          padding: 8px 4px;
+          font-size: 12px;
+        }
+        .grid {
+          display: block;
+        }
+        .compact-views {
+          display: flex;
+          gap: 6px;
+          position: sticky;
+          top: 0;
+          z-index: 1;
+          background: var(--bg);
+          padding: 8px 0;
+          margin: -4px 0 8px;
+        }
+        .view-button {
+          flex: 1;
+        }
+        .view-button[aria-pressed="true"] {
+          border-color: var(--accent);
+          background: var(--accent-soft);
+        }
+        .note-panel {
+          display: none;
+          position: static;
+        }
+        body[data-view="note"] .form-card {
+          display: none;
+        }
+        body[data-view="note"] .note-panel {
+          display: block;
+        }
+        #noteOutput {
+          min-height: 350px;
+          height: 58vh;
+        }
+      }
+      @media (max-width: 480px) {
+        .attempt-grid {
+          grid-template-columns: 1fr;
+        }
+        .attempt-grid .full {
+          grid-column: auto;
+        }
+        .section {
+          padding: 14px;
+        }
+      }
+      @media print {
+        :root {
+          color-scheme: light;
+          --ink: #000;
+          --bg: #fff;
+        }
+        body {
+          background: #fff;
+          color: #000;
+        }
+        .app {
+          max-width: none;
+          padding: 0;
+        }
+        .topbar,
+        .procedure-tabs,
+        .compact-views,
+        .form-card,
+        .note-actions,
+        .footer,
+        .note-head,
+        #noteOutput {
+          display: none !important;
+        }
+        .grid,
+        .note-panel,
+        #printOutput {
+          display: block !important;
+        }
+        .card {
+          border: 0;
+        }
+        .note-panel {
+          position: static;
+        }
+        #printOutput {
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
+          font: 11pt/1.5 monospace;
+          margin: 0;
+        }
+      }
+    </style>
+
+    <script>
+      ;(function () {
+        const root = document.documentElement
+        root.dataset.embedded = String(window.parent !== window)
+        const preference = window.matchMedia("(prefers-color-scheme: dark)")
+        function syncTheme() {
+          let theme = preference.matches ? "dark" : "light"
+          try {
+            theme = localStorage.getItem("theme") || theme
+          } catch (_) {}
+          if (window.parent !== window) {
+            try {
+              const host = window.parent.document.documentElement
+              theme = host.getAttribute("saved-theme") || theme
+              root.dataset.theme = theme
+              const css = window.parent.getComputedStyle(host)
+              const palette = {
+                bg: "light",
+                card: "light",
+                ink: "dark",
+                muted: "darkgray",
+                line: "lightgray",
+                accent: "secondary",
+                "accent-soft": "highlight",
+                "on-accent": "light",
+              }
+              for (const [name, source] of Object.entries(palette)) {
+                const value = css.getPropertyValue("--" + source).trim()
+                if (value) root.style.setProperty("--" + name, value)
+              }
+            } catch (_) {}
+          }
+          root.dataset.theme = theme
+        }
+        syncTheme()
+        preference.addEventListener("change", syncTheme)
+        window.addEventListener("storage", syncTheme)
+        if (window.parent !== window) {
+          try {
+            const observer = new MutationObserver(syncTheme)
+            observer.observe(window.parent.document.documentElement, {
+              attributes: true,
+              attributeFilter: ["saved-theme"],
+            })
+            window.addEventListener("pagehide", () => observer.disconnect())
+          } catch (_) {}
+        }
+      })()
+    </script>
+  </head>
+
+  <body>
+    <div class="app">
+      <div class="topbar">
+        <div>
+          <h1>Procedure note builder</h1>
+          <div class="sub">Complete the relevant fields, then review and copy your note.</div>
+        </div>
+        <div class="privacy">Runs in your browser · form entries are not saved or sent</div>
+      </div>
+
+      <div class="procedure-tabs" role="tablist" aria-label="Procedure type">
+        <button
+          class="tab-button active"
+          id="paraTab"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          data-procedure="para"
+        >
+          Paracentesis
+        </button>
+        <button
+          class="tab-button"
+          id="thoraTab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-procedure="thora"
+        >
+          Thoracentesis
+        </button>
+        <button
+          class="tab-button"
+          id="pivTab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-procedure="piv"
+        >
+          US-guided PIV
+        </button>
+        <button
+          class="tab-button"
+          id="alTab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-procedure="al"
+        >
+          Arterial line
+        </button>
+      </div>
+
+      <div class="compact-views" aria-label="Builder view">
+        <button
+          class="view-button"
+          id="fieldsViewBtn"
+          type="button"
+          aria-pressed="true"
+          aria-controls="formPanel"
+        >
+          Fields
+        </button>
+        <button
+          class="view-button"
+          id="noteViewBtn"
+          type="button"
+          aria-pressed="false"
+          aria-controls="notePanel"
+        >
+          Generated note
+        </button>
+      </div>
+
+      <div class="grid">
+        <div class="card form-card" id="formPanel">
+          <div id="paraForm" class="procedure-form active">
+            <section class="section">
+              <h3 class="section-title">Procedure details</h3>
+
+              <div class="row">
+                <div class="label">Date / time</div>
+                <div><input id="dateTime" type="datetime-local" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Performed by</strong></div>
+                <div><input id="performedBy" type="text" placeholder="Name, credentials" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Supervised by</strong></div>
+                <div>
+                  <input
+                    id="supervisedBy"
+                    type="text"
+                    placeholder="Name, credentials (leave blank if none)"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Procedure purpose</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="checkbox" name="purpose" value="diagnostic" /><span
+                      >Diagnostic</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="purpose" value="therapeutic" /><span
+                      >Therapeutic</span
+                    ></label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Consent & universal protocol</h3>
+
+              <div class="row">
+                <div class="label">Consent obtained</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="consent" value="verbal" /><span>Verbal</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="consent" value="written" /><span
+                      >Written</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="consent" value="emergent situation" /><span
+                      >Emergent situation</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Consent given by</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="consentBy" value="patient" /><span
+                      >Patient</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="consentBy" value="substitute decision-maker" /><span
+                      >SDM</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="consentBy" value="parent/guardian" /><span
+                      >Parent / guardian</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Risks discussed</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="checkbox" name="risks" value="bleeding" /><span
+                      >Bleeding</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="risks" value="bowel perforation" /><span
+                      >Bowel perforation</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="risks" value="infection" /><span
+                      >Infection</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="risks" value="pain" /><span>Pain</span></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="risks" value="persistent fluid leak" /><span
+                      >Persistent leak</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="risks" value="hypotension" /><span
+                      >Hypotension</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Alternatives discussed</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="alternatives"
+                      value="no procedure / observation"
+                    /><span>Observation</span></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="alternatives" value="delayed procedure" /><span
+                      >Delayed procedure</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="alternatives"
+                      value="alternative treatment"
+                    /><span>Alternative treatment</span></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="alternatives" value="referral" /><span
+                      >Referral</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Safety checks</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="questionsAnswered" type="checkbox" />Procedure explained and
+                    questions answered</label
+                  >
+                  <label class="checkline"
+                    ><input id="docsVerified" type="checkbox" />Relevant documents / results
+                    verified</label
+                  >
+                  <label class="checkline"
+                    ><input id="siteMarked" type="checkbox" />Site marked</label
+                  >
+                  <label class="checkline"
+                    ><input id="timeout" type="checkbox" />Time-out performed immediately
+                    prior</label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Preparation & anesthesia</h3>
+
+              <div class="row">
+                <div class="label">Preparation</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      id="sterilePrep"
+                      type="checkbox"
+                      value="sterile preparation and draping"
+                    /><span>Prepped & draped sterilely</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Anesthesia method</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="checkbox" name="anesthesiaMethod" value="none" /><span
+                      >None</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="anesthesiaMethod"
+                      value="topical anesthesia"
+                    /><span>Topical</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="anesthesiaMethod"
+                      value="local infiltration"
+                    /><span>Local infiltration</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Local anesthetic</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="localAnesthetic"
+                      value="lidocaine 1% without epinephrine"
+                    /><span>Lidocaine 1% w/o epi</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="localAnesthetic"
+                      value="lidocaine 2% without epinephrine"
+                    /><span>Lidocaine 2% w/o epi</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="localAnesthetic"
+                      value="lidocaine 1% with epinephrine"
+                    /><span>Lidocaine 1% with epi</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="localAnesthetic"
+                      value="lidocaine 2% with epinephrine"
+                    /><span>Lidocaine 2% with epi</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Other anesthetic</div>
+                <div><input id="otherAnesthetic" type="text" placeholder="Optional" /></div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Ultrasound & puncture site</h3>
+
+              <div class="row">
+                <div class="label"><strong>Ultrasound guidance</strong></div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="ultrasound" value="yes" /><span>Yes</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="ultrasound" value="no" /><span>No</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">US pocket location</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="pocketLocation" value="right lower quadrant" /><span
+                      >RLQ</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pocketLocation" value="left lower quadrant" /><span
+                      >LLQ</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pocketLocation" value="midline suprapubic" /><span
+                      >Midline suprapubic</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pocketLocation"
+                      value="midline infraumbilical"
+                    /><span>Midline infraumbilical</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Pocket measurements</div>
+                <div class="inline-fields">
+                  <div>
+                    <div class="field-caption">Pocket depth / size (cm)</div>
+                    <input id="pocketSize" type="text" inputmode="decimal" placeholder="e.g. 6.5" />
+                  </div>
+                  <div>
+                    <div class="field-caption">Skin-to-fluid depth (cm)</div>
+                    <input id="skinDepth" type="text" inputmode="decimal" placeholder="e.g. 2.0" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">US pocket comments</div>
+                <div>
+                  <input
+                    id="pocketComment"
+                    type="text"
+                    placeholder="e.g. large anechoic pocket, no bowel in planned needle path"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Puncture site</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="site" value="right lower quadrant" /><span
+                      >RLQ</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="site" value="left lower quadrant" /><span
+                      >LLQ</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="site" value="midline suprapubic" /><span
+                      >Midline suprapubic</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="site" value="midline infraumbilical" /><span
+                      >Midline infraumbilical</span
+                    ></label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Procedure</h3>
+
+              <div class="row">
+                <div class="label">Device used to access peritoneal cavity</div>
+                <div>
+                  <input id="device" type="text" placeholder="e.g. Safe-T-Centesis catheter" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Fluid removed</strong></div>
+                <div class="inline-fields">
+                  <div>
+                    <div class="field-caption">Amount</div>
+                    <input
+                      id="fluidAmount"
+                      type="text"
+                      inputmode="decimal"
+                      placeholder="e.g. 3.1"
+                    />
+                  </div>
+                  <div>
+                    <div class="field-caption">Unit</div>
+                    <select id="fluidUnit">
+                      <option value="L">L</option>
+                      <option value="mL">mL</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Fluid appearance</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="straw-coloured" /><span
+                      >Straw-coloured</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="yellow" /><span
+                      >Yellow</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="clear" /><span>Clear</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="serous" /><span
+                      >Serous</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="serosanguinous" /><span
+                      >Serosanguinous</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="bloody" /><span
+                      >Bloody</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="cloudy" /><span
+                      >Cloudy</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="purulent" /><span
+                      >Purulent</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="chylous" /><span
+                      >Chylous</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="bilious" /><span
+                      >Bilious</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="appearance" value="feculent" /><span
+                      >Feculent</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Dressing</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="dressing" value="adhesive bandage" /><span
+                      >Adhesive bandage</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="dressing" value="4×4 sterile gauze" /><span
+                      >4×4 sterile gauze</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="dressing"
+                      value="sterile gauze with occlusive dressing"
+                    /><span>Occlusive dressing</span></label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Post-procedure & fluid testing</h3>
+
+              <div class="row">
+                <div class="label">Procedure completion</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="completion"
+                      value="tolerated well with no immediate complications"
+                    /><span>Tolerated well</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="completion" value="tolerated with difficulty" /><span
+                      >Tolerated with difficulty</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="completion"
+                      value="procedure terminated due to patient's clinical status"
+                    /><span>Terminated: clinical status</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="completion"
+                      value="procedure terminated at patient's request"
+                    /><span>Terminated: patient request</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="completion"
+                      value="procedure terminated electively by provider"
+                    /><span>Terminated by provider</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Ascitic fluid sent for</strong></div>
+                <div class="test-groups">
+                  <div class="test-group">
+                    <div class="test-group-title">Cell count</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input
+                          type="checkbox"
+                          name="tests"
+                          value="cell count and differential"
+                        /><span>Cell count + diff</span></label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="test-group">
+                    <div class="test-group-title">Chemistry</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="albumin" /><span
+                          >Albumin</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="total protein" /><span
+                          >Total protein</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="glucose" /><span
+                          >Glucose</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="LDH" /><span>LDH</span></label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="test-group">
+                    <div class="test-group-title">Microbiology / culture</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="Gram stain" /><span
+                          >Gram stain</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="bacterial culture" /><span
+                          >Bacterial culture</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="AFB smear/culture" /><span
+                          >AFB smear/culture</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="test-group">
+                    <div class="test-group-title">Other</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="cytology" /><span
+                          >Cytology</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="amylase" /><span
+                          >Amylase</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="triglycerides" /><span
+                          >Triglycerides</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="tests" value="bilirubin" /><span
+                          >Bilirubin</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Culture collection detail</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input id="cultureBottles" type="checkbox" /><span
+                      >Inoculated into blood culture bottles</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Other fluid testing</div>
+                <div><input id="otherTests" type="text" placeholder="Optional" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label">Albumin replacement</div>
+                <div class="inline-fields">
+                  <div>
+                    <div class="field-caption">Given?</div>
+                    <select id="albuminGiven">
+                      <option value="">Not specified</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                  <div>
+                    <div class="field-caption">Dose (g), if given</div>
+                    <input id="albuminDose" type="text" inputmode="decimal" placeholder="e.g. 50" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Additional comments</div>
+                <div>
+                  <textarea id="comments" placeholder="Optional free-text comments"></textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div id="thoraForm" class="procedure-form">
+            <section class="section">
+              <h3 class="section-title">Procedure details</h3>
+
+              <div class="row">
+                <div class="label">Date / time</div>
+                <div><input id="thDateTime" type="datetime-local" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Performed by</strong></div>
+                <div><input id="thPerformedBy" type="text" placeholder="Name, credentials" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Supervised by</strong></div>
+                <div>
+                  <input
+                    id="thSupervisedBy"
+                    type="text"
+                    placeholder="Name, credentials (leave blank if none)"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Procedure purpose</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="checkbox" name="thPurpose" value="diagnostic" /><span
+                      >Diagnostic</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="thPurpose" value="therapeutic" /><span
+                      >Therapeutic</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Side</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thSide" value="right" /><span>Right</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thSide" value="left" /><span>Left</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Indication</div>
+                <div>
+                  <input
+                    id="thIndication"
+                    type="text"
+                    placeholder="e.g. diagnostic evaluation of new pleural effusion; symptomatic effusion"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Consent & universal protocol</h3>
+
+              <div class="row">
+                <div class="label">Consent obtained</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thConsent" value="verbal" /><span
+                      >Verbal</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thConsent" value="written" /><span
+                      >Written</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thConsent" value="emergent situation" /><span
+                      >Emergent situation</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Consent given by</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thConsentBy" value="patient" /><span
+                      >Patient</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thConsentBy"
+                      value="substitute decision-maker"
+                    /><span>SDM</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thConsentBy" value="parent/guardian" /><span
+                      >Parent / guardian</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Risks discussed</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="checkbox" name="thRisks" value="bleeding" /><span
+                      >Bleeding</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="thRisks" value="infection" /><span
+                      >Infection</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="thRisks" value="pain" /><span>Pain</span></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="thRisks" value="pneumothorax" /><span
+                      >Pneumothorax</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="thRisks" value="cough or dyspnea" /><span
+                      >Cough / dyspnea</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="thRisks"
+                      value="re-expansion pulmonary edema"
+                    /><span>Re-expansion pulmonary edema</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="thRisks"
+                      value="injury to the lung, diaphragm, or intra-abdominal organs"
+                    /><span>Adjacent organ injury</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Alternatives discussed</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="thAlternatives"
+                      value="no procedure / observation"
+                    /><span>Observation</span></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="thAlternatives" value="delayed procedure" /><span
+                      >Delayed procedure</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="thAlternatives"
+                      value="image-guided drainage"
+                    /><span>Image-guided drainage</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="thAlternatives"
+                      value="chest tube drainage"
+                    /><span>Chest tube</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Safety checks</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="thQuestionsAnswered" type="checkbox" />Procedure explained and
+                    questions answered</label
+                  >
+                  <label class="checkline"
+                    ><input id="thDocsVerified" type="checkbox" />Relevant imaging / results
+                    verified</label
+                  >
+                  <label class="checkline"
+                    ><input id="thSiteMarked" type="checkbox" />Site marked</label
+                  >
+                  <label class="checkline"
+                    ><input id="thTimeout" type="checkbox" />Time-out performed immediately
+                    prior</label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Position, preparation & anesthesia</h3>
+
+              <div class="row">
+                <div class="label">Patient position</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thPosition"
+                      value="seated upright and leaning forward"
+                    /><span>Seated / leaning forward</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPosition" value="lateral decubitus" /><span
+                      >Lateral decubitus</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPosition" value="supine or semi-recumbent" /><span
+                      >Supine / semi-recumbent</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Other position</div>
+                <div><input id="thOtherPosition" type="text" placeholder="Optional" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label">Preparation</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input id="thSterilePrep" type="checkbox" /><span
+                      >Prepped & draped sterilely</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Anesthesia method</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="checkbox" name="thAnesthesiaMethod" value="none" /><span
+                      >None</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="thAnesthesiaMethod"
+                      value="local infiltration"
+                    /><span>Local infiltration</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Local anesthetic</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thLocalAnesthetic"
+                      value="lidocaine 1% without epinephrine"
+                    /><span>Lidocaine 1% w/o epi</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thLocalAnesthetic"
+                      value="lidocaine 2% without epinephrine"
+                    /><span>Lidocaine 2% w/o epi</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thLocalAnesthetic"
+                      value="lidocaine 1% with epinephrine"
+                    /><span>Lidocaine 1% with epi</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thLocalAnesthetic"
+                      value="lidocaine 2% with epinephrine"
+                    /><span>Lidocaine 2% with epi</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Other anesthetic</div>
+                <div><input id="thOtherAnesthetic" type="text" placeholder="Optional" /></div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Ultrasound & puncture site</h3>
+
+              <div class="row">
+                <div class="label"><strong>Ultrasound guidance</strong></div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thUltrasound" value="yes" /><span>Yes</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thUltrasound" value="no" /><span>No</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Effusion appearance</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thEffusionUS" value="simple anechoic" /><span
+                      >Simple anechoic</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thEffusionUS" value="complex non-septated" /><span
+                      >Complex non-septated</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thEffusionUS" value="complex septated" /><span
+                      >Complex septated</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thEffusionUS" value="homogeneously echogenic" /><span
+                      >Echogenic</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Pocket measurements</div>
+                <div class="inline-fields">
+                  <div>
+                    <div class="field-caption">Pleural fluid pocket depth / size (cm)</div>
+                    <input
+                      id="thPocketSize"
+                      type="text"
+                      inputmode="decimal"
+                      placeholder="e.g. 6.0"
+                    />
+                  </div>
+                  <div>
+                    <div class="field-caption">Skin-to-fluid depth (cm)</div>
+                    <input
+                      id="thSkinDepth"
+                      type="text"
+                      inputmode="decimal"
+                      placeholder="e.g. 2.5"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Target location</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thTargetLocation" value="posterior" /><span
+                      >Posterior</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thTargetLocation" value="posterolateral" /><span
+                      >Posterolateral</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thTargetLocation" value="lateral" /><span
+                      >Lateral</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Site detail</div>
+                <div>
+                  <input
+                    id="thSiteDetail"
+                    type="text"
+                    placeholder="e.g. 7th intercostal space, posterior axillary line"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">US safety anatomy</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="thDiaphragmSeen" type="checkbox" />Diaphragm identified</label
+                  >
+                  <label class="checkline"
+                    ><input id="thLungSeen" type="checkbox" />Adjacent lung identified</label
+                  >
+                  <label class="checkline"
+                    ><input id="thClearPath" type="checkbox" />No intervening structure in planned
+                    needle path</label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">US comments</div>
+                <div>
+                  <input
+                    id="thUSComment"
+                    type="text"
+                    placeholder="Optional, e.g. moderate simple effusion with safe window"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Procedure</h3>
+
+              <div class="row">
+                <div class="label">Device used to access pleural space</div>
+                <div>
+                  <input
+                    id="thDevice"
+                    type="text"
+                    placeholder="e.g. thoracentesis catheter / catheter-over-needle kit"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Drainage method</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thDrainageMethod"
+                      value="manual syringe aspiration"
+                    /><span>Manual syringe</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thDrainageMethod" value="gravity drainage" /><span
+                      >Gravity drainage</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thDrainageMethod"
+                      value="diagnostic syringe aspiration"
+                    /><span>Diagnostic aspiration</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Number of attempts</div>
+                <div>
+                  <input
+                    id="thAttempts"
+                    class="short"
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="e.g. 1"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Fluid removed</strong></div>
+                <div class="inline-fields">
+                  <div>
+                    <div class="field-caption">Amount</div>
+                    <input
+                      id="thFluidAmount"
+                      type="text"
+                      inputmode="decimal"
+                      placeholder="e.g. 1200"
+                    />
+                  </div>
+                  <div>
+                    <div class="field-caption">Unit</div>
+                    <select id="thFluidUnit">
+                      <option value="mL">mL</option>
+                      <option value="L">L</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Fluid appearance</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="straw-coloured" /><span
+                      >Straw-coloured</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="yellow" /><span
+                      >Yellow</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="clear" /><span
+                      >Clear</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="serous" /><span
+                      >Serous</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="serosanguinous" /><span
+                      >Serosanguinous</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="bloody" /><span
+                      >Bloody</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="cloudy" /><span
+                      >Cloudy</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="purulent" /><span
+                      >Purulent</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thAppearance" value="chylous" /><span
+                      >Chylous</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Drainage stopped because</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thStopReason"
+                      value="target volume was reached"
+                    /><span>Target volume</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thStopReason"
+                      value="there was no further fluid return"
+                    /><span>No further return</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thStopReason"
+                      value="the patient developed chest discomfort"
+                    /><span>Chest discomfort</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thStopReason"
+                      value="the patient developed persistent cough"
+                    /><span>Persistent cough</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thStopReason"
+                      value="the patient developed dyspnea"
+                    /><span>Dyspnea</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thStopReason"
+                      value="the patient requested termination"
+                    /><span>Patient request</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thStopReason"
+                      value="the procedure was stopped at provider discretion"
+                    /><span>Provider discretion</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Dressing</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thDressing" value="adhesive bandage" /><span
+                      >Adhesive bandage</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thDressing" value="4×4 sterile gauze" /><span
+                      >4×4 sterile gauze</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thDressing"
+                      value="sterile gauze with occlusive dressing"
+                    /><span>Occlusive dressing</span></label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Post-procedure & pleural fluid testing</h3>
+
+              <div class="row">
+                <div class="label">Procedure completion</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thCompletion"
+                      value="tolerated well with no immediate complications"
+                    /><span>Tolerated well</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thCompletion"
+                      value="tolerated with difficulty"
+                    /><span>Tolerated with difficulty</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thCompletion"
+                      value="procedure terminated due to patient's clinical status"
+                    /><span>Terminated: clinical status</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thCompletion"
+                      value="procedure terminated at patient's request"
+                    /><span>Terminated: patient request</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thCompletion"
+                      value="procedure terminated electively by provider"
+                    /><span>Terminated by provider</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Post-procedure CXR ordered</strong></div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thCxrOrdered" value="yes" /><span>Yes</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thCxrOrdered" value="no" /><span>No</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Post-procedure lung ultrasound</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="thPostLungUS"
+                      value="reassuring with lung sliding present"
+                    /><span>Reassuring / lung sliding present</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPostLungUS" value="not performed" /><span
+                      >Not performed</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Pleural fluid sent for</strong></div>
+                <div class="test-groups">
+                  <div class="test-group">
+                    <div class="test-group-title">Cell count</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input
+                          type="checkbox"
+                          name="thTests"
+                          value="cell count and differential"
+                        /><span>Cell count + diff</span></label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="test-group">
+                    <div class="test-group-title">Chemistry</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="total protein" /><span
+                          >Total protein</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="LDH" /><span>LDH</span></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="glucose" /><span
+                          >Glucose</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="pH" /><span>pH</span></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="albumin" /><span
+                          >Albumin</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="test-group">
+                    <div class="test-group-title">Microbiology / culture</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="Gram stain" /><span
+                          >Gram stain</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="bacterial culture" /><span
+                          >Bacterial culture</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="AFB smear/culture" /><span
+                          >AFB smear/culture</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="test-group">
+                    <div class="test-group-title">Cytology / other</div>
+                    <div class="choice-wrap">
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="cytology" /><span
+                          >Cytology</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="flow cytometry" /><span
+                          >Flow cytometry</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="triglycerides" /><span
+                          >Triglycerides</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="cholesterol" /><span
+                          >Cholesterol</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="amylase" /><span
+                          >Amylase</span
+                        ></label
+                      >
+                      <label class="choice"
+                        ><input type="checkbox" name="thTests" value="hematocrit" /><span
+                          >Hematocrit</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Collection details</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="thCultureBottles" type="checkbox" />Bacterial culture inoculated
+                    into blood culture bottles</label
+                  >
+                  <label class="checkline"
+                    ><input id="thPairedSerum" type="checkbox" />Paired serum protein + LDH
+                    sent</label
+                  >
+                  <label class="checkline"
+                    ><input id="thPHGasSyringe" type="checkbox" />pH collected in blood gas
+                    syringe</label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Other fluid testing</div>
+                <div><input id="thOtherTests" type="text" placeholder="Optional" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label">Additional comments</div>
+                <div>
+                  <textarea id="thComments" placeholder="Optional free-text comments"></textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div id="pivForm" class="procedure-form">
+            <section class="section">
+              <h3 class="section-title">Procedure details</h3>
+
+              <div class="row">
+                <div class="label">Date / time</div>
+                <div><input id="pivDateTime" type="datetime-local" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Performed by</strong></div>
+                <div><input id="pivPerformedBy" type="text" placeholder="Name, credentials" /></div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Supervised by</strong></div>
+                <div>
+                  <input
+                    id="pivSupervisedBy"
+                    type="text"
+                    placeholder="Name, credentials (leave blank if none)"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Indication</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="pivIndications"
+                        value="difficult peripheral venous access"
+                      /><span>Difficult access</span></label
+                    >
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="pivIndications"
+                        value="intravenous medication administration"
+                      /><span>IV medications</span></label
+                    >
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="pivIndications"
+                        value="intravenous fluid administration"
+                      /><span>IV fluids</span></label
+                    >
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="pivIndications"
+                        value="blood product administration"
+                      /><span>Blood products</span></label
+                    >
+                  </div>
+                  <input
+                    id="pivIndicationOther"
+                    type="text"
+                    placeholder="Other / additional indication"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Consent & preparation</h3>
+
+              <div class="row">
+                <div class="label">Consent</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="pivConsent" value="verbal consent obtained" /><span
+                      >Verbal consent</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pivConsent"
+                      value="procedure explained and patient agreed to proceed"
+                    /><span>Explained / agreed</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivConsent" value="emergent procedure" /><span
+                      >Emergent</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Preparation</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="pivHandHygiene" type="checkbox" />Hand hygiene performed</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivChlorhexidine" type="checkbox" />Skin prepped with
+                    chlorhexidine</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivSterileCover" type="checkbox" />Sterile probe cover used</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivSterileGel" type="checkbox" />Sterile ultrasound gel used</label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Local anesthetic</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="pivAnesthetic" value="none" /><span
+                      >None</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivAnesthetic" value="lidocaine 1%" /><span
+                      >Lidocaine 1%</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivAnesthetic" value="lidocaine 2%" /><span
+                      >Lidocaine 2%</span
+                    ></label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Ultrasound & target vessel</h3>
+
+              <div class="row">
+                <div class="label">Side</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="pivSide" value="right" /><span>Right</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivSide" value="left" /><span>Left</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Anatomic site</strong></div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="medial upper arm" /><span
+                      >Upper arm · medial</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="lateral upper arm" /><span
+                      >Upper arm · lateral</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="antecubital fossa" /><span
+                      >Antecubital fossa</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="medial forearm" /><span
+                      >Forearm · medial</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="lateral forearm" /><span
+                      >Forearm · lateral</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="dorsal forearm" /><span
+                      >Forearm · dorsal</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="wrist" /><span>Wrist</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="hand" /><span>Hand</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivRegion" value="other site" /><span
+                      >Other</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">
+                  Site detail <span style="font-weight: 400; color: var(--muted)">(optional)</span>
+                </div>
+                <div>
+                  <input
+                    id="pivSiteDetail"
+                    type="text"
+                    placeholder="e.g. distal medial forearm, proximal lateral upper arm"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">
+                  Specific vein
+                  <span style="font-weight: 400; color: var(--muted)">(optional)</span>
+                </div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="pivVein" value="basilic vein" /><span
+                        >Basilic</span
+                      ></label
+                    >
+                    <label class="choice"
+                      ><input type="radio" name="pivVein" value="cephalic vein" /><span
+                        >Cephalic</span
+                      ></label
+                    >
+                    <label class="choice"
+                      ><input type="radio" name="pivVein" value="brachial vein" /><span
+                        >Brachial</span
+                      ></label
+                    >
+                    <label class="choice"
+                      ><input type="radio" name="pivVein" value="median cubital vein" /><span
+                        >Median cubital</span
+                      ></label
+                    >
+                  </div>
+                  <input
+                    id="pivVeinOther"
+                    type="text"
+                    placeholder="Optional free text if known; otherwise leave blank"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Vessel assessment</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="pivCompressible" type="checkbox" />Vein compressible</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivPatent" type="checkbox" />Vein patent</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivNoThrombus" type="checkbox" />No visible thrombus</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivAdjacentStructures" type="checkbox" />Adjacent artery /
+                    structures identified</label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Vessel measurements</div>
+                <div class="inline-fields">
+                  <div>
+                    <div class="field-caption">Vein depth (cm)</div>
+                    <input
+                      id="pivVeinDepth"
+                      type="text"
+                      inputmode="decimal"
+                      placeholder="Optional"
+                    />
+                  </div>
+                  <div>
+                    <div class="field-caption">Vein diameter (cm)</div>
+                    <input
+                      id="pivVeinDiameter"
+                      type="text"
+                      inputmode="decimal"
+                      placeholder="Optional"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Ultrasound technique</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pivUSApproach"
+                      value="short-axis / out-of-plane"
+                    /><span>Short-axis / out-of-plane</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivUSApproach" value="long-axis / in-plane" /><span
+                      >Long-axis / in-plane</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pivUSApproach"
+                      value="combined short- and long-axis technique"
+                    /><span>Combined</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Real-time guidance</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input id="pivRealtime" type="checkbox" /><span
+                      >Needle advanced under real-time ultrasound guidance</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input id="pivTipVisualized" type="checkbox" /><span
+                      >Needle tip visualized entering vein</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">US comments</div>
+                <div><input id="pivUSComment" type="text" placeholder="Optional" /></div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Prior peripheral IV attempts</h3>
+
+              <div class="row">
+                <div class="label"><strong>Prior attempts before this insertion</strong></div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="pivPriorAttempts" value="yes" /><span
+                      >Yes</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivPriorAttempts" value="no" /><span>No</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row" id="pivPriorAttemptsDetails" style="display: none">
+                <div class="label">Attempted sites</div>
+                <div>
+                  <div id="pivAttemptList" class="attempt-list"></div>
+                  <div class="attempt-actions">
+                    <button class="secondary" id="addPivAttemptBtn" type="button">
+                      + Add prior site
+                    </button>
+                  </div>
+                  <div class="helper">
+                    Use one entry per distinct site/region. Enter the number of puncture attempts
+                    made at that site.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" id="pivPriorAttemptsSummaryRow" style="display: none">
+                <div class="label">Overall prior-attempt comments</div>
+                <div>
+                  <input
+                    id="pivPriorAttemptsSummary"
+                    type="text"
+                    placeholder="Optional, e.g. difficult access, veins collapsed, patient requested alternate arm"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Catheter insertion</h3>
+
+              <div class="row">
+                <div class="label">Catheter gauge</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="pivGauge" value="18G" /><span>18G</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivGauge" value="20G" /><span>20G</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivGauge" value="22G" /><span>22G</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivGauge" value="24G" /><span>24G</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Catheter length</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="pivLength" value="1.25 inch" /><span
+                        >1.25"</span
+                      ></label
+                    >
+                    <label class="choice"
+                      ><input type="radio" name="pivLength" value="1.75 inch" /><span
+                        >1.75"</span
+                      ></label
+                    >
+                    <label class="choice"
+                      ><input type="radio" name="pivLength" value="2.5 inch" /><span
+                        >2.5"</span
+                      ></label
+                    >
+                  </div>
+                  <input
+                    id="pivLengthOther"
+                    type="text"
+                    placeholder="Other catheter length / device"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label"><strong>Attempts at this site</strong></div>
+                <div>
+                  <input
+                    id="pivAttempts"
+                    class="short"
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="e.g. 1"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Insertion result</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="pivBloodReturn" type="checkbox" />Blood return obtained</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivFlushes" type="checkbox" />Catheter flushed easily with
+                    saline</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivNoInfiltration" type="checkbox" />No pain, swelling, or
+                    infiltration with flush</label
+                  >
+                  <label class="checkline"
+                    ><input id="pivUSInVein" type="checkbox" />Catheter visualized within vein on
+                    ultrasound</label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Securement / dressing</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pivDressing"
+                      value="transparent semipermeable dressing"
+                    /><span>Transparent dressing</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pivDressing"
+                      value="sterile dressing with adhesive securement"
+                    /><span>Dressing + securement</span></label
+                  >
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3 class="section-title">Completion</h3>
+
+              <div class="row">
+                <div class="label">Outcome</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pivOutcome"
+                      value="successful placement with no immediate complications"
+                    /><span>Successful / no complications</span></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="radio"
+                      name="pivOutcome"
+                      value="successful placement with minor complication"
+                    /><span>Successful / minor complication</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="pivOutcome" value="unsuccessful placement" /><span
+                      >Unsuccessful</span
+                    ></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Complication</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="checkbox" name="pivComplications" value="hematoma" /><span
+                      >Hematoma</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="pivComplications"
+                      value="arterial puncture"
+                    /><span>Arterial puncture</span></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="pivComplications" value="infiltration" /><span
+                      >Infiltration</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="checkbox" name="pivComplications" value="bleeding" /><span
+                      >Bleeding</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input
+                      type="checkbox"
+                      name="pivComplications"
+                      value="pain or paresthesia"
+                    /><span>Pain / paresthesia</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Additional comments</div>
+                <div>
+                  <textarea id="pivComments" placeholder="Optional free-text comments"></textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div id="alForm" class="procedure-form">
+            <section class="section">
+              <h3 class="section-title">Procedure details</h3>
+              <div class="row">
+                <div class="label">Date / time</div>
+                <div><input id="alDateTime" type="datetime-local" placeholder="" /></div>
+              </div>
+              <div class="row">
+                <div class="label"><strong>Performed by</strong></div>
+                <div><input id="alPerformedBy" type="text" placeholder="Name, credentials" /></div>
+              </div>
+              <div class="row">
+                <div class="label"><strong>Supervised by</strong></div>
+                <div>
+                  <input
+                    id="alSupervisedBy"
+                    type="text"
+                    placeholder="Name, credentials (leave blank if none)"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Indication</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="alIndications"
+                        value="continuous blood pressure monitoring"
+                      /><span>Continuous BP monitoring</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="alIndications"
+                        value="frequent arterial blood sampling"
+                      /><span>Frequent blood sampling</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Other indication</div>
+                <div><input id="alIndicationOther" type="text" placeholder="Optional" /></div>
+              </div>
+            </section>
+            <section class="section">
+              <h3 class="section-title">Consent & universal protocol</h3>
+              <div class="row">
+                <div class="label">Consent</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alConsent" value="verbal" /><span
+                        >Verbal</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alConsent" value="written" /><span
+                        >Written</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alConsent" value="emergent situation" /><span
+                        >Emergent situation</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Consent given by</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alConsentBy" value="patient" /><span
+                        >Patient</span
+                      ></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="alConsentBy"
+                        value="substitute decision-maker"
+                      /><span>SDM</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Risks discussed</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="checkbox" name="alRisks" value="bleeding or hematoma" /><span
+                        >Bleeding / hematoma</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="alRisks" value="infection" /><span
+                        >Infection</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="alRisks" value="pain" /><span>Pain</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="alRisks"
+                        value="thrombosis or distal ischemia"
+                      /><span>Thrombosis / ischemia</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="alRisks"
+                        value="arterial or nerve injury"
+                      /><span>Arterial / nerve injury</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Alternatives discussed</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="alAlternatives"
+                        value="noninvasive blood pressure monitoring"
+                      /><span>Noninvasive BP monitoring</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="alAlternatives"
+                        value="intermittent arterial puncture"
+                      /><span>Intermittent arterial sampling</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="alAlternatives"
+                        value="no procedure / observation"
+                      /><span>Observation</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Safety checks</div>
+                <div>
+                  <div class="mini-grid">
+                    <label class="checkline"
+                      ><input id="alQuestionsAnswered" type="checkbox" />Procedure explained and
+                      questions answered</label
+                    ><label class="checkline"
+                      ><input id="alIdentityVerified" type="checkbox" />Patient identity
+                      verified</label
+                    ><label class="checkline"
+                      ><input id="alTimeout" type="checkbox" />Time-out performed immediately
+                      prior</label
+                    ><label class="checkline"
+                      ><input id="alSiteConfirmed" type="checkbox" />Site and side confirmed</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <h3 class="section-title">Site & preparation</h3>
+              <div class="row">
+                <div class="label">Side</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alSide" value="right" /><span>Right</span></label
+                    ><label class="choice"
+                      ><input type="radio" name="alSide" value="left" /><span>Left</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Artery</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alArtery" value="radial" /><span
+                        >Radial</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alArtery" value="femoral" /><span
+                        >Femoral</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alArtery" value="brachial" /><span
+                        >Brachial</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alArtery" value="dorsalis pedis" /><span
+                        >Dorsalis pedis</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Other artery / site detail</div>
+                <div>
+                  <input
+                    id="alSiteDetail"
+                    type="text"
+                    placeholder="Optional; specify another artery or site details"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Pre-procedure vascular assessment</div>
+                <div>
+                  <input
+                    id="alVascularAssessment"
+                    type="text"
+                    placeholder="Optional; distal pulse, perfusion, collateral flow assessment if done"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Preparation</div>
+                <div>
+                  <div class="mini-grid">
+                    <label class="checkline"
+                      ><input id="alHandHygiene" type="checkbox" />Hand hygiene performed</label
+                    ><label class="checkline"
+                      ><input id="alSterilePrep" type="checkbox" />Site prepped and draped
+                      sterilely</label
+                    ><label class="checkline"
+                      ><input id="alSterileGloves" type="checkbox" />Sterile gloves used</label
+                    ><label class="checkline"
+                      ><input id="alSterileUS" type="checkbox" />Sterile probe cover and gel
+                      used</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Skin antiseptic</div>
+                <div><input id="alAntiseptic" type="text" placeholder="e.g. chlorhexidine" /></div>
+              </div>
+              <div class="row">
+                <div class="label">Local anesthesia</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alAnesthetic" value="none" /><span
+                        >None</span
+                      ></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="alAnesthetic"
+                        value="lidocaine 1% without epinephrine"
+                      /><span>Lidocaine 1% w/o epi</span></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="alAnesthetic"
+                        value="lidocaine 2% without epinephrine"
+                      /><span>Lidocaine 2% w/o epi</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Other anesthetic</div>
+                <div>
+                  <input
+                    id="alAnestheticOther"
+                    type="text"
+                    placeholder="Optional; agent and concentration"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Anesthetic volume (mL)</div>
+                <div>
+                  <input
+                    id="alAnestheticVolume"
+                    type="number"
+                    placeholder="e.g. 2"
+                    min="0"
+                    step="any"
+                  />
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <h3 class="section-title">Insertion</h3>
+              <div class="row">
+                <div class="label">Guidance</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input
+                        type="radio"
+                        name="alGuidance"
+                        value="real-time ultrasound guidance"
+                      /><span>Real-time ultrasound</span></label
+                    ><label class="choice"
+                      ><input type="radio" name="alGuidance" value="palpation guidance" /><span
+                        >Palpation</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Ultrasound findings</div>
+                <div>
+                  <input
+                    id="alUSFindings"
+                    type="text"
+                    placeholder="Optional; vessel patency, depth, needle or wire visualization"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Technique</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alTechnique" value="catheter-over-needle" /><span
+                        >Catheter over needle</span
+                      ></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="alTechnique"
+                        value="catheter-over-guidewire"
+                      /><span>Catheter over guidewire</span></label
+                    ><label class="choice"
+                      ><input type="radio" name="alTechnique" value="Seldinger" /><span
+                        >Seldinger</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Catheter size (gauge)</div>
+                <div>
+                  <input id="alGauge" type="number" placeholder="e.g. 20" min="1" step="1" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Catheter length (cm)</div>
+                <div>
+                  <input id="alLength" type="number" placeholder="e.g. 4.5" min="0" step="any" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Device / kit</div>
+                <div>
+                  <input id="alDevice" type="text" placeholder="Optional; device or kit name" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Number of attempts</div>
+                <div>
+                  <input id="alAttempts" type="number" placeholder="e.g. 1" min="1" step="1" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Guidewire</div>
+                <div>
+                  <div class="mini-grid">
+                    <label class="checkline"
+                      ><input id="alWireRemoved" type="checkbox" />Guidewire removed intact</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label"><strong>Placement outcome</strong></div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alOutcome" value="successful" /><span
+                        >Successful</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alOutcome" value="unsuccessful" /><span
+                        >Unsuccessful</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alOutcome" value="aborted" /><span
+                        >Aborted</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <h3 class="section-title">Confirmation & securement</h3>
+              <div class="row">
+                <div class="label">Confirmation</div>
+                <div>
+                  <div class="mini-grid">
+                    <label class="checkline"
+                      ><input id="alBloodReturn" type="checkbox" />Pulsatile blood return
+                      obtained</label
+                    ><label class="checkline"
+                      ><input id="alWaveform" type="checkbox" />Arterial pressure waveform
+                      confirmed</label
+                    ><label class="checkline"
+                      ><input id="alTransducer" type="checkbox" />Pressure transducer leveled and
+                      zeroed</label
+                    ><label class="checkline"
+                      ><input id="alFlushes" type="checkbox" />Catheter flushed without
+                      resistance</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Securement</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alSecurement" value="sutures" /><span
+                        >Sutures</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alSecurement" value="a securement device" /><span
+                        >Securement device</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alSecurement" value="adhesive tape" /><span
+                        >Adhesive tape</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Dressing</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input
+                        type="radio"
+                        name="alDressing"
+                        value="a sterile transparent dressing"
+                      /><span>Sterile transparent dressing</span></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="alDressing"
+                        value="a sterile gauze dressing"
+                      /><span>Sterile gauze dressing</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <h3 class="section-title">Post-procedure</h3>
+              <div class="row">
+                <div class="label">Distal neurovascular assessment</div>
+                <div>
+                  <input
+                    id="alDistalAssessment"
+                    type="text"
+                    placeholder="Optional; distal pulse, capillary refill, limb temperature, sensation"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Patient tolerance</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input
+                        type="radio"
+                        name="alTolerance"
+                        value="patient tolerated the procedure well"
+                      /><span>Tolerated well</span></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="alTolerance"
+                        value="patient tolerated the procedure with difficulty"
+                      /><span>Tolerated with difficulty</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Immediate complications</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alComplications" value="none" /><span
+                        >None observed</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alComplications" value="present" /><span
+                        >Complications observed</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Complication details</div>
+                <div>
+                  <input
+                    id="alComplicationDetails"
+                    type="text"
+                    placeholder="e.g. hematoma, bleeding, vasospasm, distal ischemia; management"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Plan</div>
+                <div>
+                  <textarea
+                    id="alPlan"
+                    placeholder="Optional; monitoring, line care, reassessment or removal plan"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Additional comments</div>
+                <div>
+                  <textarea id="alComments" placeholder="Optional free-text comments"></textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <aside class="card note-panel" id="notePanel">
+          <div class="note-head">
+            <h2 id="noteTitle">Paracentesis procedure note</h2>
+            <div class="helper">Only completed fields are included.</div>
+          </div>
+
+          <div class="note-actions">
+            <button class="primary" id="copyBtn" type="button">Copy note</button>
+            <button class="secondary" id="printBtn" type="button">Print</button>
+            <button class="secondary" id="downloadBtn" type="button">Download .txt</button>
+            <button class="danger" id="resetBtn" type="button">Reset</button>
+          </div>
+
+          <textarea
+            id="noteOutput"
+            spellcheck="true"
+            aria-label="Generated procedure note"
+          ></textarea>
+          <pre id="printOutput"></pre>
+        </aside>
+      </div>
+
+      <div class="footer">
+        Designed as a documentation aid for bedside procedures. Review the generated note and local
+        procedural requirements before placing it in the chart.
+      </div>
+    </div>
+
+    <script>
+      ;(function () {
+        const $ = (id) => document.getElementById(id)
+        const getRadio = (name) =>
+          document.querySelector(`input[name="${name}"]:checked`)?.value || ""
+        const getChecks = (name) =>
+          [...document.querySelectorAll(`input[name="${name}"]:checked`)].map((x) => x.value)
+        const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
+        const withArticle = (s) => {
+          if (!s) return ""
+          const article = /^[aeiou]/i.test(s.trim()) ? "an" : "a"
+          return `${article} ${s}`
+        }
+        const joinNatural = (arr) => {
+          arr = arr.filter(Boolean)
+          if (arr.length === 0) return ""
+          if (arr.length === 1) return arr[0]
+          if (arr.length === 2) return arr[0] + " and " + arr[1]
+          return arr.slice(0, -1).join(", ") + ", and " + arr[arr.length - 1]
+        }
+        const fmtDateTime = (val) => {
+          if (!val) return ""
+          const d = new Date(val)
+          if (Number.isNaN(d.getTime())) return val
+          return d.toLocaleString([], {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        }
+
+        function generateParacentesisNote() {
+          const lines = []
+          lines.push("PARACENTESIS PROCEDURE NOTE")
+
+          const dt = fmtDateTime($("dateTime").value)
+          if (dt) lines.push(`Date/time: ${dt}`)
+          if ($("performedBy").value.trim())
+            lines.push(`Performed by: ${$("performedBy").value.trim()}`)
+          if ($("supervisedBy").value.trim())
+            lines.push(`Supervised by: ${$("supervisedBy").value.trim()}`)
+
+          const purpose = getChecks("purpose")
+          if (purpose.length)
+            lines.push(`Indication/purpose: ${joinNatural(purpose)} paracentesis.`)
+
+          const consent = getRadio("consent")
+          const consentBy = getRadio("consentBy")
+          const risks = getChecks("risks")
+          const alternatives = getChecks("alternatives")
+
+          let consentSentence = ""
+          if (consent) {
+            consentSentence = `${cap(consent)} consent obtained`
+            if (consentBy) consentSentence += ` from the ${consentBy}`
+            consentSentence += "."
+          }
+          if (risks.length)
+            consentSentence += `${consentSentence ? " " : ""}Risks discussed included ${joinNatural(risks)}.`
+          if (alternatives.length)
+            consentSentence += `${consentSentence ? " " : ""}Alternatives discussed included ${joinNatural(alternatives)}.`
+          if (consentSentence) lines.push("", "CONSENT / SAFETY", consentSentence)
+
+          const safety = []
+          if ($("questionsAnswered").checked)
+            safety.push("procedure explained and questions answered")
+          if ($("docsVerified").checked) safety.push("relevant documents/results verified")
+          if ($("siteMarked").checked) safety.push("site marked")
+          if ($("timeout").checked) safety.push("time-out performed immediately prior to procedure")
+          if (safety.length) lines.push(`${cap(joinNatural(safety))}.`)
+
+          const prepParts = []
+          if ($("sterilePrep").checked)
+            prepParts.push("The patient was prepped and draped in the usual sterile fashion")
+
+          const anesthesiaMethods = getChecks("anesthesiaMethod")
+          const local = getRadio("localAnesthetic")
+          const otherAnesthetic = $("otherAnesthetic").value.trim()
+
+          if (anesthesiaMethods.length || local || otherAnesthetic || prepParts.length) {
+            lines.push("", "PREPARATION / ANESTHESIA")
+            if (prepParts.length) lines.push(prepParts.join(". ") + ".")
+            if (anesthesiaMethods.length)
+              lines.push(
+                `Anesthesia: ${joinNatural(anesthesiaMethods)}${local ? ` using ${local}` : ""}${otherAnesthetic ? `; ${otherAnesthetic}` : ""}.`,
+              )
+            else if (local || otherAnesthetic)
+              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}.`)
+          }
+
+          const us = getRadio("ultrasound")
+          const pocketLoc = getRadio("pocketLocation")
+          const pocketSize = $("pocketSize").value.trim()
+          const skinDepth = $("skinDepth").value.trim()
+          const pocketComment = $("pocketComment").value.trim()
+          const site = getRadio("site")
+
+          if (us || pocketLoc || pocketSize || skinDepth || pocketComment || site) {
+            lines.push("", "PROCEDURE")
+            let usSentence = ""
+            if (us === "yes") {
+              usSentence = "Ultrasound guidance was used"
+              if (pocketLoc)
+                usSentence += ` and an appropriate pocket was identified in the ${pocketLoc}`
+              const measurements = []
+              if (pocketSize) measurements.push(`pocket approximately ${pocketSize} cm`)
+              if (skinDepth) measurements.push(`skin-to-fluid depth approximately ${skinDepth} cm`)
+              if (measurements.length) usSentence += ` (${measurements.join("; ")})`
+              usSentence += "."
+            } else if (us === "no") {
+              usSentence = "Ultrasound guidance was not used."
+            }
+            if (usSentence) lines.push(usSentence)
+            if (pocketComment) lines.push(`Ultrasound comments: ${pocketComment}.`)
+            if (site) lines.push(`Puncture site: ${site}.`)
+          }
+
+          const device = $("device").value.trim()
+          const amount = $("fluidAmount").value.trim()
+          const unit = $("fluidUnit").value
+          const appearance = getRadio("appearance")
+          const dressing = getRadio("dressing")
+
+          if (device || amount || appearance || dressing) {
+            let sentence = ""
+            if (device) {
+              sentence += `Using ${device}, the peritoneal cavity was accessed`
+            } else {
+              sentence += "The peritoneal cavity was accessed"
+            }
+
+            if (amount) {
+              sentence += ` and ${amount} ${unit} of`
+              if (appearance) sentence += ` ${appearance}`
+              sentence += " ascitic fluid was removed"
+            } else if (appearance) {
+              sentence += `. Ascitic fluid was ${appearance}`
+            }
+
+            sentence += "."
+            lines.push(sentence)
+            if (dressing) lines.push(`${cap(withArticle(dressing))} was applied.`)
+          }
+
+          const completion = getRadio("completion")
+          const tests = getChecks("tests")
+          const cultureBottles = $("cultureBottles").checked
+          const otherTests = $("otherTests").value.trim()
+          const albuminGiven = $("albuminGiven").value
+          const albuminDose = $("albuminDose").value.trim()
+          const comments = $("comments").value.trim()
+
+          if (
+            completion ||
+            tests.length ||
+            cultureBottles ||
+            otherTests ||
+            albuminGiven ||
+            comments
+          ) {
+            lines.push("", "POST-PROCEDURE")
+            if (completion) lines.push(`Procedure ${completion}.`)
+
+            if (tests.length || otherTests) {
+              const has = (name) => tests.includes(name)
+              const groups = []
+
+              if (has("cell count and differential")) {
+                groups.push("cell count and differential")
+              }
+
+              const chemistry = []
+              if (has("albumin")) chemistry.push("albumin")
+              if (has("total protein")) chemistry.push("total protein")
+              if (has("glucose")) chemistry.push("glucose")
+              if (has("LDH")) chemistry.push("LDH")
+              if (chemistry.length) {
+                groups.push(`chemistry (${chemistry.join(", ")})`)
+              }
+
+              if (has("Gram stain") && has("bacterial culture")) {
+                groups.push("Gram stain & bacterial culture")
+              } else {
+                if (has("Gram stain")) groups.push("Gram stain")
+                if (has("bacterial culture")) groups.push("bacterial culture")
+              }
+
+              if (has("AFB smear/culture")) groups.push("AFB smear/culture")
+              if (has("cytology")) groups.push("cytology")
+              if (has("amylase")) groups.push("amylase")
+              if (has("triglycerides")) groups.push("triglycerides")
+              if (has("bilirubin")) groups.push("bilirubin")
+              if (otherTests) groups.push(otherTests)
+
+              lines.push(`Ascitic fluid sent for ${joinNatural(groups)}.`)
+              if (cultureBottles)
+                lines.push(
+                  "Bacterial culture specimen was inoculated into blood culture bottles at the bedside.",
+                )
+            } else if (cultureBottles) {
+              lines.push(
+                "Bacterial culture specimen was inoculated into blood culture bottles at the bedside.",
+              )
+            }
+
+            if (albuminGiven === "yes") {
+              lines.push(
+                `IV albumin replacement was given${albuminDose ? ` (${albuminDose} g)` : ""}.`,
+              )
+            } else if (albuminGiven === "no") {
+              lines.push("IV albumin replacement was not given.")
+            }
+
+            if (comments) lines.push("", comments)
+          }
+
+          $("noteOutput").value = lines
+            .join("\n")
+            .replace(/\n{3,}/g, "\n\n")
+            .trim()
+        }
+
+        function generateThoracentesisNote() {
+          const lines = []
+          lines.push("THORACENTESIS PROCEDURE NOTE")
+
+          const dt = fmtDateTime($("thDateTime").value)
+          if (dt) lines.push(`Date/time: ${dt}`)
+          if ($("thPerformedBy").value.trim())
+            lines.push(`Performed by: ${$("thPerformedBy").value.trim()}`)
+          if ($("thSupervisedBy").value.trim())
+            lines.push(`Supervised by: ${$("thSupervisedBy").value.trim()}`)
+
+          const purpose = getChecks("thPurpose")
+          const side = getRadio("thSide")
+          const indication = $("thIndication").value.trim()
+
+          if (purpose.length || side) {
+            let procedureLine = "Procedure: "
+            if (purpose.length) procedureLine += `${joinNatural(purpose)} `
+            if (side) procedureLine += `${side}-sided `
+            procedureLine += "thoracentesis."
+            lines.push(procedureLine)
+          }
+          if (indication) lines.push(`Indication: ${indication}.`)
+
+          const consent = getRadio("thConsent")
+          const consentBy = getRadio("thConsentBy")
+          const risks = getChecks("thRisks")
+          const alternatives = getChecks("thAlternatives")
+
+          let consentSentence = ""
+          if (consent) {
+            consentSentence = `${cap(consent)} consent obtained`
+            if (consentBy) consentSentence += ` from the ${consentBy}`
+            consentSentence += "."
+          }
+          if (risks.length)
+            consentSentence += `${consentSentence ? " " : ""}Risks discussed included ${joinNatural(risks)}.`
+          if (alternatives.length)
+            consentSentence += `${consentSentence ? " " : ""}Alternatives discussed included ${joinNatural(alternatives)}.`
+          if (consentSentence) lines.push("", "CONSENT / SAFETY", consentSentence)
+
+          const safety = []
+          if ($("thQuestionsAnswered").checked)
+            safety.push("procedure explained and questions answered")
+          if ($("thDocsVerified").checked) safety.push("relevant imaging/results verified")
+          if ($("thSiteMarked").checked) safety.push("site marked")
+          if ($("thTimeout").checked)
+            safety.push("time-out performed immediately prior to procedure")
+          if (safety.length) lines.push(`${cap(joinNatural(safety))}.`)
+
+          const position = getRadio("thPosition")
+          const otherPosition = $("thOtherPosition").value.trim()
+          const anesthesiaMethods = getChecks("thAnesthesiaMethod")
+          const local = getRadio("thLocalAnesthetic")
+          const otherAnesthetic = $("thOtherAnesthetic").value.trim()
+
+          if (
+            position ||
+            otherPosition ||
+            $("thSterilePrep").checked ||
+            anesthesiaMethods.length ||
+            local ||
+            otherAnesthetic
+          ) {
+            lines.push("", "POSITION / PREPARATION / ANESTHESIA")
+            if (position || otherPosition) {
+              lines.push(
+                `Patient positioned ${[position, otherPosition].filter(Boolean).join("; ")}.`,
+              )
+            }
+            if ($("thSterilePrep").checked)
+              lines.push("The patient was prepped and draped in the usual sterile fashion.")
+            if (anesthesiaMethods.length) {
+              lines.push(
+                `Anesthesia: ${joinNatural(anesthesiaMethods)}${local ? ` using ${local}` : ""}${otherAnesthetic ? `; ${otherAnesthetic}` : ""}.`,
+              )
+            } else if (local || otherAnesthetic) {
+              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}.`)
+            }
+          }
+
+          const us = getRadio("thUltrasound")
+          const effusionUS = getRadio("thEffusionUS")
+          const pocketSize = $("thPocketSize").value.trim()
+          const skinDepth = $("thSkinDepth").value.trim()
+          const targetLocation = getRadio("thTargetLocation")
+          const siteDetail = $("thSiteDetail").value.trim()
+          const usComment = $("thUSComment").value.trim()
+
+          if (
+            us ||
+            effusionUS ||
+            pocketSize ||
+            skinDepth ||
+            targetLocation ||
+            siteDetail ||
+            $("thDiaphragmSeen").checked ||
+            $("thLungSeen").checked ||
+            $("thClearPath").checked ||
+            usComment
+          ) {
+            lines.push("", "ULTRASOUND / SITE")
+
+            if (us === "yes") {
+              let sentence = "Ultrasound guidance was used"
+              if (side) sentence += ` to identify a ${side} pleural effusion`
+              if (effusionUS) sentence += ` with ${effusionUS} appearance`
+
+              const measurements = []
+              if (pocketSize)
+                measurements.push(`pleural fluid pocket approximately ${pocketSize} cm`)
+              if (skinDepth) measurements.push(`skin-to-fluid depth approximately ${skinDepth} cm`)
+              if (measurements.length) sentence += ` (${measurements.join("; ")})`
+              sentence += "."
+              lines.push(sentence)
+            } else if (us === "no") {
+              lines.push("Ultrasound guidance was not used.")
+            }
+
+            const anatomy = []
+            if ($("thDiaphragmSeen").checked) anatomy.push("diaphragm identified")
+            if ($("thLungSeen").checked) anatomy.push("adjacent lung identified")
+            if ($("thClearPath").checked)
+              anatomy.push("no intervening structure in the planned needle path")
+            if (anatomy.length) lines.push(`${cap(joinNatural(anatomy))}.`)
+
+            const siteParts = []
+            if (targetLocation) siteParts.push(targetLocation)
+            if (siteDetail) siteParts.push(siteDetail)
+            if (side && siteParts.length)
+              lines.push(`Puncture site: ${side} ${siteParts.join(", ")}.`)
+            else if (siteParts.length) lines.push(`Puncture site: ${siteParts.join(", ")}.`)
+            if (usComment) lines.push(`Ultrasound comments: ${usComment}.`)
+          }
+
+          const device = $("thDevice").value.trim()
+          const drainageMethod = getRadio("thDrainageMethod")
+          const attempts = $("thAttempts").value.trim()
+          const amount = $("thFluidAmount").value.trim()
+          const unit = $("thFluidUnit").value
+          const appearance = getRadio("thAppearance")
+          const stopReason = getRadio("thStopReason")
+          const dressing = getRadio("thDressing")
+
+          if (
+            device ||
+            drainageMethod ||
+            attempts ||
+            amount ||
+            appearance ||
+            stopReason ||
+            dressing
+          ) {
+            lines.push("", "PROCEDURE")
+
+            let sentence = ""
+            if (device) {
+              sentence += `Using ${device}, the pleural space was accessed`
+            } else {
+              sentence += "The pleural space was accessed"
+            }
+            if (drainageMethod) sentence += ` using ${drainageMethod}`
+            if (attempts) sentence += ` after ${attempts} attempt${attempts === "1" ? "" : "s"}`
+
+            if (amount) {
+              sentence += ` and ${amount} ${unit} of`
+              if (appearance) sentence += ` ${appearance}`
+              sentence += " pleural fluid was removed"
+            } else if (appearance) {
+              sentence += `. Pleural fluid was ${appearance}`
+            }
+            sentence += "."
+            lines.push(sentence)
+
+            if (stopReason) lines.push(`Drainage was stopped because ${stopReason}.`)
+            if (dressing) lines.push(`${cap(withArticle(dressing))} was applied.`)
+          }
+
+          const completion = getRadio("thCompletion")
+          const cxrOrdered = getRadio("thCxrOrdered")
+          const postLungUS = getRadio("thPostLungUS")
+          const tests = getChecks("thTests")
+          const cultureBottles = $("thCultureBottles").checked
+          const pairedSerum = $("thPairedSerum").checked
+          const pHGasSyringe = $("thPHGasSyringe").checked
+          const otherTests = $("thOtherTests").value.trim()
+          const comments = $("thComments").value.trim()
+
+          if (
+            completion ||
+            cxrOrdered ||
+            postLungUS ||
+            tests.length ||
+            cultureBottles ||
+            pairedSerum ||
+            pHGasSyringe ||
+            otherTests ||
+            comments
+          ) {
+            lines.push("", "POST-PROCEDURE")
+            if (completion) lines.push(`Procedure ${completion}.`)
+            if (cxrOrdered === "yes") lines.push("Post-procedure chest radiograph ordered.")
+            if (cxrOrdered === "no") lines.push("Post-procedure chest radiograph not ordered.")
+            if (postLungUS === "reassuring with lung sliding present")
+              lines.push("Post-procedure lung ultrasound was reassuring with lung sliding present.")
+
+            if (tests.length || otherTests) {
+              const has = (name) => tests.includes(name)
+              const groups = []
+
+              if (has("cell count and differential")) {
+                groups.push("cell count and differential")
+              }
+
+              const chemistry = []
+              if (has("total protein")) chemistry.push("total protein")
+              if (has("LDH")) chemistry.push("LDH")
+              if (has("glucose")) chemistry.push("glucose")
+              if (has("pH")) chemistry.push("pH")
+              if (has("albumin")) chemistry.push("albumin")
+              if (chemistry.length) groups.push(`chemistry (${chemistry.join(", ")})`)
+
+              if (has("Gram stain") && has("bacterial culture")) {
+                groups.push("Gram stain & bacterial culture")
+              } else {
+                if (has("Gram stain")) groups.push("Gram stain")
+                if (has("bacterial culture")) groups.push("bacterial culture")
+              }
+
+              if (has("AFB smear/culture")) groups.push("AFB smear/culture")
+              if (has("cytology")) groups.push("cytology")
+              if (has("flow cytometry")) groups.push("flow cytometry")
+
+              const targeted = []
+              if (has("triglycerides")) targeted.push("triglycerides")
+              if (has("cholesterol")) targeted.push("cholesterol")
+              if (has("amylase")) targeted.push("amylase")
+              if (has("hematocrit")) targeted.push("hematocrit")
+              if (targeted.length) groups.push(`other studies (${targeted.join(", ")})`)
+
+              if (otherTests) groups.push(otherTests)
+
+              lines.push(`Pleural fluid sent for ${joinNatural(groups)}.`)
+            }
+
+            const collectionDetails = []
+            if (cultureBottles)
+              collectionDetails.push("bacterial culture was inoculated into blood culture bottles")
+            if (pairedSerum) collectionDetails.push("paired serum protein and LDH were sent")
+            if (pHGasSyringe)
+              collectionDetails.push("pleural fluid pH was collected in a blood gas syringe")
+            if (collectionDetails.length) lines.push(`${cap(joinNatural(collectionDetails))}.`)
+
+            if (comments) lines.push("", comments)
+          }
+
+          return lines
+            .join("\n")
+            .replace(/\n{3,}/g, "\n\n")
+            .trim()
+        }
+
+        let pivAttemptCounter = 0
+
+        function addPivAttempt(data = {}) {
+          pivAttemptCounter += 1
+          const card = document.createElement("div")
+          card.className = "attempt-card"
+          card.dataset.attemptId = String(pivAttemptCounter)
+
+          card.innerHTML = `
+      <div class="attempt-card-head">
+        <div class="attempt-card-title">Prior site ${pivAttemptCounter}</div>
+        <button type="button" class="remove-attempt">Remove</button>
+      </div>
+
+      <div class="attempt-grid">
+        <div>
+          <div class="field-caption">Side</div>
+          <select class="prior-side">
+            <option value="">Not specified</option>
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="field-caption">Anatomic site</div>
+          <select class="prior-region">
+            <option value="">Not specified</option>
+            <option value="medial upper arm">Upper arm · medial</option>
+            <option value="lateral upper arm">Upper arm · lateral</option>
+            <option value="antecubital fossa">Antecubital fossa</option>
+            <option value="medial forearm">Forearm · medial</option>
+            <option value="lateral forearm">Forearm · lateral</option>
+            <option value="dorsal forearm">Forearm · dorsal</option>
+            <option value="wrist">Wrist</option>
+            <option value="hand">Hand</option>
+            <option value="other site">Other site</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="field-caption">Specific vein / finer site detail (optional)</div>
+          <input class="prior-vein" type="text" placeholder="e.g. cephalic vein, distal medial forearm">
+        </div>
+
+        <div>
+          <div class="field-caption">Number of puncture attempts</div>
+          <input class="prior-count" type="number" min="1" step="1" placeholder="e.g. 2">
+        </div>
+
+        <div>
+          <div class="field-caption">Technique</div>
+          <select class="prior-technique">
+            <option value="">Not specified</option>
+            <option value="ultrasound-guided">Ultrasound-guided</option>
+            <option value="landmark-guided">Landmark-guided</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="field-caption">Outcome</div>
+          <select class="prior-outcome">
+            <option value="">Not specified</option>
+            <option value="unsuccessful">Unsuccessful</option>
+            <option value="flash obtained but catheter would not advance">Flash obtained, catheter would not advance</option>
+            <option value="catheter inserted but infiltrated">Inserted but infiltrated</option>
+            <option value="catheter inserted but failed to flush">Inserted but failed to flush</option>
+            <option value="attempt abandoned">Attempt abandoned</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <div class="field-caption">Complication / reason for failure</div>
+          <input class="prior-comment" type="text" placeholder="Optional, e.g. hematoma, vein collapsed, vessel too deep, patient discomfort">
+        </div>
+      </div>
+    `
+
+          $("pivAttemptList").appendChild(card)
+          labelFields(card)
+
+          if (data.side) card.querySelector(".prior-side").value = data.side
+          if (data.region) card.querySelector(".prior-region").value = data.region
+          if (data.vein) card.querySelector(".prior-vein").value = data.vein
+          if (data.count) card.querySelector(".prior-count").value = data.count
+          if (data.technique) card.querySelector(".prior-technique").value = data.technique
+          if (data.outcome) card.querySelector(".prior-outcome").value = data.outcome
+          if (data.comment) card.querySelector(".prior-comment").value = data.comment
+
+          card.querySelector(".remove-attempt").addEventListener("click", () => {
+            card.remove()
+            renumberPivAttempts()
+            generateNote()
+          })
+
+          card.querySelectorAll("input, select").forEach((el) => {
+            el.addEventListener("input", generateNote)
+            el.addEventListener("change", generateNote)
+          })
+
+          renumberPivAttempts()
+          generateNote()
+        }
+
+        function renumberPivAttempts() {
+          ;[...document.querySelectorAll("#pivAttemptList .attempt-card")].forEach(
+            (card, index) => {
+              card.querySelector(".attempt-card-title").textContent = `Prior site ${index + 1}`
+            },
+          )
+        }
+
+        function getPivPriorAttempts() {
+          return [...document.querySelectorAll("#pivAttemptList .attempt-card")]
+            .map((card) => ({
+              side: card.querySelector(".prior-side").value,
+              region: card.querySelector(".prior-region").value,
+              vein: card.querySelector(".prior-vein").value.trim(),
+              count: card.querySelector(".prior-count").value.trim(),
+              technique: card.querySelector(".prior-technique").value,
+              outcome: card.querySelector(".prior-outcome").value,
+              comment: card.querySelector(".prior-comment").value.trim(),
+            }))
+            .filter(
+              (x) =>
+                x.side || x.region || x.vein || x.count || x.technique || x.outcome || x.comment,
+            )
+        }
+
+        function generatePIVNote() {
+          const lines = []
+          lines.push("ULTRASOUND-GUIDED PERIPHERAL IV INSERTION PROCEDURE NOTE")
+
+          const dt = fmtDateTime($("pivDateTime").value)
+          if (dt) lines.push(`Date/time: ${dt}`)
+          if ($("pivPerformedBy").value.trim())
+            lines.push(`Performed by: ${$("pivPerformedBy").value.trim()}`)
+          if ($("pivSupervisedBy").value.trim())
+            lines.push(`Supervised by: ${$("pivSupervisedBy").value.trim()}`)
+
+          const indications = getChecks("pivIndications")
+          const otherIndication = $("pivIndicationOther").value.trim()
+          const indicationParts = [...indications]
+          if (otherIndication) indicationParts.push(otherIndication)
+          if (indicationParts.length) lines.push(`Indication: ${joinNatural(indicationParts)}.`)
+
+          const consent = getRadio("pivConsent")
+          const prep = []
+          if ($("pivHandHygiene").checked) prep.push("hand hygiene performed")
+          if ($("pivChlorhexidine").checked) prep.push("skin prepped with chlorhexidine")
+          if ($("pivSterileCover").checked) prep.push("sterile ultrasound probe cover used")
+          if ($("pivSterileGel").checked) prep.push("sterile ultrasound gel used")
+          const anesthetic = getRadio("pivAnesthetic")
+
+          if (consent || prep.length || anesthetic) {
+            lines.push("", "CONSENT / PREPARATION")
+            if (consent) lines.push(`${cap(consent)}.`)
+            if (prep.length) lines.push(`${cap(joinNatural(prep))}.`)
+            if (anesthetic && anesthetic !== "none")
+              lines.push(`Local anesthesia with ${anesthetic}.`)
+            if (anesthetic === "none") lines.push("No local anesthetic used.")
+          }
+
+          const side = getRadio("pivSide")
+          const region = getRadio("pivRegion")
+          const siteDetail = $("pivSiteDetail").value.trim()
+          const selectedVein = getRadio("pivVein")
+          const veinOther = $("pivVeinOther").value.trim()
+          const vein = veinOther || selectedVein
+          const veinDepth = $("pivVeinDepth").value.trim()
+          const veinDiameter = $("pivVeinDiameter").value.trim()
+          const approach = getRadio("pivUSApproach")
+          const usComment = $("pivUSComment").value.trim()
+
+          const vesselFeatures = []
+          if ($("pivCompressible").checked) vesselFeatures.push("compressible")
+          if ($("pivPatent").checked) vesselFeatures.push("patent")
+          if ($("pivNoThrombus").checked) vesselFeatures.push("without visible thrombus")
+
+          if (
+            side ||
+            region ||
+            siteDetail ||
+            vein ||
+            vesselFeatures.length ||
+            veinDepth ||
+            veinDiameter ||
+            approach ||
+            $("pivAdjacentStructures").checked ||
+            $("pivRealtime").checked ||
+            $("pivTipVisualized").checked ||
+            usComment
+          ) {
+            lines.push("", "ULTRASOUND / TARGET VESSEL")
+
+            const locationParts = [
+              side,
+              region && region !== "other site" ? region : "",
+              siteDetail,
+            ].filter(Boolean)
+            let target = "Ultrasound was used to identify "
+            target += vein ? `a suitable ${vein}` : "a suitable peripheral vein"
+            if (locationParts.length) target += ` in the ${locationParts.join(" ")}`
+
+            if (vesselFeatures.length) target += ` that was ${joinNatural(vesselFeatures)}`
+
+            const measurements = []
+            if (veinDepth) measurements.push(`depth approximately ${veinDepth} cm`)
+            if (veinDiameter) measurements.push(`diameter approximately ${veinDiameter} cm`)
+            if (measurements.length) target += ` (${measurements.join("; ")})`
+            target += "."
+            lines.push(target)
+
+            if ($("pivAdjacentStructures").checked)
+              lines.push("Adjacent arterial and other relevant structures were identified.")
+            if (approach) lines.push(`Ultrasound approach: ${approach}.`)
+
+            const guidance = []
+            if ($("pivRealtime").checked)
+              guidance.push("needle advanced under real-time ultrasound guidance")
+            if ($("pivTipVisualized").checked)
+              guidance.push("needle tip visualized entering the vein")
+            if (guidance.length) lines.push(`${cap(joinNatural(guidance))}.`)
+            if (usComment) lines.push(`Ultrasound comments: ${usComment}.`)
+          }
+
+          const priorAttemptsStatus = getRadio("pivPriorAttempts")
+          const priorAttempts = getPivPriorAttempts()
+          const priorAttemptsSummary = $("pivPriorAttemptsSummary").value.trim()
+
+          if (priorAttemptsStatus || priorAttempts.length || priorAttemptsSummary) {
+            lines.push("", "PRIOR PIV ATTEMPTS")
+
+            if (priorAttemptsStatus === "no") {
+              lines.push("No prior peripheral IV attempts were made before this insertion.")
+            } else if (priorAttempts.length) {
+              const siteDescriptions = priorAttempts.map((a) => {
+                const location = [a.side, a.region && a.region !== "other site" ? a.region : ""]
+                  .filter(Boolean)
+                  .join(" ")
+                const parts = []
+
+                if (a.count) {
+                  parts.push(`${a.count} puncture attempt${a.count === "1" ? "" : "s"}`)
+                } else {
+                  parts.push("prior attempt")
+                }
+
+                if (location) parts.push(`at the ${location}`)
+                if (a.vein) parts.push(`site detail: ${a.vein}`)
+                if (a.technique) parts.push(`using ${a.technique} technique`)
+                if (a.outcome) parts.push(a.outcome)
+                if (a.comment) parts.push(a.comment)
+
+                return parts.join(", ")
+              })
+
+              lines.push(`Prior peripheral IV attempts: ${siteDescriptions.join("; ")}.`)
+            } else if (priorAttemptsStatus === "yes") {
+              lines.push("Prior peripheral IV attempts were made before this insertion.")
+            }
+
+            if (priorAttemptsSummary) lines.push(priorAttemptsSummary)
+          }
+
+          const gauge = getRadio("pivGauge")
+          const length = getRadio("pivLength")
+          const lengthOther = $("pivLengthOther").value.trim()
+          const attempts = $("pivAttempts").value.trim()
+          const dressing = getRadio("pivDressing")
+
+          if (
+            gauge ||
+            length ||
+            lengthOther ||
+            attempts ||
+            $("pivBloodReturn").checked ||
+            $("pivFlushes").checked ||
+            $("pivNoInfiltration").checked ||
+            $("pivUSInVein").checked ||
+            dressing
+          ) {
+            lines.push("", "INSERTION")
+
+            const deviceParts = []
+            if (gauge) deviceParts.push(gauge)
+            if (length) deviceParts.push(length)
+            if (lengthOther) deviceParts.push(lengthOther)
+
+            let insertion = deviceParts.length
+              ? `A ${deviceParts.join(" ")} peripheral IV catheter was inserted`
+              : "A peripheral IV catheter was inserted"
+
+            const insertionLocation = [
+              side,
+              region && region !== "other site" ? region : "",
+              siteDetail,
+            ].filter(Boolean)
+            if (insertionLocation.length) insertion += ` in the ${insertionLocation.join(" ")}`
+            if (attempts) insertion += ` after ${attempts} attempt${attempts === "1" ? "" : "s"}`
+            insertion += "."
+            lines.push(insertion)
+
+            const confirmation = []
+            if ($("pivBloodReturn").checked) confirmation.push("blood return obtained")
+            if ($("pivFlushes").checked) confirmation.push("catheter flushed easily with saline")
+            if ($("pivNoInfiltration").checked)
+              confirmation.push("no pain, swelling, or infiltration with flush")
+            if ($("pivUSInVein").checked)
+              confirmation.push("catheter visualized within the vein on ultrasound")
+            if (confirmation.length) lines.push(`${cap(joinNatural(confirmation))}.`)
+
+            if (dressing) lines.push(`Catheter secured with ${dressing}.`)
+          }
+
+          const outcome = getRadio("pivOutcome")
+          const complications = getChecks("pivComplications")
+          const comments = $("pivComments").value.trim()
+
+          if (outcome || complications.length || comments) {
+            lines.push("", "POST-PROCEDURE")
+            if (outcome) lines.push(`${cap(outcome)}.`)
+            if (complications.length)
+              lines.push(
+                `Immediate complication${complications.length > 1 ? "s" : ""}: ${joinNatural(complications)}.`,
+              )
+            if (comments) lines.push("", comments)
+          }
+
+          return lines
+            .join("\n")
+            .replace(/\n{3,}/g, "\n\n")
+            .trim()
+        }
+
+        function generateArterialLineNote() {
+          const lines = ["ARTERIAL LINE PROCEDURE NOTE"]
+          const value = (id) => $("al" + id).value.trim()
+          const checked = (id) => $("al" + id).checked
+          const addSection = (title, entries) => {
+            const completed = entries.filter(Boolean)
+            if (completed.length) lines.push("", title, ...completed)
+          }
+
+          const dt = fmtDateTime(value("DateTime"))
+          if (dt) lines.push(`Date/time: ${dt}`)
+          if (value("PerformedBy")) lines.push(`Performed by: ${value("PerformedBy")}`)
+          if (value("SupervisedBy")) lines.push(`Supervised by: ${value("SupervisedBy")}`)
+          const indications = [...getChecks("alIndications"), value("IndicationOther")].filter(
+            Boolean,
+          )
+          if (indications.length) lines.push(`Indication: ${joinNatural(indications)}.`)
+
+          const consent = getRadio("alConsent")
+          const consentBy = getRadio("alConsentBy")
+          const risks = getChecks("alRisks")
+          const alternatives = getChecks("alAlternatives")
+          const safety = []
+          if (checked("QuestionsAnswered"))
+            safety.push("procedure explained and questions answered")
+          if (checked("IdentityVerified")) safety.push("patient identity verified")
+          if (checked("Timeout")) safety.push("time-out performed immediately prior to procedure")
+          if (checked("SiteConfirmed")) safety.push("site and side confirmed")
+          addSection("CONSENT / SAFETY", [
+            consent === "emergent situation"
+              ? "Procedure performed in an emergent situation."
+              : consent
+                ? `${cap(consent)} consent obtained${consentBy ? ` from the ${consentBy}` : ""}.`
+                : consentBy
+                  ? `Consent given by: ${consentBy}.`
+                  : "",
+            risks.length ? `Risks discussed included ${joinNatural(risks)}.` : "",
+            alternatives.length
+              ? `Alternatives discussed included ${joinNatural(alternatives)}.`
+              : "",
+            safety.length ? `${cap(joinNatural(safety))}.` : "",
+          ])
+
+          const site = [
+            getRadio("alSide"),
+            getRadio("alArtery") && `${getRadio("alArtery")} artery`,
+            value("SiteDetail"),
+          ]
+            .filter(Boolean)
+            .join(" ")
+          const prep = []
+          if (checked("HandHygiene")) prep.push("hand hygiene performed")
+          if (checked("SterilePrep")) prep.push("site prepped and draped sterilely")
+          if (checked("SterileGloves")) prep.push("sterile gloves used")
+          if (checked("SterileUS")) prep.push("sterile ultrasound probe cover and gel used")
+          const anesthetic = value("AnestheticOther") || getRadio("alAnesthetic")
+          addSection("SITE / PREPARATION", [
+            site ? `Site: ${site}.` : "",
+            value("VascularAssessment")
+              ? `Pre-procedure vascular assessment: ${value("VascularAssessment")}`
+              : "",
+            prep.length ? `${cap(joinNatural(prep))}.` : "",
+            value("Antiseptic") ? `Skin antiseptic: ${value("Antiseptic")}.` : "",
+            anesthetic === "none"
+              ? "No local anesthetic used."
+              : anesthetic
+                ? `Local anesthesia: ${anesthetic}${value("AnestheticVolume") ? `, ${value("AnestheticVolume")} mL` : ""}.`
+                : value("AnestheticVolume")
+                  ? `Local anesthetic volume: ${value("AnestheticVolume")} mL.`
+                  : "",
+          ])
+
+          const guidance = getRadio("alGuidance")
+          const technique = getRadio("alTechnique")
+          const device = []
+          if (value("Gauge")) device.push(`${value("Gauge")}-gauge`)
+          if (value("Length")) device.push(`${value("Length")} cm`)
+          if (value("Device")) device.push(value("Device"))
+          const outcome = getRadio("alOutcome")
+          addSection("INSERTION", [
+            guidance ? `Guidance: ${guidance}.` : "",
+            value("USFindings") ? `Ultrasound findings: ${value("USFindings")}` : "",
+            technique ? `Technique: ${technique}.` : "",
+            device.length ? `Catheter: ${device.join(", ")}.` : "",
+            value("Attempts") ? `Number of attempts: ${value("Attempts")}.` : "",
+            checked("WireRemoved") ? "Guidewire removed intact." : "",
+            outcome === "successful"
+              ? `Arterial line successfully placed${site ? ` in the ${site}` : ""}.`
+              : outcome === "unsuccessful"
+                ? "Arterial line placement was unsuccessful."
+                : outcome === "aborted"
+                  ? "Arterial line placement was aborted."
+                  : "",
+          ])
+
+          const confirmation = []
+          if (checked("BloodReturn")) confirmation.push("pulsatile blood return obtained")
+          if (checked("Waveform")) confirmation.push("arterial pressure waveform confirmed")
+          if (checked("Transducer")) confirmation.push("pressure transducer leveled and zeroed")
+          if (checked("Flushes")) confirmation.push("catheter flushed without resistance")
+          const securement = getRadio("alSecurement")
+          const dressing = getRadio("alDressing")
+          addSection("CONFIRMATION / SECUREMENT", [
+            confirmation.length ? `${cap(joinNatural(confirmation))}.` : "",
+            securement ? `Catheter secured with ${securement}.` : "",
+            dressing ? `Dressing: ${dressing}.` : "",
+          ])
+
+          const tolerance = getRadio("alTolerance")
+          const complications = getRadio("alComplications")
+          const complicationDetails = value("ComplicationDetails")
+          addSection("POST-PROCEDURE", [
+            value("DistalAssessment")
+              ? `Distal neurovascular assessment: ${value("DistalAssessment")}`
+              : "",
+            tolerance ? `${cap(tolerance)}.` : "",
+            complicationDetails
+              ? `Immediate complications / management: ${complicationDetails}`
+              : complications === "none"
+                ? "No immediate complications observed."
+                : complications === "present"
+                  ? "Immediate complications observed."
+                  : "",
+            value("Plan") ? `Plan: ${value("Plan")}` : "",
+            value("Comments"),
+          ])
+          return lines.join("\n").trim()
+        }
+
+        let activeProcedure = "para"
+
+        function generateNote() {
+          if (activeProcedure === "thora") {
+            $("noteTitle").textContent = "Thoracentesis procedure note"
+            $("noteOutput").value = generateThoracentesisNote()
+          } else if (activeProcedure === "piv") {
+            $("noteTitle").textContent = "US-guided peripheral IV procedure note"
+            $("noteOutput").value = generatePIVNote()
+          } else if (activeProcedure === "al") {
+            $("noteTitle").textContent = "Arterial line procedure note"
+            $("noteOutput").value = generateArterialLineNote()
+          } else {
+            $("noteTitle").textContent = "Paracentesis procedure note"
+            generateParacentesisNote()
+          }
+        }
+
+        function setNow() {
+          const d = new Date()
+          const pad = (n) => String(n).padStart(2, "0")
+          const local = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+          if ($("dateTime") && !$("dateTime").value) $("dateTime").value = local
+          if ($("thDateTime") && !$("thDateTime").value) $("thDateTime").value = local
+          if ($("pivDateTime") && !$("pivDateTime").value) $("pivDateTime").value = local
+          if ($("alDateTime") && !$("alDateTime").value) $("alDateTime").value = local
+        }
+
+        function updatePivPriorAttemptsUI() {
+          const status = getRadio("pivPriorAttempts")
+          const show = status === "yes"
+          $("pivPriorAttemptsDetails").style.display = show ? "" : "none"
+          $("pivPriorAttemptsSummaryRow").style.display = show ? "" : "none"
+
+          if (show && $("pivAttemptList").children.length === 0) {
+            addPivAttempt()
+          }
+        }
+
+        document.querySelectorAll('input[name="pivPriorAttempts"]').forEach((el) => {
+          el.addEventListener("change", () => {
+            updatePivPriorAttemptsUI()
+            generateNote()
+          })
+        })
+
+        $("addPivAttemptBtn").addEventListener("click", () => addPivAttempt())
+
+        function setView(view) {
+          document.body.dataset.view = view
+          $("fieldsViewBtn").setAttribute("aria-pressed", String(view === "fields"))
+          $("noteViewBtn").setAttribute("aria-pressed", String(view === "note"))
+          if (window.matchMedia("(max-width: 760px)").matches) window.scrollTo(0, 0)
+        }
+        $("fieldsViewBtn").addEventListener("click", () => setView("fields"))
+        $("noteViewBtn").addEventListener("click", () => setView("note"))
+
+        const tabs = [...document.querySelectorAll(".tab-button")]
+        tabs.forEach((btn, index) => {
+          btn.setAttribute("aria-controls", btn.dataset.procedure + "Form")
+          btn.tabIndex = index === 0 ? 0 : -1
+          btn.addEventListener("keydown", (event) => {
+            let next
+            if (event.key === "ArrowRight") next = (index + 1) % tabs.length
+            if (event.key === "ArrowLeft") next = (index + tabs.length - 1) % tabs.length
+            if (event.key === "Home") next = 0
+            if (event.key === "End") next = tabs.length - 1
+            if (next === undefined) return
+            event.preventDefault()
+            tabs[next].focus()
+            tabs[next].click()
+          })
+        })
+
+        document.querySelectorAll(".tab-button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            activeProcedure = btn.dataset.procedure
+
+            document.querySelectorAll(".tab-button").forEach((b) => {
+              const selected = b === btn
+              b.classList.toggle("active", selected)
+              b.tabIndex = selected ? 0 : -1
+              b.setAttribute("aria-selected", selected ? "true" : "false")
+            })
+
+            $("paraForm").classList.toggle("active", activeProcedure === "para")
+            $("thoraForm").classList.toggle("active", activeProcedure === "thora")
+            $("pivForm").classList.toggle("active", activeProcedure === "piv")
+            $("alForm").classList.toggle("active", activeProcedure === "al")
+            setView("fields")
+            generateNote()
+          })
+        })
+
+        document.querySelectorAll("input, textarea, select").forEach((el) => {
+          if (el.id !== "noteOutput") {
+            el.addEventListener("input", generateNote)
+            el.addEventListener("change", generateNote)
+          }
+        })
+
+        $("copyBtn").addEventListener("click", async () => {
+          let copied = false
+          try {
+            await navigator.clipboard.writeText($("noteOutput").value)
+            copied = true
+          } catch (_) {
+            setView("note")
+            $("noteOutput").focus()
+            $("noteOutput").select()
+            try {
+              copied = document.execCommand("copy")
+            } catch (_) {}
+          }
+          $("copyBtn").textContent = copied ? "Copied" : "Select and copy manually"
+          setTimeout(() => ($("copyBtn").textContent = "Copy note"), 1800)
+        })
+
+        window.addEventListener("beforeprint", () => {
+          $("printOutput").textContent = $("noteOutput").value
+        })
+
+        $("printBtn").addEventListener("click", () => window.print())
+
+        $("downloadBtn").addEventListener("click", () => {
+          const blob = new Blob([$("noteOutput").value], { type: "text/plain;charset=utf-8" })
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement("a")
+          a.href = url
+          a.download =
+            activeProcedure === "thora"
+              ? "thoracentesis-procedure-note.txt"
+              : activeProcedure === "piv"
+                ? "ultrasound-guided-peripheral-iv-procedure-note.txt"
+                : activeProcedure === "al"
+                  ? "arterial-line-procedure-note.txt"
+                  : "paracentesis-procedure-note.txt"
+          a.click()
+          URL.revokeObjectURL(url)
+        })
+
+        $("resetBtn").addEventListener("click", () => {
+          const label =
+            activeProcedure === "thora"
+              ? "thoracentesis"
+              : activeProcedure === "piv"
+                ? "US-guided peripheral IV"
+                : activeProcedure === "al"
+                  ? "arterial line"
+                  : "paracentesis"
+          if (!confirm(`Clear all ${label} fields?`)) return
+
+          const scope =
+            activeProcedure === "thora"
+              ? $("thoraForm")
+              : activeProcedure === "piv"
+                ? $("pivForm")
+                : activeProcedure === "al"
+                  ? $("alForm")
+                  : $("paraForm")
+          scope.querySelectorAll("input").forEach((el) => {
+            if (el.type === "checkbox" || el.type === "radio") el.checked = false
+            else el.value = ""
+          })
+          scope.querySelectorAll("textarea").forEach((el) => (el.value = ""))
+          scope.querySelectorAll("select").forEach((el) => (el.selectedIndex = 0))
+
+          if (activeProcedure === "piv") {
+            $("pivAttemptList").innerHTML = ""
+            $("pivPriorAttemptsDetails").style.display = "none"
+            $("pivPriorAttemptsSummaryRow").style.display = "none"
+          }
+
+          const d = new Date()
+          const pad = (n) => String(n).padStart(2, "0")
+          const local = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+          if (activeProcedure === "thora") $("thDateTime").value = local
+          else if (activeProcedure === "piv") $("pivDateTime").value = local
+          else if (activeProcedure === "al") $("alDateTime").value = local
+          else $("dateTime").value = local
+
+          generateNote()
+        })
+
+        function labelFields(scope = document) {
+          scope.querySelectorAll("input, textarea, select").forEach((el) => {
+            if (el.labels?.length || el.hasAttribute("aria-label")) return
+            const caption = el.parentElement.querySelector(".field-caption")
+            const rowLabel = el.closest(".row")?.querySelector(".label")
+            const text = [rowLabel?.textContent.trim(), caption?.textContent.trim()]
+              .filter(Boolean)
+              .join(" — ")
+            if (text) el.setAttribute("aria-label", text)
+          })
+        }
+        document.querySelectorAll(".procedure-form").forEach((form) => {
+          form.setAttribute("role", "tabpanel")
+          form.setAttribute("aria-labelledby", form.id.replace("Form", "Tab"))
+        })
+        labelFields()
+        setNow()
+        updatePivPriorAttemptsUI()
+        generateNote()
+      })()
+    </script>
+  </body>
+</html>

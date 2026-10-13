@@ -1,3 +1,14 @@
+```
+# Neuroprognostication
+- now ***h post arrest 
+- sedated/ off sedation
+
+- no evidence of status myoclonus on exam, PLR ***
+- CT head 
+- EEG
+- neuro consult 
+```
+
 Key idea is that post arrest, you want to look for signs of POOR prognosis
 	2+ signs of poor prognosis is really bad; very low false +ve rate for poor prognosis
 	mostly are signs for bad hypoxic brain injury (HIBI) 

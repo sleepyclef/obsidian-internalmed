@@ -10,6 +10,7 @@ export interface Argv {
   serve: boolean
   watch: boolean
   port: number
+  baseDir?: string
   wsPort: number
   remoteDevHost?: string
   concurrency?: number

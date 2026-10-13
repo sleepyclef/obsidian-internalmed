@@ -10,7 +10,7 @@
 - Moderate >1cm, tappable = thora to r/o complicated eff/empyema → may then need pigtail for ongoing source control
 - Clearly infected/complex or empyema looking, ++WBC/septic = send for pigtail, get studies at insertion
 
-- CAP tx if small/simple = CTX 1g q24h + azithro 500 daily
+- CAP tx if small/simple = CTX 1g q24h + azithro 500 x1 then 250 x4d (or 500 x3d)
 - complex eff/empyema = CTX 1g q24h + metro 500 TID IV/PO (need cover anaerobes for pleural infxn, Ø need atypicals), or amox-clav 875 BID IV/PO; duration IV 5-7d then 2-6wk PO
 - if complex eff (HAP) = tazo +/- vanco (if MRSA RF)
 ```

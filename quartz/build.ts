@@ -53,7 +53,16 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   const ctx: BuildCtx = {
     buildId: randomIdNonSecure(),
     argv,
-    cfg,
+    // Local previews generate links for the local server rather than the Pages URL.
+    cfg: argv.serve
+      ? {
+          ...cfg,
+          configuration: {
+            ...cfg.configuration,
+            baseUrl: `localhost:${argv.port}${argv.baseDir ?? ""}`,
+          },
+        }
+      : cfg,
     allSlugs: [],
     allFiles: [],
     incremental: false,

@@ -1,0 +1,28 @@
+{
+  "name": "quick-links",
+  "version": "1.0.0",
+  "description": "Configurable shortcuts in the right sidebar",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "quartz": {
+    "name": "quick-links",
+    "displayName": "Quick links",
+    "category": "component",
+    "components": {
+      "QuickLinks": {
+        "displayName": "Quick links",
+        "defaultPosition": "right",
+        "defaultPriority": 10
+      }
+    }
+  }
+}

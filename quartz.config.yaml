@@ -111,6 +111,9 @@ plugins:
   - source: ./plugins/explorer-order
     enabled: true
     order: 97
+  - source: ./plugins/procedure-notes
+    enabled: true
+    order: 98
   - source: "@quartz-community/ox-hugo"
     enabled: false
     order: 91
@@ -164,13 +167,29 @@ plugins:
   - source: "@quartz-community/explorer"
     enabled: true
     options:
+      folderClickBehavior: collapse
       # order set by the Obsidian Drag and Drop Sort plugin (see plugins/explorer-order)
       sortFn: "(a, b) => window.__explorerSort(a, b)"
     layout:
       position: left
       priority: 50
   - source: "@quartz-community/graph"
+    enabled: false
+    layout:
+      position: right
+      priority: 10
+  - source: ./plugins/quick-links
     enabled: true
+    options:
+      title: Quick links
+      # Paths are relative to content/. Edit this list to change the shortcuts.
+      links:
+        - label: Procedure notes
+          path: Internal Med/Resources/Procedure Notes.md
+        - label: IM books
+          path: Internal Med/Resources/IM Books.md
+        - label: IMR 2026
+          path: Internal Med/Resources/IMR 2026.md
     layout:
       position: right
       priority: 10
