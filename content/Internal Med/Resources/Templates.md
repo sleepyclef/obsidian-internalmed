@@ -1,1 +1,1 @@
-[[SMR template.docx]]
+[[SMR template.pdf]]
