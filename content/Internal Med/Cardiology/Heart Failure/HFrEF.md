@@ -1,6 +1,6 @@
 ```
 # Denovo HFrEF, decompensated 
-- Possible etiologiea include: ischemic, hypertensive, ...
+- Possible etiologiea include: ischemic, hypertensive, familial/idiopathic 
   
 - A1c, lipids, TSH 
 - TTE 
@@ -11,6 +11,4 @@
 - GDMT: valsartan 20mg BID (plan to transition to entresto, defer β-blocker given ADHF, spiro 12.5mg, SGLT2i prior to discharge 
   
 - Refer to HF clinic
----------
-1. Denovo HFrEF, ADHF: Etiology unclear, iCMP possible given ***. Diurese with IV lasix ***. TTE. CTCA to assess for CAD. cMRI to assess non-ischemic etiologies. GDMT: valsartan 20 BID, spiro 12.5, defer beta blocker given ADHF, plan for SGLT2i prior to d/c. Will need referral to HF clinic.
 ```

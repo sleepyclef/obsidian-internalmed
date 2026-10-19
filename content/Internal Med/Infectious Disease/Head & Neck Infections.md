@@ -2,7 +2,7 @@
 
 <u>Acute tonsillitis</u>
 w/u
-	-Throat swab C&S, monospot, CRP 
+	-Throat swab C&S, monospot, rapid strep, CRP 
 	-CT H&N if significant sx to r/o mass or abscess
 	-make sure can swallow and no airway obstruction
 	-examine for meningitis if headache/neck pain (sx of both) 

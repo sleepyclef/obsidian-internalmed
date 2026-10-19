@@ -3193,11 +3193,6 @@
         const getChecks = (name) =>
           [...document.querySelectorAll(`input[name="${name}"]:checked`)].map((x) => x.value)
         const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
-        const withArticle = (s) => {
-          if (!s) return ""
-          const article = /^[aeiou]/i.test(s.trim()) ? "an" : "a"
-          return `${article} ${s}`
-        }
         const joinNatural = (arr) => {
           arr = arr.filter(Boolean)
           if (arr.length === 0) return ""
@@ -3238,17 +3233,14 @@
           const risks = getChecks("risks")
           const alternatives = getChecks("alternatives")
 
-          let consentSentence = ""
-          if (consent) {
-            consentSentence = `${cap(consent)} consent obtained`
-            if (consentBy) consentSentence += ` from the ${consentBy}`
-            consentSentence += "."
+          if (consent || risks.length || alternatives.length) {
+            lines.push("", "CONSENT / SAFETY")
+            if (consent) lines.push(`Consent: ${consent} consent obtained`)
+            if (consent && consentBy) lines.push(`Consent obtained from: ${consentBy}`)
+            if (risks.length) lines.push(`Risks discussed: ${joinNatural(risks)}`)
+            if (alternatives.length)
+              lines.push(`Alternatives discussed: ${joinNatural(alternatives)}`)
           }
-          if (risks.length)
-            consentSentence += `${consentSentence ? " " : ""}Risks discussed included ${joinNatural(risks)}.`
-          if (alternatives.length)
-            consentSentence += `${consentSentence ? " " : ""}Alternatives discussed included ${joinNatural(alternatives)}.`
-          if (consentSentence) lines.push("", "CONSENT / SAFETY", consentSentence)
 
           const safety = []
           if ($("questionsAnswered").checked)
@@ -3256,11 +3248,11 @@
           if ($("docsVerified").checked) safety.push("relevant documents/results verified")
           if ($("siteMarked").checked) safety.push("site marked")
           if ($("timeout").checked) safety.push("time-out performed immediately prior to procedure")
-          if (safety.length) lines.push(`${cap(joinNatural(safety))}.`)
+          lines.push(...safety.map(cap))
 
           const prepParts = []
           if ($("sterilePrep").checked)
-            prepParts.push("The patient was prepped and draped in the usual sterile fashion")
+            prepParts.push("Preparation: prepped and draped in the usual sterile fashion")
 
           const anesthesiaMethods = getChecks("anesthesiaMethod")
           const local = getRadio("localAnesthetic")
@@ -3268,13 +3260,11 @@
 
           if (anesthesiaMethods.length || local || otherAnesthetic || prepParts.length) {
             lines.push("", "PREPARATION / ANESTHESIA")
-            if (prepParts.length) lines.push(prepParts.join(". ") + ".")
+            lines.push(...prepParts)
             if (anesthesiaMethods.length)
-              lines.push(
-                `Anesthesia: ${joinNatural(anesthesiaMethods)}${local ? ` using ${local}` : ""}${otherAnesthetic ? `; ${otherAnesthetic}` : ""}.`,
-              )
-            else if (local || otherAnesthetic)
-              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}.`)
+              lines.push(`Anesthesia: ${joinNatural(anesthesiaMethods)}`)
+            if (local || otherAnesthetic)
+              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}`)
           }
 
           const us = getRadio("ultrasound")
@@ -3286,22 +3276,16 @@
 
           if (us || pocketLoc || pocketSize || skinDepth || pocketComment || site) {
             lines.push("", "PROCEDURE")
-            let usSentence = ""
             if (us === "yes") {
-              usSentence = "Ultrasound guidance was used"
-              if (pocketLoc)
-                usSentence += ` and an appropriate pocket was identified in the ${pocketLoc}`
-              const measurements = []
-              if (pocketSize) measurements.push(`pocket approximately ${pocketSize} cm`)
-              if (skinDepth) measurements.push(`skin-to-fluid depth approximately ${skinDepth} cm`)
-              if (measurements.length) usSentence += ` (${measurements.join("; ")})`
-              usSentence += "."
+              lines.push("Ultrasound guidance: used")
+              if (pocketLoc) lines.push(`Appropriate pocket location: ${pocketLoc}`)
+              if (pocketSize) lines.push(`Pocket size: approximately ${pocketSize} cm`)
+              if (skinDepth) lines.push(`Skin-to-fluid depth: approximately ${skinDepth} cm`)
             } else if (us === "no") {
-              usSentence = "Ultrasound guidance was not used."
+              lines.push("Ultrasound guidance: not used")
             }
-            if (usSentence) lines.push(usSentence)
-            if (pocketComment) lines.push(`Ultrasound comments: ${pocketComment}.`)
-            if (site) lines.push(`Puncture site: ${site}.`)
+            if (pocketComment) lines.push(`Ultrasound comments: ${pocketComment}`)
+            if (site) lines.push(`Puncture site: ${site}`)
           }
 
           const device = $("device").value.trim()
@@ -3311,24 +3295,11 @@
           const dressing = getRadio("dressing")
 
           if (device || amount || appearance || dressing) {
-            let sentence = ""
-            if (device) {
-              sentence += `Using ${device}, the peritoneal cavity was accessed`
-            } else {
-              sentence += "The peritoneal cavity was accessed"
-            }
-
-            if (amount) {
-              sentence += ` and ${amount} ${unit} of`
-              if (appearance) sentence += ` ${appearance}`
-              sentence += " ascitic fluid was removed"
-            } else if (appearance) {
-              sentence += `. Ascitic fluid was ${appearance}`
-            }
-
-            sentence += "."
-            lines.push(sentence)
-            if (dressing) lines.push(`${cap(withArticle(dressing))} was applied.`)
+            lines.push("Peritoneal cavity: accessed")
+            if (device) lines.push(`Device: ${device}`)
+            if (amount) lines.push(`Fluid removed amount: ${amount}${unit}`)
+            if (appearance) lines.push(`Fluid appearance: ${appearance}`)
+            if (dressing) lines.push(`Dressing: ${dressing}`)
           }
 
           const completion = getRadio("completion")
@@ -3348,7 +3319,7 @@
             comments
           ) {
             lines.push("", "POST-PROCEDURE")
-            if (completion) lines.push(`Procedure ${completion}.`)
+            if (completion) lines.push(`Procedure outcome: ${completion}`)
 
             if (tests.length || otherTests) {
               const has = (name) => tests.includes(name)
@@ -3381,23 +3352,20 @@
               if (has("bilirubin")) groups.push("bilirubin")
               if (otherTests) groups.push(otherTests)
 
-              lines.push(`Ascitic fluid sent for ${joinNatural(groups)}.`)
+              lines.push(`Ascitic fluid studies sent: ${joinNatural(groups)}`)
               if (cultureBottles)
                 lines.push(
-                  "Bacterial culture specimen was inoculated into blood culture bottles at the bedside.",
+                  "Bacterial culture: inoculated into blood culture bottles at the bedside",
                 )
             } else if (cultureBottles) {
-              lines.push(
-                "Bacterial culture specimen was inoculated into blood culture bottles at the bedside.",
-              )
+              lines.push("Bacterial culture: inoculated into blood culture bottles at the bedside")
             }
 
             if (albuminGiven === "yes") {
-              lines.push(
-                `IV albumin replacement was given${albuminDose ? ` (${albuminDose} g)` : ""}.`,
-              )
+              lines.push("IV albumin replacement: given")
+              if (albuminDose) lines.push(`Albumin dose: ${albuminDose} g`)
             } else if (albuminGiven === "no") {
-              lines.push("IV albumin replacement was not given.")
+              lines.push("IV albumin replacement: not given")
             }
 
             if (comments) lines.push("", comments)
@@ -3438,17 +3406,14 @@
           const risks = getChecks("thRisks")
           const alternatives = getChecks("thAlternatives")
 
-          let consentSentence = ""
-          if (consent) {
-            consentSentence = `${cap(consent)} consent obtained`
-            if (consentBy) consentSentence += ` from the ${consentBy}`
-            consentSentence += "."
+          if (consent || risks.length || alternatives.length) {
+            lines.push("", "CONSENT / SAFETY")
+            if (consent) lines.push(`Consent: ${consent} consent obtained`)
+            if (consent && consentBy) lines.push(`Consent obtained from: ${consentBy}`)
+            if (risks.length) lines.push(`Risks discussed: ${joinNatural(risks)}`)
+            if (alternatives.length)
+              lines.push(`Alternatives discussed: ${joinNatural(alternatives)}`)
           }
-          if (risks.length)
-            consentSentence += `${consentSentence ? " " : ""}Risks discussed included ${joinNatural(risks)}.`
-          if (alternatives.length)
-            consentSentence += `${consentSentence ? " " : ""}Alternatives discussed included ${joinNatural(alternatives)}.`
-          if (consentSentence) lines.push("", "CONSENT / SAFETY", consentSentence)
 
           const safety = []
           if ($("thQuestionsAnswered").checked)
@@ -3457,7 +3422,7 @@
           if ($("thSiteMarked").checked) safety.push("site marked")
           if ($("thTimeout").checked)
             safety.push("time-out performed immediately prior to procedure")
-          if (safety.length) lines.push(`${cap(joinNatural(safety))}.`)
+          lines.push(...safety.map(cap))
 
           const position = getRadio("thPosition")
           const otherPosition = $("thOtherPosition").value.trim()
@@ -3476,18 +3441,16 @@
             lines.push("", "POSITION / PREPARATION / ANESTHESIA")
             if (position || otherPosition) {
               lines.push(
-                `Patient positioned ${[position, otherPosition].filter(Boolean).join("; ")}.`,
+                `Patient position: ${[position, otherPosition].filter(Boolean).join("; ")}`,
               )
             }
             if ($("thSterilePrep").checked)
-              lines.push("The patient was prepped and draped in the usual sterile fashion.")
+              lines.push("Preparation: prepped and draped in the usual sterile fashion")
             if (anesthesiaMethods.length) {
-              lines.push(
-                `Anesthesia: ${joinNatural(anesthesiaMethods)}${local ? ` using ${local}` : ""}${otherAnesthetic ? `; ${otherAnesthetic}` : ""}.`,
-              )
-            } else if (local || otherAnesthetic) {
-              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}.`)
+              lines.push(`Anesthesia: ${joinNatural(anesthesiaMethods)}`)
             }
+            if (local || otherAnesthetic)
+              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}`)
           }
 
           const us = getRadio("thUltrasound")
@@ -3513,19 +3476,14 @@
             lines.push("", "ULTRASOUND / SITE")
 
             if (us === "yes") {
-              let sentence = "Ultrasound guidance was used"
-              if (side) sentence += ` to identify a ${side} pleural effusion`
-              if (effusionUS) sentence += ` with ${effusionUS} appearance`
-
-              const measurements = []
+              lines.push("Ultrasound guidance: used")
+              if (side) lines.push(`Pleural effusion identified: ${side}`)
+              if (effusionUS) lines.push(`Effusion appearance on ultrasound: ${effusionUS}`)
               if (pocketSize)
-                measurements.push(`pleural fluid pocket approximately ${pocketSize} cm`)
-              if (skinDepth) measurements.push(`skin-to-fluid depth approximately ${skinDepth} cm`)
-              if (measurements.length) sentence += ` (${measurements.join("; ")})`
-              sentence += "."
-              lines.push(sentence)
+                lines.push(`Pleural fluid pocket size: approximately ${pocketSize} cm`)
+              if (skinDepth) lines.push(`Skin-to-fluid depth: approximately ${skinDepth} cm`)
             } else if (us === "no") {
-              lines.push("Ultrasound guidance was not used.")
+              lines.push("Ultrasound guidance: not used")
             }
 
             const anatomy = []
@@ -3533,7 +3491,7 @@
             if ($("thLungSeen").checked) anatomy.push("adjacent lung identified")
             if ($("thClearPath").checked)
               anatomy.push("no intervening structure in the planned needle path")
-            if (anatomy.length) lines.push(`${cap(joinNatural(anatomy))}.`)
+            lines.push(...anatomy.map(cap))
 
             const siteParts = []
             if (targetLocation) siteParts.push(targetLocation)
@@ -3564,27 +3522,14 @@
           ) {
             lines.push("", "PROCEDURE")
 
-            let sentence = ""
-            if (device) {
-              sentence += `Using ${device}, the pleural space was accessed`
-            } else {
-              sentence += "The pleural space was accessed"
-            }
-            if (drainageMethod) sentence += ` using ${drainageMethod}`
-            if (attempts) sentence += ` after ${attempts} attempt${attempts === "1" ? "" : "s"}`
-
-            if (amount) {
-              sentence += ` and ${amount} ${unit} of`
-              if (appearance) sentence += ` ${appearance}`
-              sentence += " pleural fluid was removed"
-            } else if (appearance) {
-              sentence += `. Pleural fluid was ${appearance}`
-            }
-            sentence += "."
-            lines.push(sentence)
-
-            if (stopReason) lines.push(`Drainage was stopped because ${stopReason}.`)
-            if (dressing) lines.push(`${cap(withArticle(dressing))} was applied.`)
+            lines.push("Pleural space: accessed")
+            if (device) lines.push(`Device: ${device}`)
+            if (drainageMethod) lines.push(`Drainage method: ${drainageMethod}`)
+            if (attempts) lines.push(`Number of attempts: ${attempts}`)
+            if (amount) lines.push(`Fluid removed amount: ${amount}${unit}`)
+            if (appearance) lines.push(`Fluid appearance: ${appearance}`)
+            if (stopReason) lines.push(`Reason drainage stopped: ${stopReason}`)
+            if (dressing) lines.push(`Dressing: ${dressing}`)
           }
 
           const completion = getRadio("thCompletion")
@@ -3609,11 +3554,11 @@
             comments
           ) {
             lines.push("", "POST-PROCEDURE")
-            if (completion) lines.push(`Procedure ${completion}.`)
-            if (cxrOrdered === "yes") lines.push("Post-procedure chest radiograph ordered.")
-            if (cxrOrdered === "no") lines.push("Post-procedure chest radiograph not ordered.")
+            if (completion) lines.push(`Procedure outcome: ${completion}`)
+            if (cxrOrdered === "yes") lines.push("Post-procedure chest radiograph: ordered")
+            if (cxrOrdered === "no") lines.push("Post-procedure chest radiograph: not ordered")
             if (postLungUS === "reassuring with lung sliding present")
-              lines.push("Post-procedure lung ultrasound was reassuring with lung sliding present.")
+              lines.push("Post-procedure lung ultrasound: reassuring with lung sliding present")
 
             if (tests.length || otherTests) {
               const has = (name) => tests.includes(name)
@@ -3651,16 +3596,16 @@
 
               if (otherTests) groups.push(otherTests)
 
-              lines.push(`Pleural fluid sent for ${joinNatural(groups)}.`)
+              lines.push(`Pleural fluid studies sent: ${joinNatural(groups)}`)
             }
 
             const collectionDetails = []
             if (cultureBottles)
-              collectionDetails.push("bacterial culture was inoculated into blood culture bottles")
-            if (pairedSerum) collectionDetails.push("paired serum protein and LDH were sent")
+              collectionDetails.push("Bacterial culture: inoculated into blood culture bottles")
+            if (pairedSerum) collectionDetails.push("Paired serum protein and LDH: sent")
             if (pHGasSyringe)
-              collectionDetails.push("pleural fluid pH was collected in a blood gas syringe")
-            if (collectionDetails.length) lines.push(`${cap(joinNatural(collectionDetails))}.`)
+              collectionDetails.push("Pleural fluid pH: collected in a blood gas syringe")
+            lines.push(...collectionDetails)
 
             if (comments) lines.push("", comments)
           }
@@ -3827,11 +3772,10 @@
 
           if (consent || prep.length || anesthetic) {
             lines.push("", "CONSENT / PREPARATION")
-            if (consent) lines.push(`${cap(consent)}.`)
-            if (prep.length) lines.push(`${cap(joinNatural(prep))}.`)
-            if (anesthetic && anesthetic !== "none")
-              lines.push(`Local anesthesia with ${anesthetic}.`)
-            if (anesthetic === "none") lines.push("No local anesthetic used.")
+            if (consent) lines.push(`Consent: ${consent}`)
+            lines.push(...prep.map(cap))
+            if (anesthetic && anesthetic !== "none") lines.push(`Local anesthetic: ${anesthetic}`)
+            if (anesthetic === "none") lines.push("Local anesthetic: none")
           }
 
           const side = getRadio("pivSide")
@@ -3871,21 +3815,14 @@
               region && region !== "other site" ? region : "",
               siteDetail,
             ].filter(Boolean)
-            let target = "Ultrasound was used to identify "
-            target += vein ? `a suitable ${vein}` : "a suitable peripheral vein"
-            if (locationParts.length) target += ` in the ${locationParts.join(" ")}`
-
-            if (vesselFeatures.length) target += ` that was ${joinNatural(vesselFeatures)}`
-
-            const measurements = []
-            if (veinDepth) measurements.push(`depth approximately ${veinDepth} cm`)
-            if (veinDiameter) measurements.push(`diameter approximately ${veinDiameter} cm`)
-            if (measurements.length) target += ` (${measurements.join("; ")})`
-            target += "."
-            lines.push(target)
+            lines.push(`Ultrasound target: suitable ${vein || "peripheral vein"}`)
+            if (locationParts.length) lines.push(`Target site: ${locationParts.join(" ")}`)
+            if (vesselFeatures.length) lines.push(`Vessel features: ${joinNatural(vesselFeatures)}`)
+            if (veinDepth) lines.push(`Vein depth: approximately ${veinDepth} cm`)
+            if (veinDiameter) lines.push(`Vein diameter: approximately ${veinDiameter} cm`)
 
             if ($("pivAdjacentStructures").checked)
-              lines.push("Adjacent arterial and other relevant structures were identified.")
+              lines.push("Adjacent arterial and other relevant structures identified")
             if (approach) lines.push(`Ultrasound approach: ${approach}.`)
 
             const guidance = []
@@ -3893,7 +3830,7 @@
               guidance.push("needle advanced under real-time ultrasound guidance")
             if ($("pivTipVisualized").checked)
               guidance.push("needle tip visualized entering the vein")
-            if (guidance.length) lines.push(`${cap(joinNatural(guidance))}.`)
+            lines.push(...guidance.map(cap))
             if (usComment) lines.push(`Ultrasound comments: ${usComment}.`)
           }
 
@@ -3905,32 +3842,22 @@
             lines.push("", "PRIOR PIV ATTEMPTS")
 
             if (priorAttemptsStatus === "no") {
-              lines.push("No prior peripheral IV attempts were made before this insertion.")
+              lines.push("Prior peripheral IV attempts: none")
             } else if (priorAttempts.length) {
-              const siteDescriptions = priorAttempts.map((a) => {
+              priorAttempts.forEach((a, index) => {
                 const location = [a.side, a.region && a.region !== "other site" ? a.region : ""]
                   .filter(Boolean)
                   .join(" ")
-                const parts = []
-
-                if (a.count) {
-                  parts.push(`${a.count} puncture attempt${a.count === "1" ? "" : "s"}`)
-                } else {
-                  parts.push("prior attempt")
-                }
-
-                if (location) parts.push(`at the ${location}`)
-                if (a.vein) parts.push(`site detail: ${a.vein}`)
-                if (a.technique) parts.push(`using ${a.technique} technique`)
-                if (a.outcome) parts.push(a.outcome)
-                if (a.comment) parts.push(a.comment)
-
-                return parts.join(", ")
+                lines.push(`Prior site ${index + 1}:`)
+                if (location) lines.push(`Site: ${location}`)
+                if (a.vein) lines.push(`Site detail: ${a.vein}`)
+                if (a.count) lines.push(`Number of puncture attempts: ${a.count}`)
+                if (a.technique) lines.push(`Technique: ${a.technique}`)
+                if (a.outcome) lines.push(`Outcome: ${a.outcome}`)
+                if (a.comment) lines.push(`Complication / reason for failure: ${a.comment}`)
               })
-
-              lines.push(`Prior peripheral IV attempts: ${siteDescriptions.join("; ")}.`)
             } else if (priorAttemptsStatus === "yes") {
-              lines.push("Prior peripheral IV attempts were made before this insertion.")
+              lines.push("Prior peripheral IV attempts: yes")
             }
 
             if (priorAttemptsSummary) lines.push(priorAttemptsSummary)
@@ -3960,19 +3887,17 @@
             if (length) deviceParts.push(length)
             if (lengthOther) deviceParts.push(lengthOther)
 
-            let insertion = deviceParts.length
-              ? `A ${deviceParts.join(" ")} peripheral IV catheter was inserted`
-              : "A peripheral IV catheter was inserted"
+            lines.push("Peripheral IV catheter: inserted")
+            if (deviceParts.length) lines.push(`Catheter: ${deviceParts.join(" ")}`)
 
             const insertionLocation = [
               side,
               region && region !== "other site" ? region : "",
               siteDetail,
             ].filter(Boolean)
-            if (insertionLocation.length) insertion += ` in the ${insertionLocation.join(" ")}`
-            if (attempts) insertion += ` after ${attempts} attempt${attempts === "1" ? "" : "s"}`
-            insertion += "."
-            lines.push(insertion)
+            if (insertionLocation.length)
+              lines.push(`Insertion site: ${insertionLocation.join(" ")}`)
+            if (attempts) lines.push(`Number of attempts: ${attempts}`)
 
             const confirmation = []
             if ($("pivBloodReturn").checked) confirmation.push("blood return obtained")
@@ -3981,9 +3906,9 @@
               confirmation.push("no pain, swelling, or infiltration with flush")
             if ($("pivUSInVein").checked)
               confirmation.push("catheter visualized within the vein on ultrasound")
-            if (confirmation.length) lines.push(`${cap(joinNatural(confirmation))}.`)
+            lines.push(...confirmation.map(cap))
 
-            if (dressing) lines.push(`Catheter secured with ${dressing}.`)
+            if (dressing) lines.push(`Catheter securement: ${dressing}`)
           }
 
           const outcome = getRadio("pivOutcome")
@@ -3992,7 +3917,7 @@
 
           if (outcome || complications.length || comments) {
             lines.push("", "POST-PROCEDURE")
-            if (outcome) lines.push(`${cap(outcome)}.`)
+            if (outcome) lines.push(`Outcome: ${outcome}`)
             if (complications.length)
               lines.push(
                 `Immediate complication${complications.length > 1 ? "s" : ""}: ${joinNatural(complications)}.`,
@@ -4036,17 +3961,14 @@
           if (checked("SiteConfirmed")) safety.push("site and side confirmed")
           addSection("CONSENT / SAFETY", [
             consent === "emergent situation"
-              ? "Procedure performed in an emergent situation."
+              ? "Procedure urgency: emergent situation"
               : consent
-                ? `${cap(consent)} consent obtained${consentBy ? ` from the ${consentBy}` : ""}.`
-                : consentBy
-                  ? `Consent given by: ${consentBy}.`
-                  : "",
-            risks.length ? `Risks discussed included ${joinNatural(risks)}.` : "",
-            alternatives.length
-              ? `Alternatives discussed included ${joinNatural(alternatives)}.`
-              : "",
-            safety.length ? `${cap(joinNatural(safety))}.` : "",
+                ? `Consent: ${consent} consent obtained`
+                : "",
+            consentBy && consent !== "emergent situation" ? `Consent given by: ${consentBy}` : "",
+            risks.length ? `Risks discussed: ${joinNatural(risks)}` : "",
+            alternatives.length ? `Alternatives discussed: ${joinNatural(alternatives)}` : "",
+            ...safety.map(cap),
           ])
 
           const site = [
@@ -4067,15 +3989,16 @@
             value("VascularAssessment")
               ? `Pre-procedure vascular assessment: ${value("VascularAssessment")}`
               : "",
-            prep.length ? `${cap(joinNatural(prep))}.` : "",
+            ...prep.map(cap),
             value("Antiseptic") ? `Skin antiseptic: ${value("Antiseptic")}.` : "",
             anesthetic === "none"
-              ? "No local anesthetic used."
+              ? "Local anesthetic: none"
               : anesthetic
-                ? `Local anesthesia: ${anesthetic}${value("AnestheticVolume") ? `, ${value("AnestheticVolume")} mL` : ""}.`
-                : value("AnestheticVolume")
-                  ? `Local anesthetic volume: ${value("AnestheticVolume")} mL.`
-                  : "",
+                ? `Local anesthetic: ${anesthetic}`
+                : "",
+            anesthetic !== "none" && value("AnestheticVolume")
+              ? `Local anesthetic volume: ${value("AnestheticVolume")} mL`
+              : "",
           ])
 
           const guidance = getRadio("alGuidance")
@@ -4093,11 +4016,11 @@
             value("Attempts") ? `Number of attempts: ${value("Attempts")}.` : "",
             checked("WireRemoved") ? "Guidewire removed intact." : "",
             outcome === "successful"
-              ? `Arterial line successfully placed${site ? ` in the ${site}` : ""}.`
+              ? "Placement outcome: successful"
               : outcome === "unsuccessful"
-                ? "Arterial line placement was unsuccessful."
+                ? "Placement outcome: unsuccessful"
                 : outcome === "aborted"
-                  ? "Arterial line placement was aborted."
+                  ? "Placement outcome: aborted"
                   : "",
           ])
 
@@ -4109,8 +4032,8 @@
           const securement = getRadio("alSecurement")
           const dressing = getRadio("alDressing")
           addSection("CONFIRMATION / SECUREMENT", [
-            confirmation.length ? `${cap(joinNatural(confirmation))}.` : "",
-            securement ? `Catheter secured with ${securement}.` : "",
+            ...confirmation.map(cap),
+            securement ? `Catheter securement: ${securement}` : "",
             dressing ? `Dressing: ${dressing}.` : "",
           ])
 
@@ -4121,13 +4044,13 @@
             value("DistalAssessment")
               ? `Distal neurovascular assessment: ${value("DistalAssessment")}`
               : "",
-            tolerance ? `${cap(tolerance)}.` : "",
+            tolerance ? `Tolerance: ${tolerance}` : "",
             complicationDetails
               ? `Immediate complications / management: ${complicationDetails}`
               : complications === "none"
-                ? "No immediate complications observed."
+                ? "Immediate complications: none observed"
                 : complications === "present"
-                  ? "Immediate complications observed."
+                  ? "Immediate complications: present"
                   : "",
             value("Plan") ? `Plan: ${value("Plan")}` : "",
             value("Comments"),

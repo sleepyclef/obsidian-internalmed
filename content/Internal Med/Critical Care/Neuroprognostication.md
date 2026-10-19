@@ -3,8 +3,8 @@
 - now ***h post arrest 
 - sedated/ off sedation
 
-- no evidence of status myoclonus on exam, PLR ***
-- CT head 
+- no evidence of status myoclonus on exam, PLR ***, (+/- GCS motor, corneal reflex)
+- CT head then MRI 
 - EEG
 - neuro consult 
 ```
@@ -18,16 +18,6 @@ Should look for these signs after 72h of arrest if still comatosa (delayed to av
 Can do tests at earlier than 72h if trying to rule out other things - eg. CT head to r/o bleed, EEG for seizures
 Ideally should be done off any sedation
 
-<u>get</u>
-	Neuro exam = pupillary light reflex, status myoclonus, (+/- GCS motor, corneal reflex)
-	CT head +/- MRI 
-	EEG
-	Neuro consult
-
-![[Neuroprognostication-1790906084449.webp|700]]
-
-| ![[Neuroprognostication-1790907104127 1.webp\|345]] | ![[Neuroprognostication-1790907353248.webp\|335]] |
-| --------------------------------------------------- | ------------------------------------------------- |
 <u>more info</u>
 Neuro exam = PLR, status myoclonus, +/- GCS motor + corneal reflex
 	absent bilateral PLR ≥72h = poor prognosis
@@ -60,6 +50,12 @@ MR brain; not useful <48h
 	widespread/large-volume restricted diffusion on DWI = poor prognostic sign
 	more sensitive than CT for HIBI; useful if prognosis remains unclear, usually within 7d
 	not rlly affected by sedation
+
+![[Neuroprognostication-1790906084449.webp|700]]
+
+| ![[Neuroprognostication-1790907104127 1.webp\|345]] | ![[Neuroprognostication-1790907353248.webp\|335]] |
+| --------------------------------------------------- | ------------------------------------------------- |
+
 
 
 
