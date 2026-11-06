@@ -44,8 +44,10 @@ When to consider revascularization?
 		 3. <mark style="background:rgba(240, 200, 0, 0.2)">MVD (ie. 2-3VD ≥70%), normal EF</mark>
 			ACC: <font color="#c4bd97">class 2b</font> for CABG or ?PCI if suitable
 			metanalysis of CASS, ECSS, VA study showed ~40% mortality reduction w CABG, irrespective of LV function, but moreso if mild LV dysfunction 35-50%
+			ESC: class I for 3VD or pLAD dz even with preserved EF
+				ESC supports revascularization for prognostic benefit in functionally significant three-vessel and proximal LAD disease, whereas ACC/AHA considers the survival benefit uncertain in patients with preserved EF.
 			revascularization may reduce spontaneous MI / urgent revascularization, despite uncertain survival benefit.
-			modern trials (BARI2D, ISCHEMIA) question the CABG mortality benefit; maybe provides some M reduction benefit if high atherosclerotic burden 
+			modern trials (BARI2D, ISCHEMIA) question the CABG mortality benefit; maybe provides some MI reduction benefit if high atherosclerotic burden 
 				![[Chronic Coronary Syndrome, Stable CAD-1791055862176.webp|324]]
 			CABG vs PCI?
 				![[Chronic Coronary Syndrome, Stable CAD-1791067944167.webp|312]]

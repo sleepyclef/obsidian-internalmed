@@ -82,7 +82,7 @@ Tx empiric
 			covers PsA
 			does Ø cover ESBL
 		mero 1g q8h (septic/ shock) or erta 1g q24h (known ESBL esp if ucx past 6mo)
-			erta wont cover APE (acinetobacter, PsA, enterococcus - but again acenobact, PsA not typical, and enterococcus Ø true UTI)
+			erta wont cover APE (acinetobacter, PsA, enterococcus - but again acinetobacter, PsA not typical, and enterococcus Ø true UTI)
 			mero covers acinetobacter, PsA, but also Ø reliable against enterococcus (esp faecium)
 	Generally 7d total effective therapy if clinically improving (FQ 5-7d); includes IV + PO days. Longer if prostatitis, abscess, inadequate source control, or slow response.
 

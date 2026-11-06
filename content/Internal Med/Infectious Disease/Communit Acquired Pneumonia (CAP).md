@@ -23,3 +23,25 @@
 		- Heavy/predominant growth despite negative initial Gram stain (e.g. _Pseudomonas_) → re-review Gram stain; GNRs can be faint/easy to miss among PMNs.
 	"Lets Talk Micro - Spotlight: Respiratory cultures (Jul 2024) " https://www.youtube.com/watch?v=0d0-K3Y1su4
 
+<u>causes of community acquired infectious acute resp syndromes (SICK PATIENT)</u>
+source: Dr Coburn ID Oct 2026
+	![[Communit Acquired Pneumonia (CAP)-1793729175510.webp|311]]
+viral 
+	flu, covid
+	(rsv), (human MPV)
+	hantavirus (moreso hepatorenal virus in Ontario though rather than pulmonary one)
+bacterial
+	typical = strep pneumo; staph aureus in right patient 
+	atypical = legionella 
+	bioterrorism ie. agents of bioterror → treat with doxy 
+		tularemia (animal exposure associated)
+		anthrax (anthrax filled envelopes, rare)
+		brucella (lab exposure problem)
+		plague (still can see 5 cases/yr)
+		anaplasma (dont have it in Ontario, no recorded cases here)
+fungal 
+	blasto (can get it in Ontario, highest incidence of blasto in world in Kenora ON actually) → treat with amphoB
+	zygomyces, histo, aspergillus 
+mycobacterial 
+	TB, M abscessens 
+→ treatment pearl = if considering this and dont know why they are so sick with resp issue, can just start doxy and ampho (ask ID)

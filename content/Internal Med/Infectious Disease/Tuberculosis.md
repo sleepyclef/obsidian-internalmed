@@ -30,6 +30,9 @@ If ⊕ test in ↑risk pt, proceed to tx.
 
 <u>Diagnostics</u>: Active Pulmonary/Extrapulmonary TB
 	![[Tuberculosis-1792366571390.webp|432]]
+	Dr Morris
+		A GOOD induced sputum early morning is actually more sensitive than bronch since more concentrated (bronch uses water so more diluted) 
+		BUT with bronch more likely to get a good quality sample 
 
 <u>Mx</u>
 Isolation
@@ -37,31 +40,38 @@ Isolation
 	empiric isolation if 1 RF + cough, dysp, hemoptysis, >1wk hoarseness, f/nt sweats/wt loss, unexplained pleural/ pericardial dz
 	first obtain CXR, if CXR nl  (and HIV- or CD4>200), TB unlikely
 	if CXR abnormal/equivocal (or HIV+ and CD4<200), maintain isolation & obtain sputum x3 as above. Consider ID c/s
+
 Prior to tx
 	baseline LEs, Cr, visual acuity/color discrimination
-	screen for HIV, Hep A/B/C, DM, EtOH use, pregnancy
+	screen for HIV, Hep A/B/C (mainly risk of Hep B reactivation), DM, EtOH use, pregnancy
 	before tx latent TB = r/o active TB (obtain relevant history and CXR. Sputum AFB if ↑clinical suspicion)
 	before tx active TB = c/s ID, send TB for drug sensitivity testing
+
 Latent TB (TB infection) tx
 	INH+RPT qw x12 (3HP) **OR** 
 	rifampin x4mo (4R) **OR** 
 	INH+RIF x3mo (3HR) **OR** 
 	INH+B6 x6-9mo (6H, 9H, less preferred)
+
 Active drug-susceptible pulm TB
 	RIPE x6mo (standard) 
 	newer
 		4mo isoniazid(INH)-rifapentine(RPT)-moxifloxacin-pyrazinamide followed by 2mo INH-RPT-moxi equally efficacious as standard 6mo RIPE. 
 	Sputum AFB smear/cx monthly until 2 consecutive cx/smear negative.
+
 MDR TB
 	suspect if previously treated, treatment failure, from prevalent area (India, China, Russia, S. Africa), or known exposure. 
 	Treatment regimen depends on drug susceptibility profile; usually 12-24mo course. High mortality
 	Quinolones 1st line w/ MDR-TB
 	avoid in bacterial PNA if suspicious for active TB (↓dx yield & ↑risk of resistance)
+
 HIV co-infection
 	discuss timing of ART initiation w/ ID due to risk for IRIS
+
 Extrapulmonary TB 
 	highly variable presentation/therapy, duration depends on site of infection & response. 
 	For CNS TB: 12mo tx, glucocorticoids confer 25% short term reduction in mortality
+
 Medication side effects
 	hepatotoxicity (INH, RIF, PZA)
 	optic neuritis (EMB)
