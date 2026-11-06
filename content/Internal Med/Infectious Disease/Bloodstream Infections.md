@@ -50,6 +50,7 @@ gen info/ pearls - Dr. Coburn ID Oct 2026
 	- prevalence of endocarditis at time of diagnosis = 8% in community acquired SAB; 2% in nosocomial SAB 
 	- involvement of ID is associated with reduction of mortality (22% vs 17% in Toronto study); but now that medical services are equipped to manage SAB, unsure if it will still be same - this is why get auto ID consult 
 	- hard to clearly distinguish where it came from vs where it goes because one its in, it can just stick somewhere and then start seeding blood etc
+	- note: staph aureus in blood CAN be a contaminant but the mortality is so high that we can't risk assuming this in some situations, so always treated as real
 complicated vs uncomplicated - old classification
 	2011 IDSA guidelines, to be considered uncomplicated, all 5 have to be satisfied
 		1) no fever at 72h of tx; 2) bcx -ve 48-72h; 3) endocarditis excluded; 4) no prosthesis; 5) no metastitic infection
