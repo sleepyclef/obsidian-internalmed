@@ -31,8 +31,8 @@ viral
 	(rsv), (human MPV)
 	hantavirus (moreso hepatorenal virus in Ontario though rather than pulmonary one)
 bacterial
-	typical = strep pneumo; staph aureus in right patient 
-	atypical = legionella 
+	typical = strep pneumo; staph aureus in right patient → CTX 
+	atypical = legionella → covered by doxy, azithro better
 	bioterrorism ie. agents of bioterror → treat with doxy 
 		tularemia (animal exposure associated)
 		anthrax (anthrax filled envelopes, rare)

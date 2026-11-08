@@ -80,9 +80,12 @@ FQs
 Misc
 - Septra =can be used for community acquired MRSA (decent amount of strains from the community are susceptible), sometimes AmpC/ESBL (eg. in UTI if no other options) + weird things like Toxo, pneumocystis (PJP)
 - Azithromycin (PO/IV) = mostly used for intracellular organism coverage (usually in PNA) 
-- Doxycycline (PO) = also intracellular organisms if can't use azithro, + weird stuff like rickettsia, leptospirosis 
+- Doxycycline (PO) = also intracellular organisms if can't use azithro, + weird stuff like rickettsia, leptospirosis, covers MRSA
 - Nitrofurantoin (PO) = covers ESBL (but only if cystitis) 
 - Fosfomycin (PO/IV) = also covers ESBL, IV can be used for resistant GNs 
+
+MRSA PO options = doxy best, septra, sometimes FQ but need to check susceptibility
+PsA PO option = only cipro
 
 
 <u>Septic shock/ undifferentiated sepsis approach </u>
