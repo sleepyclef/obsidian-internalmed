@@ -2,10 +2,26 @@
 
 // put your custom CSS here!
 
-// Scale down the base font size (everything else is in rem, so this
-// shrinks headings/body/code proportionally).
+// Scale headings, body text, and rem-based spacing together. Keep mobile
+// sizing comfortable; larger screens use 90% of the previous 85% scale.
 html {
   font-size: 90%;
+
+  @media all and not ($mobile) {
+    font-size: 76.5%;
+  }
+}
+
+// Give the reading pane its own gutters between the sidebars. Include the
+// title and footer so they stay aligned with the article text.
+@media all and not ($mobile) {
+  .page[data-frame="default"] > #quartz-body {
+    > .center,
+    > footer {
+      box-sizing: border-box;
+      padding-inline: clamp(32px, 4vw, 64px);
+    }
+  }
 }
 
 // Kakano (grey)-inspired look, hand-rolled on top of the palette in
