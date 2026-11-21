@@ -138,6 +138,14 @@
         margin: 0 0 14px;
         color: var(--accent);
       }
+      .subsection-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin: 20px 0 12px;
+        padding-top: 14px;
+        border-top: 1px dashed var(--line);
+        color: var(--accent);
+      }
       .row {
         display: grid;
         grid-template-columns: 150px minmax(0, 1fr);
@@ -365,6 +373,9 @@
           padding: 8px 4px;
           font-size: 12px;
         }
+        .tab-button:last-child:nth-child(odd) {
+          grid-column: 1 / -1;
+        }
         .grid {
           display: block;
         }
@@ -556,6 +567,16 @@
           data-procedure="al"
         >
           Arterial line
+        </button>
+        <button
+          class="tab-button"
+          id="cvcTab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-procedure="cvc"
+        >
+          Central line
         </button>
       </div>
 
@@ -1244,6 +1265,18 @@
               </div>
 
               <div class="row">
+                <div class="label"><strong>Procedure</strong></div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thType" value="thoracentesis" /><span>Thoracentesis</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thType" value="pigtail" /><span>Pigtail catheter</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row" data-th="thora">
                 <div class="label">Procedure purpose</div>
                 <div class="choice-wrap">
                   <label class="choice"
@@ -1321,11 +1354,6 @@
                       name="thConsentBy"
                       value="substitute decision-maker"
                     /><span>SDM</span></label
-                  >
-                  <label class="choice"
-                    ><input type="radio" name="thConsentBy" value="parent/guardian" /><span
-                      >Parent / guardian</span
-                    ></label
                   >
                 </div>
               </div>
@@ -1406,22 +1434,10 @@
               </div>
 
               <div class="row">
-                <div class="label">Safety checks</div>
-                <div class="mini-grid">
+                <div class="label">Time-out</div>
+                <div>
                   <label class="checkline"
-                    ><input id="thQuestionsAnswered" type="checkbox" />Procedure explained and
-                    questions answered</label
-                  >
-                  <label class="checkline"
-                    ><input id="thDocsVerified" type="checkbox" />Relevant imaging / results
-                    verified</label
-                  >
-                  <label class="checkline"
-                    ><input id="thSiteMarked" type="checkbox" />Site marked</label
-                  >
-                  <label class="checkline"
-                    ><input id="thTimeout" type="checkbox" />Time-out performed immediately
-                    prior</label
+                    ><input id="thTimeout" type="checkbox" />Time-out performed</label
                   >
                 </div>
               </div>
@@ -1446,16 +1462,16 @@
                     ></label
                   >
                   <label class="choice"
-                    ><input type="radio" name="thPosition" value="supine or semi-recumbent" /><span
-                      >Supine / semi-recumbent</span
+                    ><input type="radio" name="thPosition" value="supine" /><span
+                      >Supine</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPosition" value="semi-recumbent" /><span
+                      >Semi-recumbent</span
                     ></label
                   >
                 </div>
-              </div>
-
-              <div class="row">
-                <div class="label">Other position</div>
-                <div><input id="thOtherPosition" type="text" placeholder="Optional" /></div>
               </div>
 
               <div class="row">
@@ -1494,36 +1510,24 @@
                     ><input
                       type="radio"
                       name="thLocalAnesthetic"
-                      value="lidocaine 1% without epinephrine"
-                    /><span>Lidocaine 1% w/o epi</span></label
+                      value="lidocaine 1%"
+                    /><span>Lidocaine 1%</span></label
                   >
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thLocalAnesthetic"
-                      value="lidocaine 2% without epinephrine"
-                    /><span>Lidocaine 2% w/o epi</span></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="radio"
-                      name="thLocalAnesthetic"
-                      value="lidocaine 1% with epinephrine"
-                    /><span>Lidocaine 1% with epi</span></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="radio"
-                      name="thLocalAnesthetic"
-                      value="lidocaine 2% with epinephrine"
-                    /><span>Lidocaine 2% with epi</span></label
+                      value="lidocaine 2%"
+                    /><span>Lidocaine 2%</span></label
                   >
                 </div>
               </div>
 
               <div class="row">
-                <div class="label">Other anesthetic</div>
-                <div><input id="thOtherAnesthetic" type="text" placeholder="Optional" /></div>
+                <div class="label">Anesthetic volume (mL)</div>
+                <div>
+                  <input id="thAnestheticVolume" type="number" placeholder="e.g. 5" min="0" step="any" />
+                </div>
               </div>
             </section>
 
@@ -1569,26 +1573,9 @@
               </div>
 
               <div class="row">
-                <div class="label">Pocket measurements</div>
-                <div class="inline-fields">
-                  <div>
-                    <div class="field-caption">Pleural fluid pocket depth / size (cm)</div>
-                    <input
-                      id="thPocketSize"
-                      type="text"
-                      inputmode="decimal"
-                      placeholder="e.g. 6.0"
-                    />
-                  </div>
-                  <div>
-                    <div class="field-caption">Skin-to-fluid depth (cm)</div>
-                    <input
-                      id="thSkinDepth"
-                      type="text"
-                      inputmode="decimal"
-                      placeholder="e.g. 2.5"
-                    />
-                  </div>
+                <div class="label">Pocket size (cm)</div>
+                <div>
+                  <input id="thPocketSize" type="text" inputmode="decimal" placeholder="e.g. 6.0" />
                 </div>
               </div>
 
@@ -1625,48 +1612,21 @@
               </div>
 
               <div class="row">
-                <div class="label">US safety anatomy</div>
-                <div class="mini-grid">
+                <div class="label">US safety</div>
+                <div>
                   <label class="checkline"
-                    ><input id="thDiaphragmSeen" type="checkbox" />Diaphragm identified</label
-                  >
-                  <label class="checkline"
-                    ><input id="thLungSeen" type="checkbox" />Adjacent lung identified</label
-                  >
-                  <label class="checkline"
-                    ><input id="thClearPath" type="checkbox" />No intervening structure in planned
-                    needle path</label
+                    ><input id="thSafeWindow" type="checkbox" />Safe window identified (diaphragm,
+                    lung, clear needle path)</label
                   >
                 </div>
               </div>
 
-              <div class="row">
-                <div class="label">US comments</div>
-                <div>
-                  <input
-                    id="thUSComment"
-                    type="text"
-                    placeholder="Optional, e.g. moderate simple effusion with safe window"
-                  />
-                </div>
-              </div>
             </section>
 
             <section class="section">
               <h3 class="section-title">Procedure</h3>
 
-              <div class="row">
-                <div class="label">Device used to access pleural space</div>
-                <div>
-                  <input
-                    id="thDevice"
-                    type="text"
-                    placeholder="e.g. thoracentesis catheter / catheter-over-needle kit"
-                  />
-                </div>
-              </div>
-
-              <div class="row">
+              <div class="row" data-th="thora">
                 <div class="label">Drainage method</div>
                 <div class="choice-wrap">
                   <label class="choice"
@@ -1687,6 +1647,59 @@
                       name="thDrainageMethod"
                       value="diagnostic syringe aspiration"
                     /><span>Diagnostic aspiration</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row" data-th="pig">
+                <div class="label">Catheter size / depth</div>
+                <div class="mini-grid">
+                  <input id="thPigFrench" type="number" placeholder="Fr, e.g. 14" min="1" step="any" />
+                  <input id="thPigDepth" type="number" placeholder="At skin cm, e.g. 12" min="0" step="any" />
+                </div>
+              </div>
+
+              <div class="row" data-th="pig">
+                <div class="label">Technique</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thPigTechnique" value="Seldinger" /><span>Seldinger</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPigTechnique" value="modified Seldinger" /><span>Modified Seldinger</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPigTechnique" value="trocar" /><span>Trocar</span></label
+                  >
+                </div>
+              </div>
+
+              <div class="row" data-th="pig">
+                <div class="label">Catheter checks</div>
+                <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="thPigDilated" type="checkbox" />Tract dilated</label
+                  >
+                  <label class="checkline"
+                    ><input id="thPigWireRemoved" type="checkbox" />Guidewire removed intact</label
+                  >
+                  <label class="checkline"
+                    ><input id="thPigSutured" type="checkbox" />Sutured in place</label
+                  >
+                </div>
+              </div>
+
+              <div class="row" data-th="pig">
+                <div class="label">Drainage system</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="thPigDrainage" value="underwater seal" /><span>Underwater seal</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPigDrainage" value="suction at -20 cm H2O" /><span>Suction -20 cm H2O</span></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="thPigDrainage" value="one-way (Heimlich) valve" /><span>Heimlich valve</span></label
                   >
                 </div>
               </div>
@@ -1778,56 +1791,56 @@
                 </div>
               </div>
 
-              <div class="row">
+              <div class="row" data-th="thora">
                 <div class="label">Drainage stopped because</div>
                 <div class="choice-wrap">
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thStopReason"
-                      value="target volume was reached"
+                      value="target volume reached"
                     /><span>Target volume</span></label
                   >
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thStopReason"
-                      value="there was no further fluid return"
+                      value="no further fluid return"
                     /><span>No further return</span></label
                   >
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thStopReason"
-                      value="the patient developed chest discomfort"
+                      value="chest discomfort"
                     /><span>Chest discomfort</span></label
                   >
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thStopReason"
-                      value="the patient developed persistent cough"
+                      value="persistent cough"
                     /><span>Persistent cough</span></label
                   >
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thStopReason"
-                      value="the patient developed dyspnea"
+                      value="dyspnea"
                     /><span>Dyspnea</span></label
                   >
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thStopReason"
-                      value="the patient requested termination"
+                      value="patient request"
                     /><span>Patient request</span></label
                   >
                   <label class="choice"
                     ><input
                       type="radio"
                       name="thStopReason"
-                      value="the procedure was stopped at provider discretion"
+                      value="provider discretion"
                     /><span>Provider discretion</span></label
                   >
                 </div>
@@ -2034,26 +2047,13 @@
               </div>
 
               <div class="row">
-                <div class="label">Collection details</div>
-                <div class="mini-grid">
-                  <label class="checkline"
-                    ><input id="thCultureBottles" type="checkbox" />Bacterial culture inoculated
-                    into blood culture bottles</label
-                  >
+                <div class="label">Paired serum</div>
+                <div>
                   <label class="checkline"
                     ><input id="thPairedSerum" type="checkbox" />Paired serum protein + LDH
                     sent</label
                   >
-                  <label class="checkline"
-                    ><input id="thPHGasSyringe" type="checkbox" />pH collected in blood gas
-                    syringe</label
-                  >
                 </div>
-              </div>
-
-              <div class="row">
-                <div class="label">Other fluid testing</div>
-                <div><input id="thOtherTests" type="text" placeholder="Optional" /></div>
               </div>
 
               <div class="row">
@@ -2645,7 +2645,7 @@
               <div class="row">
                 <div class="label">Indication</div>
                 <div>
-                  <div class="choice-wrap">
+                  <div class="choice-wrap" style="margin-bottom: 8px">
                     <label class="choice"
                       ><input
                         type="checkbox"
@@ -2657,22 +2657,19 @@
                         type="checkbox"
                         name="alIndications"
                         value="frequent arterial blood sampling"
-                      /><span>Frequent blood sampling</span></label
+                      /><span>Frequent ABGs / sampling</span></label
                     >
                   </div>
+                  <input id="alIndicationOther" type="text" placeholder="Other indication (optional)" />
                 </div>
-              </div>
-              <div class="row">
-                <div class="label">Other indication</div>
-                <div><input id="alIndicationOther" type="text" placeholder="Optional" /></div>
               </div>
             </section>
             <section class="section">
-              <h3 class="section-title">Consent & universal protocol</h3>
+              <h3 class="section-title">Consent</h3>
               <div class="row">
                 <div class="label">Consent</div>
                 <div>
-                  <div class="choice-wrap">
+                  <div class="choice-wrap" style="margin-bottom: 8px">
                     <label class="choice"
                       ><input type="radio" name="alConsent" value="verbal" /><span
                         >Verbal</span
@@ -2687,22 +2684,17 @@
                       ></label
                     >
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Consent given by</div>
-                <div>
                   <div class="choice-wrap">
                     <label class="choice"
                       ><input type="radio" name="alConsentBy" value="patient" /><span
-                        >Patient</span
+                        >From patient</span
                       ></label
                     ><label class="choice"
                       ><input
                         type="radio"
                         name="alConsentBy"
                         value="substitute decision-maker"
-                      /><span>SDM</span></label
+                      /><span>From SDM</span></label
                     >
                   </div>
                 </div>
@@ -2712,15 +2704,17 @@
                 <div>
                   <div class="choice-wrap">
                     <label class="choice"
-                      ><input type="checkbox" name="alRisks" value="bleeding or hematoma" /><span
-                        >Bleeding / hematoma</span
+                      ><input type="checkbox" name="alRisks" value="bleeding" /><span
+                        >Bleeding</span
                       ></label
                     ><label class="choice"
                       ><input type="checkbox" name="alRisks" value="infection" /><span
                         >Infection</span
                       ></label
                     ><label class="choice"
-                      ><input type="checkbox" name="alRisks" value="pain" /><span>Pain</span></label
+                      ><input type="checkbox" name="alRisks" value="pain" /><span
+                        >Pain</span
+                      ></label
                     ><label class="choice"
                       ><input
                         type="checkbox"
@@ -2728,11 +2722,9 @@
                         value="thrombosis or distal ischemia"
                       /><span>Thrombosis / ischemia</span></label
                     ><label class="choice"
-                      ><input
-                        type="checkbox"
-                        name="alRisks"
-                        value="arterial or nerve injury"
-                      /><span>Arterial / nerve injury</span></label
+                      ><input type="checkbox" name="alRisks" value="nerve injury" /><span
+                        >Nerve injury</span
+                      ></label
                     >
                   </div>
                 </div>
@@ -2742,64 +2734,42 @@
                 <div>
                   <div class="choice-wrap">
                     <label class="choice"
-                      ><input
-                        type="checkbox"
-                        name="alAlternatives"
-                        value="noninvasive blood pressure monitoring"
-                      /><span>Noninvasive BP monitoring</span></label
+                      ><input type="checkbox" name="alAlternatives" value="noninvasive BP monitoring" /><span
+                        >Noninvasive BP</span
+                      ></label
                     ><label class="choice"
-                      ><input
-                        type="checkbox"
-                        name="alAlternatives"
-                        value="intermittent arterial puncture"
-                      /><span>Intermittent arterial sampling</span></label
+                      ><input type="checkbox" name="alAlternatives" value="intermittent arterial puncture" /><span
+                        >Intermittent ABGs</span
+                      ></label
                     ><label class="choice"
-                      ><input
-                        type="checkbox"
-                        name="alAlternatives"
-                        value="no procedure / observation"
-                      /><span>Observation</span></label
+                      ><input type="checkbox" name="alAlternatives" value="no procedure" /><span
+                        >No procedure</span
+                      ></label
                     >
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="label">Safety checks</div>
+                <div class="label">Time-out</div>
                 <div>
-                  <div class="mini-grid">
-                    <label class="checkline"
-                      ><input id="alQuestionsAnswered" type="checkbox" />Procedure explained and
-                      questions answered</label
-                    ><label class="checkline"
-                      ><input id="alIdentityVerified" type="checkbox" />Patient identity
-                      verified</label
-                    ><label class="checkline"
-                      ><input id="alTimeout" type="checkbox" />Time-out performed immediately
-                      prior</label
-                    ><label class="checkline"
-                      ><input id="alSiteConfirmed" type="checkbox" />Site and side confirmed</label
-                    >
-                  </div>
+                  <label class="checkline"
+                    ><input id="alTimeout" type="checkbox" />Time-out performed</label
+                  >
                 </div>
               </div>
             </section>
             <section class="section">
-              <h3 class="section-title">Site & preparation</h3>
+              <h3 class="section-title">Procedure</h3>
               <div class="row">
-                <div class="label">Side</div>
+                <div class="label">Site</div>
                 <div>
-                  <div class="choice-wrap">
+                  <div class="choice-wrap" style="margin-bottom: 8px">
                     <label class="choice"
                       ><input type="radio" name="alSide" value="right" /><span>Right</span></label
                     ><label class="choice"
                       ><input type="radio" name="alSide" value="left" /><span>Left</span></label
                     >
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Artery</div>
-                <div>
                   <div class="choice-wrap">
                     <label class="choice"
                       ><input type="radio" name="alArtery" value="radial" /><span
@@ -2822,122 +2792,54 @@
                 </div>
               </div>
               <div class="row">
-                <div class="label">Other artery / site detail</div>
+                <div class="label">Sterile technique</div>
                 <div>
-                  <input
-                    id="alSiteDetail"
-                    type="text"
-                    placeholder="Optional; specify another artery or site details"
-                  />
+                  <label class="checkline"
+                    ><input id="alSterilePrep" type="checkbox" />Sterile prep</label
+                  >
                 </div>
-              </div>
-              <div class="row">
-                <div class="label">Pre-procedure vascular assessment</div>
-                <div>
-                  <input
-                    id="alVascularAssessment"
-                    type="text"
-                    placeholder="Optional; distal pulse, perfusion, collateral flow assessment if done"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Preparation</div>
-                <div>
-                  <div class="mini-grid">
-                    <label class="checkline"
-                      ><input id="alHandHygiene" type="checkbox" />Hand hygiene performed</label
-                    ><label class="checkline"
-                      ><input id="alSterilePrep" type="checkbox" />Site prepped and draped
-                      sterilely</label
-                    ><label class="checkline"
-                      ><input id="alSterileGloves" type="checkbox" />Sterile gloves used</label
-                    ><label class="checkline"
-                      ><input id="alSterileUS" type="checkbox" />Sterile probe cover and gel
-                      used</label
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Skin antiseptic</div>
-                <div><input id="alAntiseptic" type="text" placeholder="e.g. chlorhexidine" /></div>
               </div>
               <div class="row">
                 <div class="label">Local anesthesia</div>
                 <div>
-                  <div class="choice-wrap">
+                  <div class="choice-wrap" style="margin-bottom: 8px">
                     <label class="choice"
                       ><input type="radio" name="alAnesthetic" value="none" /><span
                         >None</span
                       ></label
                     ><label class="choice"
-                      ><input
-                        type="radio"
-                        name="alAnesthetic"
-                        value="lidocaine 1% without epinephrine"
-                      /><span>Lidocaine 1% w/o epi</span></label
+                      ><input type="radio" name="alAnesthetic" value="lidocaine 1%" /><span
+                        >Lidocaine 1%</span
+                      ></label
                     ><label class="choice"
-                      ><input
-                        type="radio"
-                        name="alAnesthetic"
-                        value="lidocaine 2% without epinephrine"
-                      /><span>Lidocaine 2% w/o epi</span></label
+                      ><input type="radio" name="alAnesthetic" value="lidocaine 2%" /><span
+                        >Lidocaine 2%</span
+                      ></label
                     >
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Other anesthetic</div>
-                <div>
-                  <input
-                    id="alAnestheticOther"
-                    type="text"
-                    placeholder="Optional; agent and concentration"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Anesthetic volume (mL)</div>
-                <div>
                   <input
                     id="alAnestheticVolume"
                     type="number"
-                    placeholder="e.g. 2"
+                    placeholder="Volume (mL), e.g. 2"
                     min="0"
                     step="any"
                   />
                 </div>
               </div>
-            </section>
-            <section class="section">
-              <h3 class="section-title">Insertion</h3>
               <div class="row">
                 <div class="label">Guidance</div>
                 <div>
                   <div class="choice-wrap">
                     <label class="choice"
-                      ><input
-                        type="radio"
-                        name="alGuidance"
-                        value="real-time ultrasound guidance"
-                      /><span>Real-time ultrasound</span></label
+                      ><input type="radio" name="alGuidance" value="real-time US guidance" /><span
+                        >Real-time US</span
+                      ></label
                     ><label class="choice"
-                      ><input type="radio" name="alGuidance" value="palpation guidance" /><span
+                      ><input type="radio" name="alGuidance" value="palpation" /><span
                         >Palpation</span
                       ></label
                     >
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Ultrasound findings</div>
-                <div>
-                  <input
-                    id="alUSFindings"
-                    type="text"
-                    placeholder="Optional; vessel patency, depth, needle or wire visualization"
-                  />
                 </div>
               </div>
               <div class="row">
@@ -2946,14 +2848,14 @@
                   <div class="choice-wrap">
                     <label class="choice"
                       ><input type="radio" name="alTechnique" value="catheter-over-needle" /><span
-                        >Catheter over needle</span
+                        >Catheter-over-needle</span
                       ></label
                     ><label class="choice"
                       ><input
                         type="radio"
                         name="alTechnique"
                         value="catheter-over-guidewire"
-                      /><span>Catheter over guidewire</span></label
+                      /><span>Catheter-over-guidewire</span></label
                     ><label class="choice"
                       ><input type="radio" name="alTechnique" value="Seldinger" /><span
                         >Seldinger</span
@@ -2963,41 +2865,48 @@
                 </div>
               </div>
               <div class="row">
-                <div class="label">Catheter size (gauge)</div>
-                <div>
-                  <input id="alGauge" type="number" placeholder="e.g. 20" min="1" step="1" />
+                <div class="label">Gauge / length / attempts</div>
+                <div class="mini-grid">
+                  <input id="alGauge" type="number" placeholder="Gauge, e.g. 20" min="1" step="any" />
+                  <input id="alLength" type="number" placeholder="Length cm, e.g. 4.5" min="0" step="any" />
+                  <input id="alAttempts" type="number" placeholder="Attempts, e.g. 1" min="1" step="1" />
                 </div>
               </div>
               <div class="row">
-                <div class="label">Catheter length (cm)</div>
-                <div>
-                  <input id="alLength" type="number" placeholder="e.g. 4.5" min="0" step="any" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Device / kit</div>
-                <div>
-                  <input id="alDevice" type="text" placeholder="Optional; device or kit name" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Number of attempts</div>
-                <div>
-                  <input id="alAttempts" type="number" placeholder="e.g. 1" min="1" step="1" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Guidewire</div>
+                <div class="label">Line checks</div>
                 <div>
                   <div class="mini-grid">
                     <label class="checkline"
                       ><input id="alWireRemoved" type="checkbox" />Guidewire removed intact</label
+                    ><label class="checkline"
+                      ><input id="alWaveform" type="checkbox" />Arterial waveform confirmed;
+                      transducer leveled and zeroed</label
                     >
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="label"><strong>Placement outcome</strong></div>
+                <div class="label">Securement</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="alSecurement" value="sutures" /><span
+                        >Sutures</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alSecurement" value="a securement device" /><span
+                        >Securement device</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="alSecurement" value="tape" /><span
+                        >Tape</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label"><strong>Outcome</strong></div>
                 <div>
                   <div class="choice-wrap">
                     <label class="choice"
@@ -3016,106 +2925,21 @@
                   </div>
                 </div>
               </div>
-            </section>
-            <section class="section">
-              <h3 class="section-title">Confirmation & securement</h3>
+              <h4 class="subsection-title">Post-procedure</h4>
               <div class="row">
-                <div class="label">Confirmation</div>
-                <div>
-                  <div class="mini-grid">
-                    <label class="checkline"
-                      ><input id="alBloodReturn" type="checkbox" />Pulsatile blood return
-                      obtained</label
-                    ><label class="checkline"
-                      ><input id="alWaveform" type="checkbox" />Arterial pressure waveform
-                      confirmed</label
-                    ><label class="checkline"
-                      ><input id="alTransducer" type="checkbox" />Pressure transducer leveled and
-                      zeroed</label
-                    ><label class="checkline"
-                      ><input id="alFlushes" type="checkbox" />Catheter flushed without
-                      resistance</label
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Securement</div>
-                <div>
-                  <div class="choice-wrap">
-                    <label class="choice"
-                      ><input type="radio" name="alSecurement" value="sutures" /><span
-                        >Sutures</span
-                      ></label
-                    ><label class="choice"
-                      ><input type="radio" name="alSecurement" value="a securement device" /><span
-                        >Securement device</span
-                      ></label
-                    ><label class="choice"
-                      ><input type="radio" name="alSecurement" value="adhesive tape" /><span
-                        >Adhesive tape</span
-                      ></label
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Dressing</div>
-                <div>
-                  <div class="choice-wrap">
-                    <label class="choice"
-                      ><input
-                        type="radio"
-                        name="alDressing"
-                        value="a sterile transparent dressing"
-                      /><span>Sterile transparent dressing</span></label
-                    ><label class="choice"
-                      ><input
-                        type="radio"
-                        name="alDressing"
-                        value="a sterile gauze dressing"
-                      /><span>Sterile gauze dressing</span></label
-                    >
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section class="section">
-              <h3 class="section-title">Post-procedure</h3>
-              <div class="row">
-                <div class="label">Distal neurovascular assessment</div>
+                <div class="label">Distal perfusion</div>
                 <div>
                   <input
                     id="alDistalAssessment"
                     type="text"
-                    placeholder="Optional; distal pulse, capillary refill, limb temperature, sensation"
+                    placeholder="e.g. good cap refill, hand warm, sensation intact"
                   />
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Patient tolerance</div>
-                <div>
-                  <div class="choice-wrap">
-                    <label class="choice"
-                      ><input
-                        type="radio"
-                        name="alTolerance"
-                        value="patient tolerated the procedure well"
-                      /><span>Tolerated well</span></label
-                    ><label class="choice"
-                      ><input
-                        type="radio"
-                        name="alTolerance"
-                        value="patient tolerated the procedure with difficulty"
-                      /><span>Tolerated with difficulty</span></label
-                    >
-                  </div>
                 </div>
               </div>
               <div class="row">
                 <div class="label">Immediate complications</div>
                 <div>
-                  <div class="choice-wrap">
+                  <div class="choice-wrap" style="margin-bottom: 8px">
                     <label class="choice"
                       ><input type="radio" name="alComplications" value="none" /><span
                         >None observed</span
@@ -3126,31 +2950,467 @@
                       ></label
                     >
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="label">Complication details</div>
-                <div>
                   <input
                     id="alComplicationDetails"
                     type="text"
-                    placeholder="e.g. hematoma, bleeding, vasospasm, distal ischemia; management"
+                    placeholder="Details, e.g. hematoma, held pressure"
                   />
                 </div>
               </div>
               <div class="row">
                 <div class="label">Plan</div>
                 <div>
-                  <textarea
-                    id="alPlan"
-                    placeholder="Optional; monitoring, line care, reassessment or removal plan"
-                  ></textarea>
+                  <textarea id="alPlan" placeholder="Optional; monitoring, line care, removal plan"></textarea>
                 </div>
               </div>
               <div class="row">
                 <div class="label">Additional comments</div>
                 <div>
                   <textarea id="alComments" placeholder="Optional free-text comments"></textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div id="cvcForm" class="procedure-form">
+            <section class="section">
+              <h3 class="section-title">Procedure details</h3>
+              <div class="row">
+                <div class="label">Date / time</div>
+                <div><input id="cvcDateTime" type="datetime-local" placeholder="" /></div>
+              </div>
+              <div class="row">
+                <div class="label"><strong>Performed by</strong></div>
+                <div><input id="cvcPerformedBy" type="text" placeholder="Name, credentials" /></div>
+              </div>
+              <div class="row">
+                <div class="label"><strong>Supervised by</strong></div>
+                <div>
+                  <input
+                    id="cvcSupervisedBy"
+                    type="text"
+                    placeholder="Name, credentials (leave blank if none)"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Indication</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="vasopressor administration"
+                      /><span>Vasopressors</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="administration of central-only or vesicant medications"
+                      /><span>Central-only / vesicant meds</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="inadequate peripheral venous access"
+                      /><span>Inadequate peripheral access</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="hemodynamic monitoring"
+                      /><span>Hemodynamic monitoring</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="rapid volume resuscitation"
+                      /><span>Rapid resuscitation</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="parenteral nutrition"
+                      /><span>Parenteral nutrition</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="hemodialysis / CRRT access"
+                      /><span>HD / CRRT</span></label
+                    ><label class="choice"
+                      ><input
+                        type="checkbox"
+                        name="cvcIndications"
+                        value="transvenous pacing"
+                      /><span>Transvenous pacing</span></label
+                    >
+                  </div>
+                  <input id="cvcIndicationOther" type="text" placeholder="Other indication (optional)" />
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <h3 class="section-title">Consent</h3>
+              <div class="row">
+                <div class="label">Consent</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="cvcConsent" value="verbal" /><span
+                        >Verbal</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcConsent" value="written" /><span
+                        >Written</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcConsent" value="emergent situation" /><span
+                        >Emergent situation</span
+                      ></label
+                    >
+                  </div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="cvcConsentBy" value="patient" /><span
+                        >From patient</span
+                      ></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="cvcConsentBy"
+                        value="substitute decision-maker"
+                      /><span>From SDM</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Risks discussed</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="checkbox" name="cvcRisks" value="bleeding" /><span
+                        >Bleeding</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcRisks" value="infection" /><span
+                        >Infection</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcRisks" value="pneumothorax" /><span
+                        >Pneumothorax</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcRisks" value="arterial puncture" /><span
+                        >Arterial puncture</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcRisks" value="thrombosis" /><span
+                        >Thrombosis</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcRisks" value="arrhythmia" /><span
+                        >Arrhythmia</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcRisks" value="air embolism" /><span
+                        >Air embolism</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Alternatives discussed</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="checkbox" name="cvcAlternatives" value="peripheral IV" /><span
+                        >Peripheral IV</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcAlternatives" value="midline or PICC" /><span
+                        >Midline / PICC</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcAlternatives" value="intraosseous access" /><span
+                        >Intraosseous</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcAlternatives" value="no procedure" /><span
+                        >No procedure</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Time-out</div>
+                <div>
+                  <label class="checkline"
+                    ><input id="cvcTimeout" type="checkbox" />Time-out performed</label
+                  >
+                </div>
+              </div>
+            </section>
+            <section class="section">
+              <h3 class="section-title">Procedure</h3>
+              <div class="row">
+                <div class="label">Site</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="cvcSide" value="right" /><span>Right</span></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcSide" value="left" /><span>Left</span></label
+                    >
+                  </div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="cvcVein" value="internal jugular" /><span
+                        >Internal jugular</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcVein" value="subclavian" /><span
+                        >Subclavian</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcVein" value="axillary" /><span
+                        >Axillary</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcVein" value="femoral" /><span
+                        >Femoral</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Sterile technique</div>
+                <div>
+                  <label class="checkline"
+                    ><input id="cvcBarrier" type="checkbox" />Full sterile barrier precautions</label
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Local anesthesia</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="cvcAnesthetic" value="none" /><span
+                        >None</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcAnesthetic" value="lidocaine 1%" /><span
+                        >Lidocaine 1%</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcAnesthetic" value="lidocaine 2%" /><span
+                        >Lidocaine 2%</span
+                      ></label
+                    >
+                  </div>
+                  <input
+                    id="cvcAnestheticVolume"
+                    type="number"
+                    placeholder="Volume (mL), e.g. 5"
+                    min="0"
+                    step="any"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Guidance</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input
+                        type="radio"
+                        name="cvcGuidance"
+                        value="real-time US guidance"
+                      /><span>Real-time US</span></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcGuidance" value="landmark technique" /><span
+                        >Landmark</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Technique</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="cvcTechnique" value="modified Seldinger" /><span
+                        >Modified Seldinger</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcTechnique" value="Seldinger" /><span
+                        >Seldinger</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Catheter type</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="cvcType" value="triple-lumen" /><span
+                        >Triple lumen</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcType" value="quad-lumen" /><span
+                        >Quad lumen</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcType" value="introducer sheath" /><span
+                        >Introducer sheath</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcType" value="non-tunneled dialysis catheter" /><span
+                        >Dialysis catheter</span
+                      ></label
+                    >
+                  </div>
+                  <input id="cvcTypeOther" type="text" placeholder="Other catheter type" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Size / length / depth</div>
+                <div class="mini-grid">
+                  <input id="cvcFrench" type="number" placeholder="Fr, e.g. 7" min="1" step="any" />
+                  <input id="cvcLength" type="number" placeholder="Length cm, e.g. 20" min="0" step="any" />
+                  <input id="cvcDepth" type="number" placeholder="At skin cm, e.g. 15" min="0" step="any" />
+                  <input id="cvcAttempts" type="number" placeholder="Attempts, e.g. 1" min="1" step="1" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Line checks</div>
+                <div>
+                  <div class="mini-grid">
+                    <label class="checkline"
+                      ><input id="cvcWireRemoved" type="checkbox" />Guidewire removed intact</label
+                    ><label class="checkline"
+                      ><input id="cvcLineCare" type="checkbox" />All lumens aspirated and flushed;
+                      sutured; sterile dressing</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row" id="cvcLockRow" style="display: none">
+                <div class="label">Catheter lock</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="cvcLock" value="heparin 1000 units/mL" /><span>Heparin 1000 u/mL</span></label
+                    >
+                    <label class="choice"
+                      ><input type="radio" name="cvcLock" value="heparin 5000 units/mL" /><span>Heparin 5000 u/mL</span></label
+                    >
+                    <label class="choice"
+                      ><input type="radio" name="cvcLock" value="4% sodium citrate" /><span>Citrate 4%</span></label
+                    >
+                  </div>
+                  <input id="cvcLockOther" type="text" placeholder="Other lock, e.g. citrate 30%, volume per lumen" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label"><strong>Outcome</strong></div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="cvcOutcome" value="successful" /><span
+                        >Successful</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcOutcome" value="unsuccessful" /><span
+                        >Unsuccessful</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcOutcome" value="aborted" /><span
+                        >Aborted</span
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <h4 class="subsection-title">Post-procedure</h4>
+              <div class="row">
+                <div class="label">Tip position</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="checkbox" name="cvcTipConfirm" value="chest radiograph" /><span
+                        >Chest x-ray</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="checkbox" name="cvcTipConfirm" value="ultrasound" /><span
+                        >Ultrasound</span
+                      ></label
+                    >
+                  </div>
+                  <input
+                    id="cvcImaging"
+                    type="text"
+                    placeholder="e.g. tip at cavoatrial junction, no pneumothorax"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Line status</div>
+                <div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="cvcStatus" value="cleared for use" /><span
+                        >Cleared for use</span
+                      ></label
+                    ><label class="choice"
+                      ><input
+                        type="radio"
+                        name="cvcStatus"
+                        value="not to be used pending position confirmation"
+                      /><span>Pending confirmation</span></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Immediate complications</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="cvcComplications" value="none" /><span
+                        >None observed</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="cvcComplications" value="present" /><span
+                        >Complications observed</span
+                      ></label
+                    >
+                  </div>
+                  <input
+                    id="cvcComplicationDetails"
+                    type="text"
+                    placeholder="Details, e.g. arterial puncture, held pressure"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Plan</div>
+                <div>
+                  <textarea id="cvcPlan" placeholder="Optional; line care, removal plan"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">Additional comments</div>
+                <div>
+                  <textarea id="cvcComments" placeholder="Optional free-text comments"></textarea>
                 </div>
               </div>
             </section>
@@ -3213,407 +3473,291 @@
           })
         }
 
-        function generateParacentesisNote() {
-          const lines = []
-          lines.push("PARACENTESIS PROCEDURE NOTE")
+        // Compact note layout: keeps "Label: value" lines and section headers, but groups
+        // related fields under broader labels so the note uses fewer lines.
+        const list = (...vals) => vals.flat().filter(Boolean).join("; ")
+        const fact = (label, ...vals) => {
+          const v = list(...vals)
+          return v ? `${label}: ${v}` : ""
+        }
+        const approx = (val, unit) => (val ? `~${val} ${unit}` : "")
+        const consentValue = (consent, by) =>
+          consent === "emergent situation"
+            ? "emergent situation"
+            : consent
+              ? `${consent} consent obtained${by ? ` from ${by}` : ""}`
+              : ""
+        const anesthesiaValue = (methods, agent, volume) => {
+          if (agent === "none") return "none"
+          const m = joinNatural(methods)
+          const a = [agent, volume && `${volume} mL`].filter(Boolean).join(", ")
+          return m && a ? `${m} (${a})` : m || a
+        }
+        const complicationValue = (status, details) =>
+          details ||
+          (status === "none" ? "none observed" : status === "present" ? "present" : "")
+        // Phrases for one-line "Post-procedure:" summaries
+        const complicationLine = (status, details) =>
+          details
+            ? `complications: ${details}`
+            : status === "none"
+              ? "no immediate complications"
+              : status === "present"
+                ? "complications present"
+                : ""
+        const tipLine = (method, findings) =>
+          method && findings
+            ? `tip confirmed by ${method} (${findings})`
+            : method
+              ? `tip confirmed by ${method}`
+              : findings && `tip position: ${findings}`
 
-          const dt = fmtDateTime($("dateTime").value)
-          if (dt) lines.push(`Date/time: ${dt}`)
-          if ($("performedBy").value.trim())
-            lines.push(`Performed by: ${$("performedBy").value.trim()}`)
-          if ($("supervisedBy").value.trim())
-            lines.push(`Supervised by: ${$("supervisedBy").value.trim()}`)
-
-          const purpose = getChecks("purpose")
-          if (purpose.length)
-            lines.push(`Indication/purpose: ${joinNatural(purpose)} paracentesis.`)
-
-          const consent = getRadio("consent")
-          const consentBy = getRadio("consentBy")
-          const risks = getChecks("risks")
-          const alternatives = getChecks("alternatives")
-
-          if (consent || risks.length || alternatives.length) {
-            lines.push("", "CONSENT / SAFETY")
-            if (consent) lines.push(`Consent: ${consent} consent obtained`)
-            if (consent && consentBy) lines.push(`Consent obtained from: ${consentBy}`)
-            if (risks.length) lines.push(`Risks discussed: ${joinNatural(risks)}`)
-            if (alternatives.length)
-              lines.push(`Alternatives discussed: ${joinNatural(alternatives)}`)
+        function createNote(title) {
+          const out = [title]
+          return {
+            line(text) {
+              if (text) out.push(text)
+            },
+            section(title, entries) {
+              const done = entries.flat().filter(Boolean)
+              if (done.length) out.push("", title, ...done)
+            },
+            raw(text) {
+              if (text) out.push("", text)
+            },
+            render: () => out.join("\n").trim(),
           }
+        }
+
+        function noteHeader(n, prefix) {
+          n.line(fact("Date/time", fmtDateTime($(prefix + "DateTime").value)))
+          n.line(fact("Performed by", $(prefix + "PerformedBy").value.trim()))
+          n.line(fact("Supervised by", $(prefix + "SupervisedBy").value.trim()))
+        }
+
+        function consentSection(n, prefix, safety) {
+          const risks = getChecks(prefix + "Risks")
+          const alternatives = getChecks(prefix + "Alternatives")
+          n.section("CONSENT / SAFETY", [
+            fact("Consent", consentValue(getRadio(prefix + "Consent"), getRadio(prefix + "ConsentBy"))),
+            fact("Risks discussed", joinNatural(risks)),
+            fact("Alternatives discussed", joinNatural(alternatives)),
+            fact("Safety checks", safety.join(", ")),
+          ])
+        }
+
+        function generateParacentesisNote() {
+          const n = createNote("PARACENTESIS PROCEDURE NOTE")
+          n.line(fact("Date/time", fmtDateTime($("dateTime").value)))
+          n.line(fact("Performed by", $("performedBy").value.trim()))
+          n.line(fact("Supervised by", $("supervisedBy").value.trim()))
+          const purpose = getChecks("purpose")
+          if (purpose.length) n.line(`Indication: ${joinNatural(purpose)} paracentesis`)
 
           const safety = []
           if ($("questionsAnswered").checked)
             safety.push("procedure explained and questions answered")
           if ($("docsVerified").checked) safety.push("relevant documents/results verified")
           if ($("siteMarked").checked) safety.push("site marked")
-          if ($("timeout").checked) safety.push("time-out performed immediately prior to procedure")
-          lines.push(...safety.map(cap))
+          if ($("timeout").checked) safety.push("time-out performed")
+          const risks = getChecks("risks")
+          const alternatives = getChecks("alternatives")
+          n.section("CONSENT / SAFETY", [
+            fact("Consent", consentValue(getRadio("consent"), getRadio("consentBy"))),
+            fact("Risks discussed", joinNatural(risks)),
+            fact("Alternatives discussed", joinNatural(alternatives)),
+            fact("Safety checks", safety.join(", ")),
+          ])
 
-          const prepParts = []
-          if ($("sterilePrep").checked)
-            prepParts.push("Preparation: prepped and draped in the usual sterile fashion")
-
-          const anesthesiaMethods = getChecks("anesthesiaMethod")
-          const local = getRadio("localAnesthetic")
-          const otherAnesthetic = $("otherAnesthetic").value.trim()
-
-          if (anesthesiaMethods.length || local || otherAnesthetic || prepParts.length) {
-            lines.push("", "PREPARATION / ANESTHESIA")
-            lines.push(...prepParts)
-            if (anesthesiaMethods.length)
-              lines.push(`Anesthesia: ${joinNatural(anesthesiaMethods)}`)
-            if (local || otherAnesthetic)
-              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}`)
-          }
+          const anesthetic = [getRadio("localAnesthetic"), $("otherAnesthetic").value.trim()]
+            .filter(Boolean)
+            .join("; ")
+          n.section("PREPARATION / ANESTHESIA", [
+            fact(
+              "Prep & anesthesia",
+              $("sterilePrep").checked && "prepped and draped in the usual sterile fashion",
+              anesthesiaValue(getChecks("anesthesiaMethod"), anesthetic),
+            ),
+          ])
 
           const us = getRadio("ultrasound")
-          const pocketLoc = getRadio("pocketLocation")
-          const pocketSize = $("pocketSize").value.trim()
-          const skinDepth = $("skinDepth").value.trim()
-          const pocketComment = $("pocketComment").value.trim()
-          const site = getRadio("site")
-
-          if (us || pocketLoc || pocketSize || skinDepth || pocketComment || site) {
-            lines.push("", "PROCEDURE")
-            if (us === "yes") {
-              lines.push("Ultrasound guidance: used")
-              if (pocketLoc) lines.push(`Appropriate pocket location: ${pocketLoc}`)
-              if (pocketSize) lines.push(`Pocket size: approximately ${pocketSize} cm`)
-              if (skinDepth) lines.push(`Skin-to-fluid depth: approximately ${skinDepth} cm`)
-            } else if (us === "no") {
-              lines.push("Ultrasound guidance: not used")
-            }
-            if (pocketComment) lines.push(`Ultrasound comments: ${pocketComment}`)
-            if (site) lines.push(`Puncture site: ${site}`)
-          }
-
-          const device = $("device").value.trim()
+          const usDetails = [
+            getRadio("pocketLocation") && `pocket in ${getRadio("pocketLocation")}`,
+            approx($("pocketSize").value.trim(), "cm"),
+            approx($("skinDepth").value.trim(), "cm skin-to-fluid depth"),
+          ]
+            .filter(Boolean)
+            .join(", ")
           const amount = $("fluidAmount").value.trim()
-          const unit = $("fluidUnit").value
-          const appearance = getRadio("appearance")
-          const dressing = getRadio("dressing")
+          n.section("PROCEDURE", [
+            fact(
+              "Ultrasound",
+              us === "yes" ? "used" : us === "no" ? "not used" : "",
+              us === "yes" && usDetails,
+              $("pocketComment").value.trim(),
+            ),
+            fact("Site", getRadio("site")),
+            fact("Device", $("device").value.trim()),
+            fact(
+              "Fluid removed",
+              [amount && amount + $("fluidUnit").value, getRadio("appearance")]
+                .filter(Boolean)
+                .join(", "),
+            ),
+            fact("Dressing", getRadio("dressing")),
+          ])
 
-          if (device || amount || appearance || dressing) {
-            lines.push("Peritoneal cavity: accessed")
-            if (device) lines.push(`Device: ${device}`)
-            if (amount) lines.push(`Fluid removed amount: ${amount}${unit}`)
-            if (appearance) lines.push(`Fluid appearance: ${appearance}`)
-            if (dressing) lines.push(`Dressing: ${dressing}`)
-          }
-
-          const completion = getRadio("completion")
           const tests = getChecks("tests")
-          const cultureBottles = $("cultureBottles").checked
           const otherTests = $("otherTests").value.trim()
+          const groups = []
+          if (tests.length || otherTests) {
+            const has = (name) => tests.includes(name)
+            if (has("cell count and differential")) groups.push("cell count and differential")
+            const chemistry = ["albumin", "total protein", "glucose", "LDH"].filter(has)
+            if (chemistry.length) groups.push(`chemistry (${chemistry.join(", ")})`)
+            if (has("Gram stain") && has("bacterial culture"))
+              groups.push("Gram stain & bacterial culture")
+            else {
+              if (has("Gram stain")) groups.push("Gram stain")
+              if (has("bacterial culture")) groups.push("bacterial culture")
+            }
+            ;["AFB smear/culture", "cytology", "amylase", "triglycerides", "bilirubin"]
+              .filter(has)
+              .forEach((t) => groups.push(t))
+            if (otherTests) groups.push(otherTests)
+          }
           const albuminGiven = $("albuminGiven").value
           const albuminDose = $("albuminDose").value.trim()
-          const comments = $("comments").value.trim()
-
-          if (
-            completion ||
-            tests.length ||
-            cultureBottles ||
-            otherTests ||
-            albuminGiven ||
-            comments
-          ) {
-            lines.push("", "POST-PROCEDURE")
-            if (completion) lines.push(`Procedure outcome: ${completion}`)
-
-            if (tests.length || otherTests) {
-              const has = (name) => tests.includes(name)
-              const groups = []
-
-              if (has("cell count and differential")) {
-                groups.push("cell count and differential")
-              }
-
-              const chemistry = []
-              if (has("albumin")) chemistry.push("albumin")
-              if (has("total protein")) chemistry.push("total protein")
-              if (has("glucose")) chemistry.push("glucose")
-              if (has("LDH")) chemistry.push("LDH")
-              if (chemistry.length) {
-                groups.push(`chemistry (${chemistry.join(", ")})`)
-              }
-
-              if (has("Gram stain") && has("bacterial culture")) {
-                groups.push("Gram stain & bacterial culture")
-              } else {
-                if (has("Gram stain")) groups.push("Gram stain")
-                if (has("bacterial culture")) groups.push("bacterial culture")
-              }
-
-              if (has("AFB smear/culture")) groups.push("AFB smear/culture")
-              if (has("cytology")) groups.push("cytology")
-              if (has("amylase")) groups.push("amylase")
-              if (has("triglycerides")) groups.push("triglycerides")
-              if (has("bilirubin")) groups.push("bilirubin")
-              if (otherTests) groups.push(otherTests)
-
-              lines.push(`Ascitic fluid studies sent: ${joinNatural(groups)}`)
-              if (cultureBottles)
-                lines.push(
-                  "Bacterial culture: inoculated into blood culture bottles at the bedside",
-                )
-            } else if (cultureBottles) {
-              lines.push("Bacterial culture: inoculated into blood culture bottles at the bedside")
-            }
-
-            if (albuminGiven === "yes") {
-              lines.push("IV albumin replacement: given")
-              if (albuminDose) lines.push(`Albumin dose: ${albuminDose} g`)
-            } else if (albuminGiven === "no") {
-              lines.push("IV albumin replacement: not given")
-            }
-
-            if (comments) lines.push("", comments)
-          }
-
-          $("noteOutput").value = lines
-            .join("\n")
-            .replace(/\n{3,}/g, "\n\n")
-            .trim()
+          n.section("POST-PROCEDURE", [
+            fact("Outcome", getRadio("completion")),
+            fact(
+              "Ascitic fluid studies sent",
+              joinNatural(groups),
+              $("cultureBottles").checked && "culture inoculated into blood culture bottles at bedside",
+            ),
+            fact(
+              "IV albumin",
+              albuminGiven === "yes"
+                ? `given${albuminDose ? ` (${albuminDose} g)` : ""}`
+                : albuminGiven === "no"
+                  ? "not given"
+                  : "",
+            ),
+          ])
+          n.raw($("comments").value.trim())
+          return n.render()
         }
 
         function generateThoracentesisNote() {
-          const lines = []
-          lines.push("THORACENTESIS PROCEDURE NOTE")
-
-          const dt = fmtDateTime($("thDateTime").value)
-          if (dt) lines.push(`Date/time: ${dt}`)
-          if ($("thPerformedBy").value.trim())
-            lines.push(`Performed by: ${$("thPerformedBy").value.trim()}`)
-          if ($("thSupervisedBy").value.trim())
-            lines.push(`Supervised by: ${$("thSupervisedBy").value.trim()}`)
-
-          const purpose = getChecks("thPurpose")
-          const side = getRadio("thSide")
-          const indication = $("thIndication").value.trim()
-
-          if (purpose.length || side) {
-            let procedureLine = "Procedure: "
-            if (purpose.length) procedureLine += `${joinNatural(purpose)} `
-            if (side) procedureLine += `${side}-sided `
-            procedureLine += "thoracentesis."
-            lines.push(procedureLine)
-          }
-          if (indication) lines.push(`Indication: ${indication}.`)
-
-          const consent = getRadio("thConsent")
-          const consentBy = getRadio("thConsentBy")
-          const risks = getChecks("thRisks")
-          const alternatives = getChecks("thAlternatives")
-
-          if (consent || risks.length || alternatives.length) {
-            lines.push("", "CONSENT / SAFETY")
-            if (consent) lines.push(`Consent: ${consent} consent obtained`)
-            if (consent && consentBy) lines.push(`Consent obtained from: ${consentBy}`)
-            if (risks.length) lines.push(`Risks discussed: ${joinNatural(risks)}`)
-            if (alternatives.length)
-              lines.push(`Alternatives discussed: ${joinNatural(alternatives)}`)
-          }
-
-          const safety = []
-          if ($("thQuestionsAnswered").checked)
-            safety.push("procedure explained and questions answered")
-          if ($("thDocsVerified").checked) safety.push("relevant imaging/results verified")
-          if ($("thSiteMarked").checked) safety.push("site marked")
-          if ($("thTimeout").checked)
-            safety.push("time-out performed immediately prior to procedure")
-          lines.push(...safety.map(cap))
-
-          const position = getRadio("thPosition")
-          const otherPosition = $("thOtherPosition").value.trim()
-          const anesthesiaMethods = getChecks("thAnesthesiaMethod")
-          const local = getRadio("thLocalAnesthetic")
-          const otherAnesthetic = $("thOtherAnesthetic").value.trim()
-
-          if (
-            position ||
-            otherPosition ||
-            $("thSterilePrep").checked ||
-            anesthesiaMethods.length ||
-            local ||
-            otherAnesthetic
-          ) {
-            lines.push("", "POSITION / PREPARATION / ANESTHESIA")
-            if (position || otherPosition) {
-              lines.push(
-                `Patient position: ${[position, otherPosition].filter(Boolean).join("; ")}`,
-              )
-            }
-            if ($("thSterilePrep").checked)
-              lines.push("Preparation: prepped and draped in the usual sterile fashion")
-            if (anesthesiaMethods.length) {
-              lines.push(`Anesthesia: ${joinNatural(anesthesiaMethods)}`)
-            }
-            if (local || otherAnesthetic)
-              lines.push(`Anesthetic: ${[local, otherAnesthetic].filter(Boolean).join("; ")}`)
-          }
-
+          const value = (id) => $("th" + id).value.trim()
+          const checked = (id) => $("th" + id).checked
+          const pig = getRadio("thType") === "pigtail"
           const us = getRadio("thUltrasound")
-          const effusionUS = getRadio("thEffusionUS")
-          const pocketSize = $("thPocketSize").value.trim()
-          const skinDepth = $("thSkinDepth").value.trim()
-          const targetLocation = getRadio("thTargetLocation")
-          const siteDetail = $("thSiteDetail").value.trim()
-          const usComment = $("thUSComment").value.trim()
+          const guidance = us === "yes" ? "US-guided" : us === "no" ? "landmark-guided" : ""
+          const purpose = pig ? [] : getChecks("thPurpose")
+          const french = pig ? value("PigFrench") : ""
+          const depth = pig ? value("PigDepth") : ""
+          const fluid = [volumeValue(value("FluidAmount"), $("thFluidUnit").value), getRadio("thAppearance")]
+            .filter(Boolean)
+            .join(" ")
 
-          if (
-            us ||
-            effusionUS ||
-            pocketSize ||
-            skinDepth ||
-            targetLocation ||
-            siteDetail ||
-            $("thDiaphragmSeen").checked ||
-            $("thLungSeen").checked ||
-            $("thClearPath").checked ||
-            usComment
-          ) {
-            lines.push("", "ULTRASOUND / SITE")
+          const procedure = [
+            sideWord(getRadio("thSide")),
+            pig ? "pleural" : guidance,
+            joinNatural(purpose),
+            french && `${french} Fr`,
+            pig ? "pigtail catheter insertion" : "thoracentesis",
+          ]
+            .filter(Boolean)
+            .join(" ")
+          const hasSummary = pig || getRadio("thSide") || us || purpose.length || french || fluid
+          const summary = hasSummary
+            ? [procedure, fluid && `${fluid} fluid ${pig ? "drained" : "removed"}`]
+                .filter(Boolean)
+                .join("; ")
+            : ""
 
-            if (us === "yes") {
-              lines.push("Ultrasound guidance: used")
-              if (side) lines.push(`Pleural effusion identified: ${side}`)
-              if (effusionUS) lines.push(`Effusion appearance on ultrasound: ${effusionUS}`)
-              if (pocketSize)
-                lines.push(`Pleural fluid pocket size: approximately ${pocketSize} cm`)
-              if (skinDepth) lines.push(`Skin-to-fluid depth: approximately ${skinDepth} cm`)
-            } else if (us === "no") {
-              lines.push("Ultrasound guidance: not used")
-            }
+          const methods = getChecks("thAnesthesiaMethod")
+          const local = methods.includes("none")
+            ? "no local anesthetic"
+            : localValue(getRadio("thLocalAnesthetic"), value("AnestheticVolume")) ||
+              joinNatural(methods)
+          const ultrasound =
+            us === "yes" &&
+            [
+              getRadio("thEffusionUS") && `${getRadio("thEffusionUS")} effusion`,
+              approx(value("PocketSize"), "cm pocket"),
+              checked("SafeWindow") && "safe window identified",
+            ]
+              .filter(Boolean)
+              .join(", ")
+          const site = [getRadio("thTargetLocation"), value("SiteDetail")].filter(Boolean).join(", ")
 
-            const anatomy = []
-            if ($("thDiaphragmSeen").checked) anatomy.push("diaphragm identified")
-            if ($("thLungSeen").checked) anatomy.push("adjacent lung identified")
-            if ($("thClearPath").checked)
-              anatomy.push("no intervening structure in the planned needle path")
-            lines.push(...anatomy.map(cap))
-
-            const siteParts = []
-            if (targetLocation) siteParts.push(targetLocation)
-            if (siteDetail) siteParts.push(siteDetail)
-            if (side && siteParts.length)
-              lines.push(`Puncture site: ${side} ${siteParts.join(", ")}.`)
-            else if (siteParts.length) lines.push(`Puncture site: ${siteParts.join(", ")}.`)
-            if (usComment) lines.push(`Ultrasound comments: ${usComment}.`)
-          }
-
-          const device = $("thDevice").value.trim()
-          const drainageMethod = getRadio("thDrainageMethod")
-          const attempts = $("thAttempts").value.trim()
-          const amount = $("thFluidAmount").value.trim()
-          const unit = $("thFluidUnit").value
-          const appearance = getRadio("thAppearance")
-          const stopReason = getRadio("thStopReason")
-          const dressing = getRadio("thDressing")
-
-          if (
-            device ||
-            drainageMethod ||
-            attempts ||
-            amount ||
-            appearance ||
-            stopReason ||
-            dressing
-          ) {
-            lines.push("", "PROCEDURE")
-
-            lines.push("Pleural space: accessed")
-            if (device) lines.push(`Device: ${device}`)
-            if (drainageMethod) lines.push(`Drainage method: ${drainageMethod}`)
-            if (attempts) lines.push(`Number of attempts: ${attempts}`)
-            if (amount) lines.push(`Fluid removed amount: ${amount}${unit}`)
-            if (appearance) lines.push(`Fluid appearance: ${appearance}`)
-            if (stopReason) lines.push(`Reason drainage stopped: ${stopReason}`)
-            if (dressing) lines.push(`Dressing: ${dressing}`)
-          }
-
-          const completion = getRadio("thCompletion")
-          const cxrOrdered = getRadio("thCxrOrdered")
-          const postLungUS = getRadio("thPostLungUS")
           const tests = getChecks("thTests")
-          const cultureBottles = $("thCultureBottles").checked
-          const pairedSerum = $("thPairedSerum").checked
-          const pHGasSyringe = $("thPHGasSyringe").checked
-          const otherTests = $("thOtherTests").value.trim()
-          const comments = $("thComments").value.trim()
+          const has = (name) => tests.includes(name)
+          const groups = []
+          if (has("cell count and differential")) groups.push("cell count and differential")
+          const chemistry = ["total protein", "LDH", "glucose", "pH", "albumin"].filter(has)
+          if (chemistry.length) groups.push(`chemistry (${chemistry.join(", ")})`)
+          if (has("Gram stain") && has("bacterial culture")) groups.push("gram stain and culture")
+          else if (has("Gram stain")) groups.push("gram stain")
+          else if (has("bacterial culture")) groups.push("bacterial culture")
+          ;["AFB smear/culture", "cytology", "flow cytometry"].filter(has).forEach((t) => groups.push(t))
+          const targeted = ["triglycerides", "cholesterol", "amylase", "hematocrit"].filter(has)
+          if (targeted.length) groups.push(`other studies (${targeted.join(", ")})`)
 
-          if (
-            completion ||
-            cxrOrdered ||
-            postLungUS ||
-            tests.length ||
-            cultureBottles ||
-            pairedSerum ||
-            pHGasSyringe ||
-            otherTests ||
-            comments
-          ) {
-            lines.push("", "POST-PROCEDURE")
-            if (completion) lines.push(`Procedure outcome: ${completion}`)
-            if (cxrOrdered === "yes") lines.push("Post-procedure chest radiograph: ordered")
-            if (cxrOrdered === "no") lines.push("Post-procedure chest radiograph: not ordered")
-            if (postLungUS === "reassuring with lung sliding present")
-              lines.push("Post-procedure lung ultrasound: reassuring with lung sliding present")
+          const stop = pig ? "" : getRadio("thStopReason")
+          const dressing = getRadio("thDressing")
+          const drainage = pig && getRadio("thPigDrainage")
+          const sutured = pig && checked("PigSutured")
+          const securement = capitalize(
+            list(
+              sutured
+                ? `sutured${depth ? ` at ${depth} cm at skin` : ""}`
+                : depth && `secured at ${depth} cm at skin`,
+              drainage && `connected to ${drainage}`,
+              stop && `drainage stopped: ${stop}`,
+              dressing && `${dressing} applied`,
+            ),
+          )
+          const cxr = getRadio("thCxrOrdered")
 
-            if (tests.length || otherTests) {
-              const has = (name) => tests.includes(name)
-              const groups = []
-
-              if (has("cell count and differential")) {
-                groups.push("cell count and differential")
-              }
-
-              const chemistry = []
-              if (has("total protein")) chemistry.push("total protein")
-              if (has("LDH")) chemistry.push("LDH")
-              if (has("glucose")) chemistry.push("glucose")
-              if (has("pH")) chemistry.push("pH")
-              if (has("albumin")) chemistry.push("albumin")
-              if (chemistry.length) groups.push(`chemistry (${chemistry.join(", ")})`)
-
-              if (has("Gram stain") && has("bacterial culture")) {
-                groups.push("Gram stain & bacterial culture")
-              } else {
-                if (has("Gram stain")) groups.push("Gram stain")
-                if (has("bacterial culture")) groups.push("bacterial culture")
-              }
-
-              if (has("AFB smear/culture")) groups.push("AFB smear/culture")
-              if (has("cytology")) groups.push("cytology")
-              if (has("flow cytometry")) groups.push("flow cytometry")
-
-              const targeted = []
-              if (has("triglycerides")) targeted.push("triglycerides")
-              if (has("cholesterol")) targeted.push("cholesterol")
-              if (has("amylase")) targeted.push("amylase")
-              if (has("hematocrit")) targeted.push("hematocrit")
-              if (targeted.length) groups.push(`other studies (${targeted.join(", ")})`)
-
-              if (otherTests) groups.push(otherTests)
-
-              lines.push(`Pleural fluid studies sent: ${joinNatural(groups)}`)
-            }
-
-            const collectionDetails = []
-            if (cultureBottles)
-              collectionDetails.push("Bacterial culture: inoculated into blood culture bottles")
-            if (pairedSerum) collectionDetails.push("Paired serum protein and LDH: sent")
-            if (pHGasSyringe)
-              collectionDetails.push("Pleural fluid pH: collected in a blood gas syringe")
-            lines.push(...collectionDetails)
-
-            if (comments) lines.push("", comments)
-          }
-
-          return lines
-            .join("\n")
-            .replace(/\n{3,}/g, "\n\n")
-            .trim()
+          return lineNote(
+            pig ? "PIGTAIL CATHETER INSERTION NOTE" : "THORACENTESIS PROCEDURE NOTE",
+            "th",
+            summary,
+            [
+              fact("Indication", value("Indication")),
+              consentLine("th", getChecks("thRisks"), checked("Timeout")),
+              fact("US appearance", ultrasound),
+              fact(
+                "Technique",
+                pig && guidance,
+                getRadio("thPosition"),
+                checked("SterilePrep") && "sterile prep",
+                local,
+                site,
+                pig ? getRadio("thPigTechnique") : getRadio("thDrainageMethod"),
+                pig && checked("PigDilated") && "tract dilated",
+                attemptsValue(value("Attempts")),
+                pig && checked("PigWireRemoved") && "guidewire removed intact",
+              ),
+              securement,
+              fact(
+                "Post-procedure",
+                getRadio("thCompletion"),
+                getRadio("thPostLungUS") === "reassuring with lung sliding present" &&
+                  "lung sliding present on US",
+                cxr === "yes" ? "CXR ordered" : cxr === "no" ? "CXR not ordered" : "",
+              ),
+              fact(
+                "Studies sent",
+                joinNatural(groups),
+                checked("PairedSerum") && "paired serum protein and LDH sent",
+              ),
+            ],
+            value("Comments"),
+          )
         }
 
         let pivAttemptCounter = 0
@@ -3746,323 +3890,268 @@
         }
 
         function generatePIVNote() {
-          const lines = []
-          lines.push("ULTRASOUND-GUIDED PERIPHERAL IV INSERTION PROCEDURE NOTE")
+          const n = createNote("ULTRASOUND-GUIDED PERIPHERAL IV INSERTION PROCEDURE NOTE")
+          noteHeader(n, "piv")
+          n.line(
+            fact(
+              "Indication",
+              joinNatural([...getChecks("pivIndications"), $("pivIndicationOther").value.trim()]),
+            ),
+          )
 
-          const dt = fmtDateTime($("pivDateTime").value)
-          if (dt) lines.push(`Date/time: ${dt}`)
-          if ($("pivPerformedBy").value.trim())
-            lines.push(`Performed by: ${$("pivPerformedBy").value.trim()}`)
-          if ($("pivSupervisedBy").value.trim())
-            lines.push(`Supervised by: ${$("pivSupervisedBy").value.trim()}`)
-
-          const indications = getChecks("pivIndications")
-          const otherIndication = $("pivIndicationOther").value.trim()
-          const indicationParts = [...indications]
-          if (otherIndication) indicationParts.push(otherIndication)
-          if (indicationParts.length) lines.push(`Indication: ${joinNatural(indicationParts)}.`)
-
-          const consent = getRadio("pivConsent")
           const prep = []
-          if ($("pivHandHygiene").checked) prep.push("hand hygiene performed")
-          if ($("pivChlorhexidine").checked) prep.push("skin prepped with chlorhexidine")
-          if ($("pivSterileCover").checked) prep.push("sterile ultrasound probe cover used")
-          if ($("pivSterileGel").checked) prep.push("sterile ultrasound gel used")
+          if ($("pivHandHygiene").checked) prep.push("hand hygiene")
+          if ($("pivChlorhexidine").checked) prep.push("chlorhexidine skin prep")
+          if ($("pivSterileCover").checked) prep.push("sterile probe cover")
+          if ($("pivSterileGel").checked) prep.push("sterile gel")
           const anesthetic = getRadio("pivAnesthetic")
-
-          if (consent || prep.length || anesthetic) {
-            lines.push("", "CONSENT / PREPARATION")
-            if (consent) lines.push(`Consent: ${consent}`)
-            lines.push(...prep.map(cap))
-            if (anesthetic && anesthetic !== "none") lines.push(`Local anesthetic: ${anesthetic}`)
-            if (anesthetic === "none") lines.push("Local anesthetic: none")
-          }
+          n.section("CONSENT / PREPARATION", [
+            fact("Consent", getRadio("pivConsent")),
+            fact(
+              "Prep & anesthesia",
+              prep.join(", "),
+              anesthetic && `local anesthetic: ${anesthetic}`,
+            ),
+          ])
 
           const side = getRadio("pivSide")
           const region = getRadio("pivRegion")
-          const siteDetail = $("pivSiteDetail").value.trim()
-          const selectedVein = getRadio("pivVein")
-          const veinOther = $("pivVeinOther").value.trim()
-          const vein = veinOther || selectedVein
-          const veinDepth = $("pivVeinDepth").value.trim()
-          const veinDiameter = $("pivVeinDiameter").value.trim()
-          const approach = getRadio("pivUSApproach")
-          const usComment = $("pivUSComment").value.trim()
-
-          const vesselFeatures = []
-          if ($("pivCompressible").checked) vesselFeatures.push("compressible")
-          if ($("pivPatent").checked) vesselFeatures.push("patent")
-          if ($("pivNoThrombus").checked) vesselFeatures.push("without visible thrombus")
-
-          if (
-            side ||
-            region ||
-            siteDetail ||
-            vein ||
-            vesselFeatures.length ||
-            veinDepth ||
-            veinDiameter ||
-            approach ||
-            $("pivAdjacentStructures").checked ||
-            $("pivRealtime").checked ||
-            $("pivTipVisualized").checked ||
-            usComment
-          ) {
-            lines.push("", "ULTRASOUND / TARGET VESSEL")
-
-            const locationParts = [
-              side,
-              region && region !== "other site" ? region : "",
-              siteDetail,
-            ].filter(Boolean)
-            lines.push(`Ultrasound target: suitable ${vein || "peripheral vein"}`)
-            if (locationParts.length) lines.push(`Target site: ${locationParts.join(" ")}`)
-            if (vesselFeatures.length) lines.push(`Vessel features: ${joinNatural(vesselFeatures)}`)
-            if (veinDepth) lines.push(`Vein depth: approximately ${veinDepth} cm`)
-            if (veinDiameter) lines.push(`Vein diameter: approximately ${veinDiameter} cm`)
-
-            if ($("pivAdjacentStructures").checked)
-              lines.push("Adjacent arterial and other relevant structures identified")
-            if (approach) lines.push(`Ultrasound approach: ${approach}.`)
-
-            const guidance = []
-            if ($("pivRealtime").checked)
-              guidance.push("needle advanced under real-time ultrasound guidance")
-            if ($("pivTipVisualized").checked)
-              guidance.push("needle tip visualized entering the vein")
-            lines.push(...guidance.map(cap))
-            if (usComment) lines.push(`Ultrasound comments: ${usComment}.`)
-          }
-
-          const priorAttemptsStatus = getRadio("pivPriorAttempts")
-          const priorAttempts = getPivPriorAttempts()
-          const priorAttemptsSummary = $("pivPriorAttemptsSummary").value.trim()
-
-          if (priorAttemptsStatus || priorAttempts.length || priorAttemptsSummary) {
-            lines.push("", "PRIOR PIV ATTEMPTS")
-
-            if (priorAttemptsStatus === "no") {
-              lines.push("Prior peripheral IV attempts: none")
-            } else if (priorAttempts.length) {
-              priorAttempts.forEach((a, index) => {
-                const location = [a.side, a.region && a.region !== "other site" ? a.region : ""]
-                  .filter(Boolean)
-                  .join(" ")
-                lines.push(`Prior site ${index + 1}:`)
-                if (location) lines.push(`Site: ${location}`)
-                if (a.vein) lines.push(`Site detail: ${a.vein}`)
-                if (a.count) lines.push(`Number of puncture attempts: ${a.count}`)
-                if (a.technique) lines.push(`Technique: ${a.technique}`)
-                if (a.outcome) lines.push(`Outcome: ${a.outcome}`)
-                if (a.comment) lines.push(`Complication / reason for failure: ${a.comment}`)
-              })
-            } else if (priorAttemptsStatus === "yes") {
-              lines.push("Prior peripheral IV attempts: yes")
-            }
-
-            if (priorAttemptsSummary) lines.push(priorAttemptsSummary)
-          }
-
-          const gauge = getRadio("pivGauge")
-          const length = getRadio("pivLength")
-          const lengthOther = $("pivLengthOther").value.trim()
-          const attempts = $("pivAttempts").value.trim()
-          const dressing = getRadio("pivDressing")
-
-          if (
-            gauge ||
-            length ||
-            lengthOther ||
-            attempts ||
-            $("pivBloodReturn").checked ||
-            $("pivFlushes").checked ||
-            $("pivNoInfiltration").checked ||
-            $("pivUSInVein").checked ||
-            dressing
-          ) {
-            lines.push("", "INSERTION")
-
-            const deviceParts = []
-            if (gauge) deviceParts.push(gauge)
-            if (length) deviceParts.push(length)
-            if (lengthOther) deviceParts.push(lengthOther)
-
-            lines.push("Peripheral IV catheter: inserted")
-            if (deviceParts.length) lines.push(`Catheter: ${deviceParts.join(" ")}`)
-
-            const insertionLocation = [
-              side,
-              region && region !== "other site" ? region : "",
-              siteDetail,
-            ].filter(Boolean)
-            if (insertionLocation.length)
-              lines.push(`Insertion site: ${insertionLocation.join(" ")}`)
-            if (attempts) lines.push(`Number of attempts: ${attempts}`)
-
-            const confirmation = []
-            if ($("pivBloodReturn").checked) confirmation.push("blood return obtained")
-            if ($("pivFlushes").checked) confirmation.push("catheter flushed easily with saline")
-            if ($("pivNoInfiltration").checked)
-              confirmation.push("no pain, swelling, or infiltration with flush")
-            if ($("pivUSInVein").checked)
-              confirmation.push("catheter visualized within the vein on ultrasound")
-            lines.push(...confirmation.map(cap))
-
-            if (dressing) lines.push(`Catheter securement: ${dressing}`)
-          }
-
-          const outcome = getRadio("pivOutcome")
-          const complications = getChecks("pivComplications")
-          const comments = $("pivComments").value.trim()
-
-          if (outcome || complications.length || comments) {
-            lines.push("", "POST-PROCEDURE")
-            if (outcome) lines.push(`Outcome: ${outcome}`)
-            if (complications.length)
-              lines.push(
-                `Immediate complication${complications.length > 1 ? "s" : ""}: ${joinNatural(complications)}.`,
-              )
-            if (comments) lines.push("", comments)
-          }
-
-          return lines
-            .join("\n")
-            .replace(/\n{3,}/g, "\n\n")
-            .trim()
-        }
-
-        function generateArterialLineNote() {
-          const lines = ["ARTERIAL LINE PROCEDURE NOTE"]
-          const value = (id) => $("al" + id).value.trim()
-          const checked = (id) => $("al" + id).checked
-          const addSection = (title, entries) => {
-            const completed = entries.filter(Boolean)
-            if (completed.length) lines.push("", title, ...completed)
-          }
-
-          const dt = fmtDateTime(value("DateTime"))
-          if (dt) lines.push(`Date/time: ${dt}`)
-          if (value("PerformedBy")) lines.push(`Performed by: ${value("PerformedBy")}`)
-          if (value("SupervisedBy")) lines.push(`Supervised by: ${value("SupervisedBy")}`)
-          const indications = [...getChecks("alIndications"), value("IndicationOther")].filter(
-            Boolean,
-          )
-          if (indications.length) lines.push(`Indication: ${joinNatural(indications)}.`)
-
-          const consent = getRadio("alConsent")
-          const consentBy = getRadio("alConsentBy")
-          const risks = getChecks("alRisks")
-          const alternatives = getChecks("alAlternatives")
-          const safety = []
-          if (checked("QuestionsAnswered"))
-            safety.push("procedure explained and questions answered")
-          if (checked("IdentityVerified")) safety.push("patient identity verified")
-          if (checked("Timeout")) safety.push("time-out performed immediately prior to procedure")
-          if (checked("SiteConfirmed")) safety.push("site and side confirmed")
-          addSection("CONSENT / SAFETY", [
-            consent === "emergent situation"
-              ? "Procedure urgency: emergent situation"
-              : consent
-                ? `Consent: ${consent} consent obtained`
-                : "",
-            consentBy && consent !== "emergent situation" ? `Consent given by: ${consentBy}` : "",
-            risks.length ? `Risks discussed: ${joinNatural(risks)}` : "",
-            alternatives.length ? `Alternatives discussed: ${joinNatural(alternatives)}` : "",
-            ...safety.map(cap),
-          ])
-
-          const site = [
-            getRadio("alSide"),
-            getRadio("alArtery") && `${getRadio("alArtery")} artery`,
-            value("SiteDetail"),
+          const location = [
+            side,
+            region && region !== "other site" ? region : "",
+            $("pivSiteDetail").value.trim(),
           ]
             .filter(Boolean)
             .join(" ")
-          const prep = []
-          if (checked("HandHygiene")) prep.push("hand hygiene performed")
-          if (checked("SterilePrep")) prep.push("site prepped and draped sterilely")
-          if (checked("SterileGloves")) prep.push("sterile gloves used")
-          if (checked("SterileUS")) prep.push("sterile ultrasound probe cover and gel used")
-          const anesthetic = value("AnestheticOther") || getRadio("alAnesthetic")
-          addSection("SITE / PREPARATION", [
-            site ? `Site: ${site}.` : "",
-            value("VascularAssessment")
-              ? `Pre-procedure vascular assessment: ${value("VascularAssessment")}`
-              : "",
-            ...prep.map(cap),
-            value("Antiseptic") ? `Skin antiseptic: ${value("Antiseptic")}.` : "",
-            anesthetic === "none"
-              ? "Local anesthetic: none"
-              : anesthetic
-                ? `Local anesthetic: ${anesthetic}`
-                : "",
-            anesthetic !== "none" && value("AnestheticVolume")
-              ? `Local anesthetic volume: ${value("AnestheticVolume")} mL`
-              : "",
+          const vein = $("pivVeinOther").value.trim() || getRadio("pivVein")
+          const features = []
+          if ($("pivCompressible").checked) features.push("compressible")
+          if ($("pivPatent").checked) features.push("patent")
+          if ($("pivNoThrombus").checked) features.push("no visible thrombus")
+          const measures = [
+            approx($("pivVeinDepth").value.trim(), "cm deep"),
+            approx($("pivVeinDiameter").value.trim(), "cm diameter"),
+          ]
+            .filter(Boolean)
+            .join(", ")
+          const guidance = []
+          if ($("pivAdjacentStructures").checked) guidance.push("adjacent structures identified")
+          if ($("pivRealtime").checked) guidance.push("real-time needle guidance")
+          if ($("pivTipVisualized").checked) guidance.push("needle tip visualized entering vein")
+          n.section("ULTRASOUND / TARGET VESSEL", [
+            fact(
+              "Target vessel",
+              [vein, location].filter(Boolean).join(", "),
+              features.join(", "),
+              measures,
+            ),
+            fact("Technique", getRadio("pivUSApproach"), guidance.join(", ")),
+            fact("Ultrasound comments", $("pivUSComment").value.trim()),
           ])
 
-          const guidance = getRadio("alGuidance")
-          const technique = getRadio("alTechnique")
-          const device = []
-          if (value("Gauge")) device.push(`${value("Gauge")}-gauge`)
-          if (value("Length")) device.push(`${value("Length")} cm`)
-          if (value("Device")) device.push(value("Device"))
-          const outcome = getRadio("alOutcome")
-          addSection("INSERTION", [
-            guidance ? `Guidance: ${guidance}.` : "",
-            value("USFindings") ? `Ultrasound findings: ${value("USFindings")}` : "",
-            technique ? `Technique: ${technique}.` : "",
-            device.length ? `Catheter: ${device.join(", ")}.` : "",
-            value("Attempts") ? `Number of attempts: ${value("Attempts")}.` : "",
-            checked("WireRemoved") ? "Guidewire removed intact." : "",
-            outcome === "successful"
-              ? "Placement outcome: successful"
-              : outcome === "unsuccessful"
-                ? "Placement outcome: unsuccessful"
-                : outcome === "aborted"
-                  ? "Placement outcome: aborted"
+          const priorStatus = getRadio("pivPriorAttempts")
+          const prior = getPivPriorAttempts()
+          n.section("PRIOR PIV ATTEMPTS", [
+            priorStatus === "no"
+              ? "Prior peripheral IV attempts: none"
+              : prior.length
+                ? prior.map((a, i) => {
+                    const loc = [a.side, a.region && a.region !== "other site" ? a.region : ""]
+                      .filter(Boolean)
+                      .join(" ")
+                    const count = a.count && `${a.count} puncture${a.count === "1" ? "" : "s"}`
+                    const bits = [loc, a.vein, count, a.technique, a.outcome, a.comment]
+                    return `Prior site ${i + 1}: ${bits.filter(Boolean).join(", ")}`
+                  })
+                : priorStatus === "yes"
+                  ? "Prior peripheral IV attempts: yes"
                   : "",
+            $("pivPriorAttemptsSummary").value.trim(),
           ])
 
+          const device = [
+            getRadio("pivGauge"),
+            getRadio("pivLength"),
+            $("pivLengthOther").value.trim(),
+          ]
+            .filter(Boolean)
+            .join(" ")
+          const attempts = $("pivAttempts").value.trim()
           const confirmation = []
-          if (checked("BloodReturn")) confirmation.push("pulsatile blood return obtained")
-          if (checked("Waveform")) confirmation.push("arterial pressure waveform confirmed")
-          if (checked("Transducer")) confirmation.push("pressure transducer leveled and zeroed")
-          if (checked("Flushes")) confirmation.push("catheter flushed without resistance")
-          const securement = getRadio("alSecurement")
-          const dressing = getRadio("alDressing")
-          addSection("CONFIRMATION / SECUREMENT", [
-            ...confirmation.map(cap),
-            securement ? `Catheter securement: ${securement}` : "",
-            dressing ? `Dressing: ${dressing}.` : "",
+          if ($("pivBloodReturn").checked) confirmation.push("blood return")
+          if ($("pivFlushes").checked) confirmation.push("flushes easily with saline")
+          if ($("pivNoInfiltration").checked) confirmation.push("no pain, swelling, or infiltration")
+          if ($("pivUSInVein").checked) confirmation.push("catheter visualized in vein on US")
+          n.section("INSERTION", [
+            fact("Catheter", device, location && `inserted in ${location}`, attempts && `attempts: ${attempts}`),
+            fact("Confirmation", confirmation.join(", ")),
+            fact("Securement", getRadio("pivDressing")),
           ])
 
-          const tolerance = getRadio("alTolerance")
-          const complications = getRadio("alComplications")
-          const complicationDetails = value("ComplicationDetails")
-          addSection("POST-PROCEDURE", [
-            value("DistalAssessment")
-              ? `Distal neurovascular assessment: ${value("DistalAssessment")}`
-              : "",
-            tolerance ? `Tolerance: ${tolerance}` : "",
-            complicationDetails
-              ? `Immediate complications / management: ${complicationDetails}`
-              : complications === "none"
-                ? "Immediate complications: none observed"
-                : complications === "present"
-                  ? "Immediate complications: present"
-                  : "",
-            value("Plan") ? `Plan: ${value("Plan")}` : "",
-            value("Comments"),
+          const complications = getChecks("pivComplications")
+          n.section("POST-PROCEDURE", [
+            fact("Outcome", getRadio("pivOutcome")),
+            fact("Immediate complications", joinNatural(complications)),
           ])
-          return lines.join("\n").trim()
+          n.raw($("pivComments").value.trim())
+          return n.render()
+        }
+
+        // Shared layout for the vascular line notes: header, a one-line summary of the
+        // device, then bullets that only add what the summary doesn't already say.
+        function lineNote(title, prefix, summary, bullets, comments) {
+          const n = createNote(title)
+          const value = (id) => $(prefix + id).value.trim()
+          n.line(fact("Date/time", fmtDateTime(value("DateTime"))))
+          const by = value("PerformedBy")
+          const sup = value("SupervisedBy")
+          n.line(
+            by
+              ? `Performed by: ${by}${sup ? `; Supervised by: ${sup}` : ""}`
+              : fact("Supervised by", sup),
+          )
+          const body = [summary, ...bullets.filter(Boolean).map((b) => `- ${b}`)].filter(Boolean)
+          if (body.length) n.raw(body.join("\n"))
+          n.raw(comments)
+          return n.render()
+        }
+        const sideWord = (side) => (side === "right" ? "Right" : side === "left" ? "Left" : "")
+        // Volumes of 1000 mL or more print in litres (1200 mL -> 1.2 L)
+        const volumeValue = (amount, unit) => {
+          if (!amount) return ""
+          const n = Number(amount)
+          return unit === "mL" && n >= 1000 ? `${+(n / 1000).toFixed(2)} L` : `${amount} ${unit}`
+        }
+        const capitalize = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "")
+        const localValue = (anesthetic, volume) =>
+          anesthetic === "none"
+            ? "no local anesthetic"
+            : [anesthetic, volume && `${volume} mL`].filter(Boolean).join(" ")
+        const attemptsValue = (attempts) =>
+          attempts && `${attempts} attempt${attempts === "1" ? "" : "s"}`
+        const consentLine = (prefix, risks, timeout, alternatives = getChecks(prefix + "Alternatives")) =>
+          fact(
+            "Consent",
+            consentValue(getRadio(prefix + "Consent"), getRadio(prefix + "ConsentBy")),
+            risks.length && `risks incl. ${joinNatural(risks)} discussed`,
+            alternatives.length && `alternatives incl. ${joinNatural(alternatives)} discussed`,
+            timeout && "time-out performed",
+          )
+
+        function generateArterialLineNote() {
+          const value = (id) => $("al" + id).value.trim()
+          const checked = (id) => $("al" + id).checked
+          const outcome = getRadio("alOutcome")
+          const securement = getRadio("alSecurement")
+
+          const summary = [
+            sideWord(getRadio("alSide")),
+            getRadio("alArtery"),
+            value("Gauge") && `${value("Gauge")}G`,
+            value("Length") && `${value("Length")} cm`,
+            "arterial line",
+          ]
+            .filter(Boolean)
+            .join(" ")
+          const hasSummary = getRadio("alSide") || getRadio("alArtery") || value("Gauge") || value("Length")
+
+          return lineNote(
+            "ARTERIAL LINE PROCEDURE NOTE",
+            "al",
+            hasSummary || outcome
+              ? summary + (outcome && outcome !== "successful" ? ` (placement ${outcome})` : "")
+              : "",
+            [
+              fact("Indication", joinNatural([...getChecks("alIndications"), value("IndicationOther")])),
+              consentLine("al", getChecks("alRisks"), checked("Timeout")),
+              fact(
+                "Technique",
+                checked("SterilePrep") && "sterile prep",
+                localValue(getRadio("alAnesthetic"), value("AnestheticVolume")),
+                getRadio("alGuidance"),
+                getRadio("alTechnique"),
+                attemptsValue(value("Attempts")),
+                checked("WireRemoved") && "guidewire removed intact",
+              ),
+              capitalize(
+                list(
+                  checked("Waveform") && "arterial waveform confirmed; transducer leveled and zeroed",
+                  securement && `secured with ${securement}; sterile dressing applied`,
+                ),
+              ),
+              fact(
+                "Post-procedure",
+                value("DistalAssessment") && `distal perfusion: ${value("DistalAssessment")}`,
+                complicationLine(getRadio("alComplications"), value("ComplicationDetails")),
+                value("Plan") && `plan: ${value("Plan")}`,
+              ),
+            ],
+            value("Comments"),
+          )
+        }
+
+        function generateCentralLineNote() {
+          const value = (id) => $("cvc" + id).value.trim()
+          const checked = (id) => $("cvc" + id).checked
+          const outcome = getRadio("cvcOutcome")
+          const type = value("TypeOther") || getRadio("cvcType")
+          const depth = value("Depth") && `secured at ${value("Depth")} cm at skin`
+          // Lock solution only applies to dialysis catheters
+          const lock = /dialysis/.test(type) ? value("LockOther") || getRadio("cvcLock") : ""
+
+          const summary = [
+            sideWord(getRadio("cvcSide")),
+            getRadio("cvcVein"),
+            value("French") && `${value("French")} Fr`,
+            value("Length") && `${value("Length")} cm`,
+            !type ? "CVC" : /lumen$/.test(type) ? `${type} CVC` : type,
+          ]
+            .filter(Boolean)
+            .join(" ")
+          const hasSummary =
+            getRadio("cvcSide") || getRadio("cvcVein") || value("French") || value("Length") || type
+
+          return lineNote(
+            "CENTRAL VENOUS CATHETER PROCEDURE NOTE",
+            "cvc",
+            hasSummary || outcome
+              ? summary + (outcome && outcome !== "successful" ? ` (placement ${outcome})` : "")
+              : "",
+            [
+              fact("Indication", joinNatural([...getChecks("cvcIndications"), value("IndicationOther")])),
+              consentLine("cvc", getChecks("cvcRisks"), checked("Timeout")),
+              fact(
+                "Technique",
+                checked("Barrier") && "full sterile barrier precautions",
+                localValue(getRadio("cvcAnesthetic"), value("AnestheticVolume")),
+                getRadio("cvcGuidance"),
+                getRadio("cvcTechnique"),
+                attemptsValue(value("Attempts")),
+                checked("WireRemoved") && "guidewire removed intact",
+              ),
+              checked("LineCare")
+                ? `All lumens aspirated and flushed${lock ? `, locked with ${lock}` : ""}; sutured${value("Depth") ? ` at ${value("Depth")} cm at skin` : ""}; sterile dressing applied`
+                : capitalize(list(lock && `lumens locked with ${lock}`, depth)),
+              fact(
+                "Post-procedure",
+                tipLine(joinNatural(getChecks("cvcTipConfirm")), value("Imaging")),
+                getRadio("cvcStatus"),
+                complicationLine(getRadio("cvcComplications"), value("ComplicationDetails")),
+                value("Plan") && `plan: ${value("Plan")}`,
+              ),
+            ],
+            value("Comments"),
+          )
         }
 
         let activeProcedure = "para"
 
         function generateNote() {
           if (activeProcedure === "thora") {
-            $("noteTitle").textContent = "Thoracentesis procedure note"
+            $("noteTitle").textContent =
+              getRadio("thType") === "pigtail"
+                ? "Pigtail catheter insertion note"
+                : "Thoracentesis procedure note"
             $("noteOutput").value = generateThoracentesisNote()
           } else if (activeProcedure === "piv") {
             $("noteTitle").textContent = "US-guided peripheral IV procedure note"
@@ -4070,9 +4159,12 @@
           } else if (activeProcedure === "al") {
             $("noteTitle").textContent = "Arterial line procedure note"
             $("noteOutput").value = generateArterialLineNote()
+          } else if (activeProcedure === "cvc") {
+            $("noteTitle").textContent = "Central venous catheter procedure note"
+            $("noteOutput").value = generateCentralLineNote()
           } else {
             $("noteTitle").textContent = "Paracentesis procedure note"
-            generateParacentesisNote()
+            $("noteOutput").value = generateParacentesisNote()
           }
         }
 
@@ -4084,6 +4176,7 @@
           if ($("thDateTime") && !$("thDateTime").value) $("thDateTime").value = local
           if ($("pivDateTime") && !$("pivDateTime").value) $("pivDateTime").value = local
           if ($("alDateTime") && !$("alDateTime").value) $("alDateTime").value = local
+          if ($("cvcDateTime") && !$("cvcDateTime").value) $("cvcDateTime").value = local
         }
 
         function updatePivPriorAttemptsUI() {
@@ -4147,6 +4240,7 @@
             $("thoraForm").classList.toggle("active", activeProcedure === "thora")
             $("pivForm").classList.toggle("active", activeProcedure === "piv")
             $("alForm").classList.toggle("active", activeProcedure === "al")
+            $("cvcForm").classList.toggle("active", activeProcedure === "cvc")
             setView("fields")
             generateNote()
           })
@@ -4156,6 +4250,39 @@
           if (el.id !== "noteOutput") {
             el.addEventListener("input", generateNote)
             el.addEventListener("change", generateNote)
+          }
+        })
+
+        // Let every radio option be unclicked: clicking (or pressing space on) an
+        // already-selected radio clears it. State is captured before the click
+        // changes it, so this also works for radios added or reset later.
+        const radioFrom = (target) => {
+          if (!(target instanceof Element)) return null
+          if (target.matches('input[type="radio"]')) return target
+          const label = target.closest("label")
+          const control = label && (label.control || label.querySelector("input"))
+          return control && control.type === "radio" ? control : null
+        }
+        const rememberRadioState = (event) => {
+          const radio = radioFrom(event.target)
+          if (radio) radio.dataset.wasChecked = radio.checked ? String(Date.now()) : ""
+        }
+        document.addEventListener("pointerdown", rememberRadioState, true)
+        document.addEventListener(
+          "keydown",
+          (event) => {
+            if (event.key === " ") rememberRadioState(event)
+          },
+          true,
+        )
+        document.addEventListener("click", (event) => {
+          const radio = event.target
+          if (!(radio instanceof HTMLInputElement) || radio.type !== "radio") return
+          const wasChecked = Date.now() - Number(radio.dataset.wasChecked || 0) < 1000
+          delete radio.dataset.wasChecked
+          if (wasChecked) {
+            radio.checked = false
+            radio.dispatchEvent(new Event("change", { bubbles: true }))
           }
         })
 
@@ -4189,15 +4316,44 @@
           a.href = url
           a.download =
             activeProcedure === "thora"
-              ? "thoracentesis-procedure-note.txt"
+              ? getRadio("thType") === "pigtail"
+                ? "pigtail-catheter-insertion-note.txt"
+                : "thoracentesis-procedure-note.txt"
               : activeProcedure === "piv"
                 ? "ultrasound-guided-peripheral-iv-procedure-note.txt"
                 : activeProcedure === "al"
                   ? "arterial-line-procedure-note.txt"
-                  : "paracentesis-procedure-note.txt"
+                  : activeProcedure === "cvc"
+                    ? "central-venous-catheter-procedure-note.txt"
+                    : "paracentesis-procedure-note.txt"
           a.click()
           URL.revokeObjectURL(url)
         })
+
+        // Catheter lock row only shows for dialysis catheters
+        function updateCvcLock() {
+          const type = $("cvcTypeOther").value.trim() || getRadio("cvcType")
+          $("cvcLockRow").style.display = /dialysis/i.test(type) ? "" : "none"
+        }
+        document
+          .querySelectorAll('input[name="cvcType"], #cvcTypeOther')
+          .forEach((el) => {
+            el.addEventListener("change", updateCvcLock)
+            el.addEventListener("input", updateCvcLock)
+          })
+        updateCvcLock()
+
+        // Thoracentesis tab doubles as pigtail insertion: show only the rows for the chosen type
+        function updateThType() {
+          const kind = getRadio("thType") === "pigtail" ? "pig" : "thora"
+          document.querySelectorAll("#thoraForm [data-th]").forEach((row) => {
+            row.style.display = row.dataset.th === kind ? "" : "none"
+          })
+        }
+        document
+          .querySelectorAll('input[name="thType"]')
+          .forEach((el) => el.addEventListener("change", updateThType))
+        updateThType()
 
         $("resetBtn").addEventListener("click", () => {
           const label =
@@ -4207,7 +4363,9 @@
                 ? "US-guided peripheral IV"
                 : activeProcedure === "al"
                   ? "arterial line"
-                  : "paracentesis"
+                  : activeProcedure === "cvc"
+                    ? "central venous catheter"
+                    : "paracentesis"
           if (!confirm(`Clear all ${label} fields?`)) return
 
           const scope =
@@ -4217,7 +4375,9 @@
                 ? $("pivForm")
                 : activeProcedure === "al"
                   ? $("alForm")
-                  : $("paraForm")
+                  : activeProcedure === "cvc"
+                    ? $("cvcForm")
+                    : $("paraForm")
           scope.querySelectorAll("input").forEach((el) => {
             if (el.type === "checkbox" || el.type === "radio") el.checked = false
             else el.value = ""
@@ -4225,6 +4385,8 @@
           scope.querySelectorAll("textarea").forEach((el) => (el.value = ""))
           scope.querySelectorAll("select").forEach((el) => (el.selectedIndex = 0))
 
+          if (activeProcedure === "thora") updateThType()
+          if (activeProcedure === "cvc") updateCvcLock()
           if (activeProcedure === "piv") {
             $("pivAttemptList").innerHTML = ""
             $("pivPriorAttemptsDetails").style.display = "none"
@@ -4237,6 +4399,7 @@
           if (activeProcedure === "thora") $("thDateTime").value = local
           else if (activeProcedure === "piv") $("pivDateTime").value = local
           else if (activeProcedure === "al") $("alDateTime").value = local
+          else if (activeProcedure === "cvc") $("cvcDateTime").value = local
           else $("dateTime").value = local
 
           generateNote()
