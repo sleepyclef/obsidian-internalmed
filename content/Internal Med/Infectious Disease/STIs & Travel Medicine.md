@@ -1,6 +1,6 @@
 ```
 # Fever in returned traveller 
-- rash (dengue, rickettsia), arthralgias (chikungunya), resp sx (viral, legionella), jaundice (acute Hep A/B/C/E, EBV, dengue, Q fever; cholangitis; liver abscess)
+rash (dengue, rickettsia), arthralgias (chikungunya), resp sx (viral, legionella), jaundice (acute Hep A/B/C/E, EBV, dengue, Q fever; cholangitis; liver abscess)
 
 - Liver enzymes, INR
 - Bcx x2, Ucx, CXR, viral swabs
@@ -11,6 +11,7 @@
 - STI if sex: chlamydia, gonorrhea urine, syphillis
   
 - monitor off antibiotics for now - if develops fever in hospital or clinical deterioration consider empiric coverage
+  
 ```
 
 serology generally refers to testing blood for antibodies (immunoglobulins), most commonly IgM and IgG, against a specific pathogen.

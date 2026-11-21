@@ -74,8 +74,8 @@ Other anti GP
 
 FQs
 - Cipro (PO/IV) = mostly GNs, include PsA (only oral abx of PsA), in some cases can also cover ESBL and AmpC if lucky 
-- Levofloxacin (PO/IV) = called resp FQ since have more reliable GP coverage in addition to GN, + intracellular organisms (thats why with beta lactams have to add azithro etc but not with FQ) 
-- Moxifloxacin (PO/IV) = also a resp FQ similar as levo, has anaerobic coverage (in theory) 
+- Levofloxacin (PO/IV) = called resp FQ since have more reliable GP coverage in addition to GN, + intracellular organisms (thats why with beta lactams have to add azithro etc but not with FQ) , can also cover ESBL and AmpC if lucky 
+- Moxifloxacin (PO/IV) = also a resp FQ similar as levo, has anaerobic coverage (in theory)
 
 Misc
 - Septra =can be used for community acquired MRSA (decent amount of strains from the community are susceptible), sometimes AmpC/ESBL (eg. in UTI if no other options) + weird things like Toxo, pneumocystis (PJP)

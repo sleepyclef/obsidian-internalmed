@@ -3,7 +3,8 @@
 in the absence of +ve bcx, infxs sx, but only see possible veggie on echo 
 - possibilities - non-infxs structure (degenerative strand, artefact), indolent/ cx negative IE, prev IE (ask pt, chewed appearance of valve) 
 - exam for Duke criteria
-- bcx x3 sets (can ask lab to hold for longer if c/f indolent IE organisms)
+- Bcx x3 sets (can ask lab to hold for longer if c/f indolent IE organisms)
+- Brucella, Bartonella, Coxiella serology
 
 ```
 

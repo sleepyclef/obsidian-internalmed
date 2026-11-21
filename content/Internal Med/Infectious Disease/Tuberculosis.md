@@ -1,25 +1,30 @@
-<u>Epi</u>
+<font color="#548dd4"><u>Epi</u></font>
 	1/4 world infected, 4% HIV coinfection, 1% MDR 
 	RF = homeless, incarceration, PWID, healthcare, Africa/ Asia/ Eastern Europe/ Latin America/ Russia, HIV+, prior TB/exposure
 
-<u>Course</u>
+<font color="#548dd4"><u>Course</u></font>
 when exposed and infected
-	5% develop <u>primary TB</u> ( fever, chest pain, cough, arthralgia. CXR can be normal, have focal infiltrate, or ⊕ hilar LAD)
-	95% just keep it quiet and have latent TB (aka TB infection)
+	5% develop <u>primary TB</u> (fever, chest pain, cough, arthralgia. CXR can be normal, have focal infiltrate, or ⊕ hilar LAD)
+	95% just keep it quiet and have latent TB (renamed to TB infection)
 		5% of those have reactivation later and get active TB aka TB disease (either pulmonary or extrapulmonary)
 			reactivation risk 5% first 2y, 5-10% lifetime
-			higher if 1+ risk factor: HIV, immunosupp, CKD (esp. RRT), DM, transplant, TNFα inhibitor, silicosis, malnutrition, tobacco, EtOH
+			higher if 1+ risk factor: HIV, immunosupp (steroids, chemo/immuno esp TNF, transplant, B cell ↓), comorbid (DM, CKD esp. RRT, liver dz), silicosis, malnutrition, tobacco, EtOH
 			pulmonary TB =  fever, cough, hemoptysis, night sweats, wt loss; CXR often w/ posterior/apical involvement or cavitation (seen in 1/3 of pts, a/w ↑org. burden → ↑infectious, AFB⊕); more common than primary TB
 			extrapulmonary TB = meningitis with basilar predominance, Pott disease (spinal), GU involvement, intestinal TB, pericarditis, scrofula
 		95% never reactivate/ never get active TB disease
+			this is because immune system is robust etc
 
-<u>Screening for Latent TB</u>
+<font color="#548dd4"><u>Screening for Latent TB</u></font>
+latent TB = evidence of exposure to TB (TST/ IGRA) + NO sx + r/o active TB (-ve CXR, sometimes AFB sputum x3)
 who 
 	shouldn't just test in everyone 
 	test for it when you are worried about TB reactivating and therefore would want to treat first if pt has latent TB (eg. before biologics)
-Both IGRA and TST are 80-90% Sn and >95% Sp in immunocompetent, ↓Sn in immunocompromised.
+	screen: pre-immunosuppression, immigration, HIV +ve (affects tx of either)
+Both IGRA and TST are 80-90% Sn and >95% Sp in immunocompetent, ↓Sn in immunocompromised (since this is a test that looks at how immune system reacts, cannot use to rule out if suspicious)
 	IGRA = preferred, more expensive, takes 2wks to come back, not affected by BCG 
-	TST = cheaper, quicker (48-72h), may be affected by BCG after 1yo
+		available at UHN, Sickkids, SMH sends to Sickkids
+		outpatient - some labs charge pt $100+
+	TST = cheaper, quicker (48-72h), may be affected by BCG after 1yo (low false positive rate if BCG at birth etc so should treat as real) 
 		5+mm if HIV, prior TB hx, CXR c/w prior TB, silicosis, immunosuppression
 		10+mm if DM, CKD, PWID 
 		15+mm if Ø RF
@@ -28,15 +33,25 @@ Neither rules in/out active TB, can be discordant ~30% of the time.
 If ⊕ test w/ no risk factors, repeat either IGRA or TST prior to tx
 If ⊕ test in ↑risk pt, proceed to tx.
 
-<u>Diagnostics</u>: Active Pulmonary/Extrapulmonary TB
+<font color="#548dd4"><u>Diagnostics</u></font>: Active Pulmonary/Extrapulmonary TB
+when to suspect active TB disease
+	RFs: Incarceration, First Nations/ Inuit, endemic area, NFA, advanced age from Canada d/t sanitoriums hx)
+	clinical pres'n in addition to RF above
+		subacute pulmonary symptoms (slow growing organism)
+		lymphadenitis (TB lymphadenitis in the H&N is called scrofula)
+		spinal lesion/ granuloma 
+		CNS meningitis - tap with lymphocytes and low glc (but this is also for viral)
+		CNS tuberculoma - imaging/asx or sx of mass effect 
+diagnostics
 	![[Tuberculosis-1792366571390.webp|432]]
 	Dr Morris
 		A GOOD induced sputum early morning is actually more sensitive than bronch since more concentrated (bronch uses water so more diluted) 
 		BUT with bronch more likely to get a good quality sample 
+	Usually AFB/ mycobacterial culture will be kept in lab for 7 weeks before finalizing and calling it negative
 
-<u>Mx</u>
+<font color="#548dd4"><u>Mx</u></font>
 Isolation
-	only needed for active pulmonary TB (suspected or confirmed) 
+	only needed for active pulmonary TB (suspected or confirmed) - but sometimes also need to isolate for laryngeal/ upper airway
 	empiric isolation if 1 RF + cough, dysp, hemoptysis, >1wk hoarseness, f/nt sweats/wt loss, unexplained pleural/ pericardial dz
 	first obtain CXR, if CXR nl  (and HIV- or CD4>200), TB unlikely
 	if CXR abnormal/equivocal (or HIV+ and CD4<200), maintain isolation & obtain sputum x3 as above. Consider ID c/s
@@ -47,16 +62,26 @@ Prior to tx
 	before tx latent TB = r/o active TB (obtain relevant history and CXR. Sputum AFB if ↑clinical suspicion)
 	before tx active TB = c/s ID, send TB for drug sensitivity testing
 
-Latent TB (TB infection) tx
-	INH+RPT qw x12 (3HP) **OR** 
-	rifampin x4mo (4R) **OR** 
-	INH+RIF x3mo (3HR) **OR** 
-	INH+B6 x6-9mo (6H, 9H, less preferred)
+Latent TB tx
+	1-drug regimen (since not v scared of resistance here)
+		RIF x4m (4R) 
+		INH x9m (6H, 9H, less preferred) + B6 
+	other
+		INH+RPT qw x12 (3HP) **OR** 
+		INH+RIF x3mo (3HR) 
+
+Empiric active TB tx (ie. before confirming with final cx etc) 
+	TB meningitis is a scenario where you would start empiric TB tx before getting final cx
+	Other one is TB pericarditis 
+	-d/t high risk locations
 
 Active drug-susceptible pulm TB
 	RIPE x6mo (standard) 
-	newer
+		first 2mo use all 4 drugs; pyrazinamide kills TB the fastest, ethambutol covers in case resistance and can drop it earlier if get susceptibility back (sometimes quick from PCR)
+		last 4mo can just use R+I 
+	newer moxi-based regimen
 		4mo isoniazid(INH)-rifapentine(RPT)-moxifloxacin-pyrazinamide followed by 2mo INH-RPT-moxi equally efficacious as standard 6mo RIPE. 
+		just recently came out; has Ø made its way into Canadian guidelienes
 	Sputum AFB smear/cx monthly until 2 consecutive cx/smear negative.
 
 MDR TB
@@ -73,9 +98,9 @@ Extrapulmonary TB
 	For CNS TB: 12mo tx, glucocorticoids confer 25% short term reduction in mortality
 
 Medication side effects
-	hepatotoxicity (INH, RIF, PZA)
+	hepatotoxicity (INH, RIF, PZA - most hepatotox is PZA)
 	optic neuritis (EMB)
-	peripheral neuropathy (INH → add pyridoxine (B6) with initiation of treatment)
+	peripheral neuropathy via B6 mediated mechanism (INH → add pyridoxine (B6) with initiation of treatment)
 	orange bodily fluids (RIF)
 	numerous drug-drug interactions (especially RIF)
 RIF/RPT remain widely used despite 2020 FDA announcement of nitrosamine impurities as perceived risk TB > cancer risk
@@ -90,6 +115,8 @@ RIF/RPT remain widely used despite 2020 FDA announcement of nitrosamine impuriti
 		ACEi/ARBs (especially enalapril, losartan) = possible ↓ active metabolite exposure, monitor BP 
 		amio = ↓ lvls 
 	isoniazid (H): CYP inhibitor (opposite of rifampin), but rifampin's induction generally dominates; also adds hepatotoxicity concerns with statins
+
+![[Tuberculosis-1794323798004.webp|446]]
 
 | ![[Tuberculosis-1792362618400.webp]] | ![[Tuberculosis-1792362631711.webp]] | ![[Tuberculosis-1792362645136.webp]] |
 | ------------------------------------ | ------------------------------------ | ------------------------------------ |

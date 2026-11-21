@@ -16,9 +16,7 @@ Abscess: Localized, walled-off pus collection (rim-enhancing on CT) → consider
 	tissue has undergone liquefactive necrosis and pus accumulates
 
 <u>Sinus tracts</u>
-sinus tract = 
-
-anything that connects 2 tissues that are not connected otherwise 
+sinus tract = anything that connects 2 tissues that are not connected otherwise 
 	fistula = from something that has a lumen and going into any space (other lumen, outside etc)
 	otherwise it is a sinus tract 
 sinus tracts are generally from area of abnormal tissue (inflammation, infection, malig) into an external space (skin) or lumen space 
