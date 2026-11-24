@@ -676,7 +676,7 @@
                     ></label
                   >
                   <label class="choice"
-                    ><input type="radio" name="consentBy" value="substitute decision-maker" /><span
+                    ><input type="radio" name="consentBy" value="SDM" /><span
                       >SDM</span
                     ></label
                   >
@@ -753,22 +753,10 @@
               </div>
 
               <div class="row">
-                <div class="label">Safety checks</div>
-                <div class="mini-grid">
+                <div class="label">Time-out</div>
+                <div>
                   <label class="checkline"
-                    ><input id="questionsAnswered" type="checkbox" />Procedure explained and
-                    questions answered</label
-                  >
-                  <label class="checkline"
-                    ><input id="docsVerified" type="checkbox" />Relevant documents / results
-                    verified</label
-                  >
-                  <label class="checkline"
-                    ><input id="siteMarked" type="checkbox" />Site marked</label
-                  >
-                  <label class="checkline"
-                    ><input id="timeout" type="checkbox" />Time-out performed immediately
-                    prior</label
+                    ><input id="timeout" type="checkbox" />Time-out performed</label
                   >
                 </div>
               </div>
@@ -802,13 +790,6 @@
                     ><input
                       type="checkbox"
                       name="anesthesiaMethod"
-                      value="topical anesthesia"
-                    /><span>Topical</span></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="checkbox"
-                      name="anesthesiaMethod"
                       value="local infiltration"
                     /><span>Local infiltration</span></label
                   >
@@ -819,39 +800,23 @@
                 <div class="label">Local anesthetic</div>
                 <div class="choice-wrap">
                   <label class="choice"
-                    ><input
-                      type="radio"
-                      name="localAnesthetic"
-                      value="lidocaine 1% without epinephrine"
-                    /><span>Lidocaine 1% w/o epi</span></label
+                    ><input type="radio" name="localAnesthetic" value="lidocaine 1%" /><span
+                      >Lidocaine 1%</span
+                    ></label
                   >
                   <label class="choice"
-                    ><input
-                      type="radio"
-                      name="localAnesthetic"
-                      value="lidocaine 2% without epinephrine"
-                    /><span>Lidocaine 2% w/o epi</span></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="radio"
-                      name="localAnesthetic"
-                      value="lidocaine 1% with epinephrine"
-                    /><span>Lidocaine 1% with epi</span></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="radio"
-                      name="localAnesthetic"
-                      value="lidocaine 2% with epinephrine"
-                    /><span>Lidocaine 2% with epi</span></label
+                    ><input type="radio" name="localAnesthetic" value="lidocaine 2%" /><span
+                      >Lidocaine 2%</span
+                    ></label
                   >
                 </div>
               </div>
 
               <div class="row">
-                <div class="label">Other anesthetic</div>
-                <div><input id="otherAnesthetic" type="text" placeholder="Optional" /></div>
+                <div class="label">Anesthetic volume (mL)</div>
+                <div>
+                  <input id="anestheticVolume" type="number" placeholder="e.g. 5" min="0" step="any" />
+                </div>
               </div>
             </section>
 
@@ -871,55 +836,19 @@
               </div>
 
               <div class="row">
-                <div class="label">US pocket location</div>
-                <div class="choice-wrap">
-                  <label class="choice"
-                    ><input type="radio" name="pocketLocation" value="right lower quadrant" /><span
-                      >RLQ</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input type="radio" name="pocketLocation" value="left lower quadrant" /><span
-                      >LLQ</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input type="radio" name="pocketLocation" value="midline suprapubic" /><span
-                      >Midline suprapubic</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="radio"
-                      name="pocketLocation"
-                      value="midline infraumbilical"
-                    /><span>Midline infraumbilical</span></label
-                  >
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="label">Pocket measurements</div>
-                <div class="inline-fields">
-                  <div>
-                    <div class="field-caption">Pocket depth / size (cm)</div>
-                    <input id="pocketSize" type="text" inputmode="decimal" placeholder="e.g. 6.5" />
-                  </div>
-                  <div>
-                    <div class="field-caption">Skin-to-fluid depth (cm)</div>
-                    <input id="skinDepth" type="text" inputmode="decimal" placeholder="e.g. 2.0" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="label">US pocket comments</div>
+                <div class="label">Pocket size (cm)</div>
                 <div>
-                  <input
-                    id="pocketComment"
-                    type="text"
-                    placeholder="e.g. large anechoic pocket, no bowel in planned needle path"
-                  />
+                  <input id="pocketSize" class="short" type="text" inputmode="decimal" placeholder="e.g. 6.5" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">US safety</div>
+                <div>
+                  <label class="checkline"
+                    ><input id="safeWindow" type="checkbox" />Safe window identified (no bowel or
+                    vessels in needle path)</label
+                  >
                 </div>
               </div>
 
@@ -957,6 +886,36 @@
                 <div class="label">Device used to access peritoneal cavity</div>
                 <div>
                   <input id="device" type="text" placeholder="e.g. Safe-T-Centesis catheter" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Skin entry</div>
+                <div>
+                  <label class="checkline"
+                    ><input id="skinNick" type="checkbox" />Skin nick with scalpel</label
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="label">Drainage method</div>
+                <div class="choice-wrap">
+                  <label class="choice"
+                    ><input type="radio" name="drainageMethod" value="vacuum bottle drainage" /><span
+                      >Vacuum bottles</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="drainageMethod" value="gravity drainage" /><span
+                      >Gravity drainage</span
+                    ></label
+                  >
+                  <label class="choice"
+                    ><input type="radio" name="drainageMethod" value="manual syringe aspiration" /><span
+                      >Manual syringe</span
+                    ></label
+                  >
                 </div>
               </div>
 
@@ -1207,10 +1166,6 @@
                 </div>
               </div>
 
-              <div class="row">
-                <div class="label">Other fluid testing</div>
-                <div><input id="otherTests" type="text" placeholder="Optional" /></div>
-              </div>
 
               <div class="row">
                 <div class="label">Albumin replacement</div>
@@ -1352,7 +1307,7 @@
                     ><input
                       type="radio"
                       name="thConsentBy"
-                      value="substitute decision-maker"
+                      value="SDM"
                     /><span>SDM</span></label
                   >
                 </div>
@@ -1637,6 +1592,11 @@
                     /><span>Manual syringe</span></label
                   >
                   <label class="choice"
+                    ><input type="radio" name="thDrainageMethod" value="vacuum bottle drainage" /><span
+                      >Vacuum bottles</span
+                    ></label
+                  >
+                  <label class="choice"
                     ><input type="radio" name="thDrainageMethod" value="gravity drainage" /><span
                       >Gravity drainage</span
                     ></label
@@ -1674,12 +1634,21 @@
                 </div>
               </div>
 
-              <div class="row" data-th="pig">
-                <div class="label">Catheter checks</div>
+              <div class="row">
+                <div class="label">Skin / tract</div>
                 <div class="mini-grid">
+                  <label class="checkline"
+                    ><input id="thSkinNick" type="checkbox" />Skin nick with scalpel</label
+                  >
                   <label class="checkline"
                     ><input id="thPigDilated" type="checkbox" />Tract dilated</label
                   >
+                </div>
+              </div>
+
+              <div class="row" data-th="pig">
+                <div class="label">Catheter checks</div>
+                <div class="mini-grid">
                   <label class="checkline"
                     ><input id="thPigWireRemoved" type="checkbox" />Guidewire removed intact</label
                   >
@@ -2137,24 +2106,29 @@
 
               <div class="row">
                 <div class="label">Consent</div>
-                <div class="choice-wrap">
-                  <label class="choice"
-                    ><input type="radio" name="pivConsent" value="verbal consent obtained" /><span
-                      >Verbal consent</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="radio"
-                      name="pivConsent"
-                      value="procedure explained and patient agreed to proceed"
-                    /><span>Explained / agreed</span></label
-                  >
-                  <label class="choice"
-                    ><input type="radio" name="pivConsent" value="emergent procedure" /><span
-                      >Emergent</span
-                    ></label
-                  >
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="pivConsent" value="verbal" /><span
+                        >Verbal</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="pivConsent" value="emergent situation" /><span
+                        >Emergent situation</span
+                      ></label
+                    >
+                  </div>
+                  <div class="choice-wrap">
+                    <label class="choice"
+                      ><input type="radio" name="pivConsentBy" value="patient" /><span
+                        >From patient</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="pivConsentBy" value="SDM" /><span
+                        >From SDM</span
+                      ></label
+                    >
+                  </div>
                 </div>
               </div>
 
@@ -2162,17 +2136,10 @@
                 <div class="label">Preparation</div>
                 <div class="mini-grid">
                   <label class="checkline"
-                    ><input id="pivHandHygiene" type="checkbox" />Hand hygiene performed</label
+                    ><input id="pivChlorhexidine" type="checkbox" />Chlorhexidine skin prep</label
                   >
                   <label class="checkline"
-                    ><input id="pivChlorhexidine" type="checkbox" />Skin prepped with
-                    chlorhexidine</label
-                  >
-                  <label class="checkline"
-                    ><input id="pivSterileCover" type="checkbox" />Sterile probe cover used</label
-                  >
-                  <label class="checkline"
-                    ><input id="pivSterileGel" type="checkbox" />Sterile ultrasound gel used</label
+                    ><input id="pivSterileCover" type="checkbox" />Sterile probe cover and gel</label
                   >
                 </div>
               </div>
@@ -2314,17 +2281,7 @@
                 <div class="label">Vessel assessment</div>
                 <div class="mini-grid">
                   <label class="checkline"
-                    ><input id="pivCompressible" type="checkbox" />Vein compressible</label
-                  >
-                  <label class="checkline"
-                    ><input id="pivPatent" type="checkbox" />Vein patent</label
-                  >
-                  <label class="checkline"
-                    ><input id="pivNoThrombus" type="checkbox" />No visible thrombus</label
-                  >
-                  <label class="checkline"
-                    ><input id="pivAdjacentStructures" type="checkbox" />Adjacent artery /
-                    structures identified</label
+                    ><input id="pivCompressible" type="checkbox" />Vein compressible, no thrombus</label
                   >
                 </div>
               </div>
@@ -2380,23 +2337,11 @@
 
               <div class="row">
                 <div class="label">Real-time guidance</div>
-                <div class="choice-wrap">
-                  <label class="choice"
-                    ><input id="pivRealtime" type="checkbox" /><span
-                      >Needle advanced under real-time ultrasound guidance</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input id="pivTipVisualized" type="checkbox" /><span
-                      >Needle tip visualized entering vein</span
-                    ></label
+                <div>
+                  <label class="checkline"
+                    ><input id="pivTipVisualized" type="checkbox" />Needle tip tracked into vein</label
                   >
                 </div>
-              </div>
-
-              <div class="row">
-                <div class="label">US comments</div>
-                <div><input id="pivUSComment" type="text" placeholder="Optional" /></div>
               </div>
             </section>
 
@@ -2512,19 +2457,10 @@
                 <div class="label">Insertion result</div>
                 <div class="mini-grid">
                   <label class="checkline"
-                    ><input id="pivBloodReturn" type="checkbox" />Blood return obtained</label
+                    ><input id="pivBloodReturn" type="checkbox" />Blood return; flushes easily</label
                   >
                   <label class="checkline"
-                    ><input id="pivFlushes" type="checkbox" />Catheter flushed easily with
-                    saline</label
-                  >
-                  <label class="checkline"
-                    ><input id="pivNoInfiltration" type="checkbox" />No pain, swelling, or
-                    infiltration with flush</label
-                  >
-                  <label class="checkline"
-                    ><input id="pivUSInVein" type="checkbox" />Catheter visualized within vein on
-                    ultrasound</label
+                    ><input id="pivUSInVein" type="checkbox" />Catheter seen in vein on US</label
                   >
                 </div>
               </div>
@@ -2557,21 +2493,12 @@
                 <div class="label">Outcome</div>
                 <div class="choice-wrap">
                   <label class="choice"
-                    ><input
-                      type="radio"
-                      name="pivOutcome"
-                      value="successful placement with no immediate complications"
-                    /><span>Successful / no complications</span></label
+                    ><input type="radio" name="pivOutcome" value="successful" /><span
+                      >Successful</span
+                    ></label
                   >
                   <label class="choice"
-                    ><input
-                      type="radio"
-                      name="pivOutcome"
-                      value="successful placement with minor complication"
-                    /><span>Successful / minor complication</span></label
-                  >
-                  <label class="choice"
-                    ><input type="radio" name="pivOutcome" value="unsuccessful placement" /><span
+                    ><input type="radio" name="pivOutcome" value="unsuccessful" /><span
                       >Unsuccessful</span
                     ></label
                   >
@@ -2579,37 +2506,24 @@
               </div>
 
               <div class="row">
-                <div class="label">Complication</div>
-                <div class="choice-wrap">
-                  <label class="choice"
-                    ><input type="checkbox" name="pivComplications" value="hematoma" /><span
-                      >Hematoma</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="checkbox"
-                      name="pivComplications"
-                      value="arterial puncture"
-                    /><span>Arterial puncture</span></label
-                  >
-                  <label class="choice"
-                    ><input type="checkbox" name="pivComplications" value="infiltration" /><span
-                      >Infiltration</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input type="checkbox" name="pivComplications" value="bleeding" /><span
-                      >Bleeding</span
-                    ></label
-                  >
-                  <label class="choice"
-                    ><input
-                      type="checkbox"
-                      name="pivComplications"
-                      value="pain or paresthesia"
-                    /><span>Pain / paresthesia</span></label
-                  >
+                <div class="label">Immediate complications</div>
+                <div>
+                  <div class="choice-wrap" style="margin-bottom: 8px">
+                    <label class="choice"
+                      ><input type="radio" name="pivComplications" value="none" /><span
+                        >None observed</span
+                      ></label
+                    ><label class="choice"
+                      ><input type="radio" name="pivComplications" value="present" /><span
+                        >Complications observed</span
+                      ></label
+                    >
+                  </div>
+                  <input
+                    id="pivComplicationDetails"
+                    type="text"
+                    placeholder="Details, e.g. hematoma, arterial puncture, infiltration"
+                  />
                 </div>
               </div>
 
@@ -2693,7 +2607,7 @@
                       ><input
                         type="radio"
                         name="alConsentBy"
-                        value="substitute decision-maker"
+                        value="SDM"
                       /><span>From SDM</span></label
                     >
                   </div>
@@ -2877,6 +2791,10 @@
                 <div>
                   <div class="mini-grid">
                     <label class="checkline"
+                      ><input id="alSkinNick" type="checkbox" />Skin nick with scalpel</label
+                    ><label class="checkline"
+                      ><input id="alDilated" type="checkbox" />Tract dilated</label
+                    ><label class="checkline"
                       ><input id="alWireRemoved" type="checkbox" />Guidewire removed intact</label
                     ><label class="checkline"
                       ><input id="alWaveform" type="checkbox" />Arterial waveform confirmed;
@@ -3079,7 +2997,7 @@
                       ><input
                         type="radio"
                         name="cvcConsentBy"
-                        value="substitute decision-maker"
+                        value="SDM"
                       /><span>From SDM</span></label
                     >
                   </div>
@@ -3295,6 +3213,10 @@
                 <div>
                   <div class="mini-grid">
                     <label class="checkline"
+                      ><input id="cvcSkinNick" type="checkbox" />Skin nick with scalpel</label
+                    ><label class="checkline"
+                      ><input id="cvcDilated" type="checkbox" />Tract dilated</label
+                    ><label class="checkline"
                       ><input id="cvcWireRemoved" type="checkbox" />Guidewire removed intact</label
                     ><label class="checkline"
                       ><input id="cvcLineCare" type="checkbox" />All lumens aspirated and flushed;
@@ -3473,8 +3395,7 @@
           })
         }
 
-        // Compact note layout: keeps "Label: value" lines and section headers, but groups
-        // related fields under broader labels so the note uses fewer lines.
+        // "Label: value" helpers for the note bullets
         const list = (...vals) => vals.flat().filter(Boolean).join("; ")
         const fact = (label, ...vals) => {
           const v = list(...vals)
@@ -3487,15 +3408,6 @@
             : consent
               ? `${consent} consent obtained${by ? ` from ${by}` : ""}`
               : ""
-        const anesthesiaValue = (methods, agent, volume) => {
-          if (agent === "none") return "none"
-          const m = joinNatural(methods)
-          const a = [agent, volume && `${volume} mL`].filter(Boolean).join(", ")
-          return m && a ? `${m} (${a})` : m || a
-        }
-        const complicationValue = (status, details) =>
-          details ||
-          (status === "none" ? "none observed" : status === "present" ? "present" : "")
         // Phrases for one-line "Post-procedure:" summaries
         const complicationLine = (status, details) =>
           details
@@ -3518,10 +3430,6 @@
             line(text) {
               if (text) out.push(text)
             },
-            section(title, entries) {
-              const done = entries.flat().filter(Boolean)
-              if (done.length) out.push("", title, ...done)
-            },
             raw(text) {
               if (text) out.push("", text)
             },
@@ -3529,123 +3437,86 @@
           }
         }
 
-        function noteHeader(n, prefix) {
-          n.line(fact("Date/time", fmtDateTime($(prefix + "DateTime").value)))
-          n.line(fact("Performed by", $(prefix + "PerformedBy").value.trim()))
-          n.line(fact("Supervised by", $(prefix + "SupervisedBy").value.trim()))
-        }
-
-        function consentSection(n, prefix, safety) {
-          const risks = getChecks(prefix + "Risks")
-          const alternatives = getChecks(prefix + "Alternatives")
-          n.section("CONSENT / SAFETY", [
-            fact("Consent", consentValue(getRadio(prefix + "Consent"), getRadio(prefix + "ConsentBy"))),
-            fact("Risks discussed", joinNatural(risks)),
-            fact("Alternatives discussed", joinNatural(alternatives)),
-            fact("Safety checks", safety.join(", ")),
-          ])
-        }
-
         function generateParacentesisNote() {
-          const n = createNote("PARACENTESIS PROCEDURE NOTE")
-          n.line(fact("Date/time", fmtDateTime($("dateTime").value)))
-          n.line(fact("Performed by", $("performedBy").value.trim()))
-          n.line(fact("Supervised by", $("supervisedBy").value.trim()))
-          const purpose = getChecks("purpose")
-          if (purpose.length) n.line(`Indication: ${joinNatural(purpose)} paracentesis`)
-
-          const safety = []
-          if ($("questionsAnswered").checked)
-            safety.push("procedure explained and questions answered")
-          if ($("docsVerified").checked) safety.push("relevant documents/results verified")
-          if ($("siteMarked").checked) safety.push("site marked")
-          if ($("timeout").checked) safety.push("time-out performed")
-          const risks = getChecks("risks")
-          const alternatives = getChecks("alternatives")
-          n.section("CONSENT / SAFETY", [
-            fact("Consent", consentValue(getRadio("consent"), getRadio("consentBy"))),
-            fact("Risks discussed", joinNatural(risks)),
-            fact("Alternatives discussed", joinNatural(alternatives)),
-            fact("Safety checks", safety.join(", ")),
-          ])
-
-          const anesthetic = [getRadio("localAnesthetic"), $("otherAnesthetic").value.trim()]
-            .filter(Boolean)
-            .join("; ")
-          n.section("PREPARATION / ANESTHESIA", [
-            fact(
-              "Prep & anesthesia",
-              $("sterilePrep").checked && "prepped and draped in the usual sterile fashion",
-              anesthesiaValue(getChecks("anesthesiaMethod"), anesthetic),
-            ),
-          ])
-
+          const value = (id) => $(id).value.trim()
+          const checked = (id) => $(id).checked
           const us = getRadio("ultrasound")
-          const usDetails = [
-            getRadio("pocketLocation") && `pocket in ${getRadio("pocketLocation")}`,
-            approx($("pocketSize").value.trim(), "cm"),
-            approx($("skinDepth").value.trim(), "cm skin-to-fluid depth"),
-          ]
+          const purpose = getChecks("purpose")
+          const site = getRadio("site")
+          const fluid = [volumeValue(value("fluidAmount"), $("fluidUnit").value), getRadio("appearance")]
             .filter(Boolean)
-            .join(", ")
-          const amount = $("fluidAmount").value.trim()
-          n.section("PROCEDURE", [
-            fact(
-              "Ultrasound",
-              us === "yes" ? "used" : us === "no" ? "not used" : "",
-              us === "yes" && usDetails,
-              $("pocketComment").value.trim(),
-            ),
-            fact("Site", getRadio("site")),
-            fact("Device", $("device").value.trim()),
-            fact(
-              "Fluid removed",
-              [amount && amount + $("fluidUnit").value, getRadio("appearance")]
+            .join(" ")
+          const guidance = us === "yes" ? "US-guided" : us === "no" ? "landmark-guided" : ""
+          const procedure = [guidance, joinNatural(purpose), "paracentesis"].filter(Boolean).join(" ")
+          const hasSummary = us || purpose.length || site || fluid
+          const summary = hasSummary
+            ? [
+                capitalize(procedure) + (site ? `, ${site}` : ""),
+                fluid && `${fluid} fluid removed`,
+              ]
                 .filter(Boolean)
-                .join(", "),
-            ),
-            fact("Dressing", getRadio("dressing")),
-          ])
+                .join("; ")
+            : ""
+
+          const methods = getChecks("anesthesiaMethod")
+          const local = methods.includes("none")
+            ? "no local anesthetic"
+            : localValue(getRadio("localAnesthetic"), value("anestheticVolume")) ||
+              joinNatural(methods)
+          const ultrasound =
+            us === "yes" &&
+            [approx(value("pocketSize"), "cm pocket"), checked("safeWindow") && "safe window identified"]
+              .filter(Boolean)
+              .join(", ")
 
           const tests = getChecks("tests")
-          const otherTests = $("otherTests").value.trim()
+          const has = (name) => tests.includes(name)
           const groups = []
-          if (tests.length || otherTests) {
-            const has = (name) => tests.includes(name)
-            if (has("cell count and differential")) groups.push("cell count and differential")
-            const chemistry = ["albumin", "total protein", "glucose", "LDH"].filter(has)
-            if (chemistry.length) groups.push(`chemistry (${chemistry.join(", ")})`)
-            if (has("Gram stain") && has("bacterial culture"))
-              groups.push("Gram stain & bacterial culture")
-            else {
-              if (has("Gram stain")) groups.push("Gram stain")
-              if (has("bacterial culture")) groups.push("bacterial culture")
-            }
-            ;["AFB smear/culture", "cytology", "amylase", "triglycerides", "bilirubin"]
-              .filter(has)
-              .forEach((t) => groups.push(t))
-            if (otherTests) groups.push(otherTests)
-          }
+          if (has("cell count and differential")) groups.push("cell count and differential")
+          const chemistry = ["albumin", "total protein", "glucose", "LDH"].filter(has)
+          if (chemistry.length) groups.push(`chemistry (${chemistry.join(", ")})`)
+          if (has("Gram stain") && has("bacterial culture")) groups.push("gram stain and culture")
+          else if (has("Gram stain")) groups.push("gram stain")
+          else if (has("bacterial culture")) groups.push("bacterial culture")
+          ;["AFB smear/culture", "cytology", "amylase", "triglycerides", "bilirubin"]
+            .filter(has)
+            .forEach((t) => groups.push(t))
+
+          const dressing = getRadio("dressing")
           const albuminGiven = $("albuminGiven").value
-          const albuminDose = $("albuminDose").value.trim()
-          n.section("POST-PROCEDURE", [
-            fact("Outcome", getRadio("completion")),
-            fact(
-              "Ascitic fluid studies sent",
-              joinNatural(groups),
-              $("cultureBottles").checked && "culture inoculated into blood culture bottles at bedside",
-            ),
-            fact(
-              "IV albumin",
-              albuminGiven === "yes"
-                ? `given${albuminDose ? ` (${albuminDose} g)` : ""}`
-                : albuminGiven === "no"
-                  ? "not given"
-                  : "",
-            ),
-          ])
-          n.raw($("comments").value.trim())
-          return n.render()
+          const albuminDose = value("albuminDose")
+
+          return lineNote(
+            "PARACENTESIS PROCEDURE NOTE",
+            "",
+            summary,
+            [
+              consentLine("", getChecks("risks"), checked("timeout")),
+              fact("US appearance", ultrasound),
+              fact(
+                "Technique",
+                checked("sterilePrep") && "sterile prep",
+                local,
+                value("device"),
+                checked("skinNick") && "skin nick with scalpel",
+                getRadio("drainageMethod"),
+              ),
+              fact(
+                "Post-procedure",
+                getRadio("completion"),
+                dressing && `${dressing} applied`,
+                albuminGiven === "yes"
+                  ? `IV albumin given${albuminDose ? ` (${albuminDose} g)` : ""}`
+                  : albuminGiven === "no" && "IV albumin not given",
+              ),
+              fact(
+                "Studies sent",
+                joinNatural(groups),
+                checked("cultureBottles") && "culture inoculated into blood culture bottles at bedside",
+              ),
+            ],
+            value("comments"),
+          )
         }
 
         function generateThoracentesisNote() {
@@ -3737,8 +3608,9 @@
                 checked("SterilePrep") && "sterile prep",
                 local,
                 site,
+                checked("SkinNick") && "skin nick with scalpel",
+                checked("PigDilated") && "tract dilated",
                 pig ? getRadio("thPigTechnique") : getRadio("thDrainageMethod"),
-                pig && checked("PigDilated") && "tract dilated",
                 attemptsValue(value("Attempts")),
                 pig && checked("PigWireRemoved") && "guidewire removed intact",
               ),
@@ -3890,118 +3762,92 @@
         }
 
         function generatePIVNote() {
-          const n = createNote("ULTRASOUND-GUIDED PERIPHERAL IV INSERTION PROCEDURE NOTE")
-          noteHeader(n, "piv")
-          n.line(
-            fact(
-              "Indication",
-              joinNatural([...getChecks("pivIndications"), $("pivIndicationOther").value.trim()]),
-            ),
-          )
-
-          const prep = []
-          if ($("pivHandHygiene").checked) prep.push("hand hygiene")
-          if ($("pivChlorhexidine").checked) prep.push("chlorhexidine skin prep")
-          if ($("pivSterileCover").checked) prep.push("sterile probe cover")
-          if ($("pivSterileGel").checked) prep.push("sterile gel")
-          const anesthetic = getRadio("pivAnesthetic")
-          n.section("CONSENT / PREPARATION", [
-            fact("Consent", getRadio("pivConsent")),
-            fact(
-              "Prep & anesthesia",
-              prep.join(", "),
-              anesthetic && `local anesthetic: ${anesthetic}`,
-            ),
-          ])
-
-          const side = getRadio("pivSide")
+          const value = (id) => $("piv" + id).value.trim()
+          const checked = (id) => $("piv" + id).checked
+          const outcome = getRadio("pivOutcome")
           const region = getRadio("pivRegion")
           const location = [
-            side,
+            getRadio("pivSide"),
             region && region !== "other site" ? region : "",
-            $("pivSiteDetail").value.trim(),
+            value("SiteDetail"),
           ]
             .filter(Boolean)
             .join(" ")
-          const vein = $("pivVeinOther").value.trim() || getRadio("pivVein")
-          const features = []
-          if ($("pivCompressible").checked) features.push("compressible")
-          if ($("pivPatent").checked) features.push("patent")
-          if ($("pivNoThrombus").checked) features.push("no visible thrombus")
-          const measures = [
-            approx($("pivVeinDepth").value.trim(), "cm deep"),
-            approx($("pivVeinDiameter").value.trim(), "cm diameter"),
+          const device = [getRadio("pivGauge"), value("LengthOther") || getRadio("pivLength")]
+            .filter(Boolean)
+            .join(" ")
+          const hasSummary = location || device || outcome
+          const summary = hasSummary
+            ? [device, "US-guided peripheral IV"].filter(Boolean).join(" ") +
+              (location ? `, ${location}` : "") +
+              (outcome && outcome !== "successful" ? ` (placement ${outcome})` : "")
+            : ""
+
+          const vein = value("VeinOther") || getRadio("pivVein")
+          const ultrasound = [
+            vein,
+            approx(value("VeinDepth"), "cm deep"),
+            approx(value("VeinDiameter"), "cm diameter"),
+            checked("Compressible") && "compressible with no thrombus",
           ]
             .filter(Boolean)
             .join(", ")
-          const guidance = []
-          if ($("pivAdjacentStructures").checked) guidance.push("adjacent structures identified")
-          if ($("pivRealtime").checked) guidance.push("real-time needle guidance")
-          if ($("pivTipVisualized").checked) guidance.push("needle tip visualized entering vein")
-          n.section("ULTRASOUND / TARGET VESSEL", [
-            fact(
-              "Target vessel",
-              [vein, location].filter(Boolean).join(", "),
-              features.join(", "),
-              measures,
-            ),
-            fact("Technique", getRadio("pivUSApproach"), guidance.join(", ")),
-            fact("Ultrasound comments", $("pivUSComment").value.trim()),
-          ])
 
           const priorStatus = getRadio("pivPriorAttempts")
-          const prior = getPivPriorAttempts()
-          n.section("PRIOR PIV ATTEMPTS", [
+          const prior = getPivPriorAttempts().map((a) => {
+            const loc = [a.side, a.region && a.region !== "other site" ? a.region : ""]
+              .filter(Boolean)
+              .join(" ")
+            const count = a.count && `${a.count} puncture${a.count === "1" ? "" : "s"}`
+            return [loc, a.vein, count, a.technique, a.outcome, a.comment].filter(Boolean).join(", ")
+          })
+          const priorLine =
             priorStatus === "no"
-              ? "Prior peripheral IV attempts: none"
-              : prior.length
-                ? prior.map((a, i) => {
-                    const loc = [a.side, a.region && a.region !== "other site" ? a.region : ""]
-                      .filter(Boolean)
-                      .join(" ")
-                    const count = a.count && `${a.count} puncture${a.count === "1" ? "" : "s"}`
-                    const bits = [loc, a.vein, count, a.technique, a.outcome, a.comment]
-                    return `Prior site ${i + 1}: ${bits.filter(Boolean).join(", ")}`
-                  })
-                : priorStatus === "yes"
-                  ? "Prior peripheral IV attempts: yes"
-                  : "",
-            $("pivPriorAttemptsSummary").value.trim(),
-          ])
+              ? "Prior attempts: none"
+              : priorStatus === "yes" &&
+                fact("Prior attempts", prior.length ? prior : "yes", value("PriorAttemptsSummary"))
 
-          const device = [
-            getRadio("pivGauge"),
-            getRadio("pivLength"),
-            $("pivLengthOther").value.trim(),
-          ]
-            .filter(Boolean)
-            .join(" ")
-          const attempts = $("pivAttempts").value.trim()
-          const confirmation = []
-          if ($("pivBloodReturn").checked) confirmation.push("blood return")
-          if ($("pivFlushes").checked) confirmation.push("flushes easily with saline")
-          if ($("pivNoInfiltration").checked) confirmation.push("no pain, swelling, or infiltration")
-          if ($("pivUSInVein").checked) confirmation.push("catheter visualized in vein on US")
-          n.section("INSERTION", [
-            fact("Catheter", device, location && `inserted in ${location}`, attempts && `attempts: ${attempts}`),
-            fact("Confirmation", confirmation.join(", ")),
-            fact("Securement", getRadio("pivDressing")),
-          ])
+          const anesthetic = getRadio("pivAnesthetic")
+          const dressing = getRadio("pivDressing")
 
-          const complications = getChecks("pivComplications")
-          n.section("POST-PROCEDURE", [
-            fact("Outcome", getRadio("pivOutcome")),
-            fact("Immediate complications", joinNatural(complications)),
-          ])
-          n.raw($("pivComments").value.trim())
-          return n.render()
+          return lineNote(
+            "US-GUIDED PERIPHERAL IV PROCEDURE NOTE",
+            "piv",
+            summary,
+            [
+              fact("Indication", joinNatural([...getChecks("pivIndications"), value("IndicationOther")])),
+              fact("Consent", consentValue(getRadio("pivConsent"), getRadio("pivConsentBy"))),
+              fact("US appearance", ultrasound),
+              fact(
+                "Technique",
+                checked("Chlorhexidine") && "chlorhexidine prep",
+                checked("SterileCover") && "sterile probe cover and gel",
+                anesthetic && localValue(anesthetic, ""),
+                getRadio("pivUSApproach"),
+                checked("TipVisualized") && "needle tip tracked into vein",
+                attemptsValue(value("Attempts")),
+              ),
+              priorLine,
+              fact(
+                "Post-procedure",
+                checked("BloodReturn") && "blood return and flushes easily",
+                checked("USInVein") && "catheter seen in vein on US",
+                dressing && `${dressing} applied`,
+                complicationLine(getRadio("pivComplications"), value("ComplicationDetails")),
+              ),
+            ],
+            value("Comments"),
+          )
         }
 
         // Shared layout for the vascular line notes: header, a one-line summary of the
         // device, then bullets that only add what the summary doesn't already say.
+        // Paracentesis fields have no prefix and start lowercase (dateTime, consent);
+        // the other tabs use prefix + PascalCase (thDateTime, alConsent).
+        const fieldId = (prefix, name) => (prefix ? prefix + name : name[0].toLowerCase() + name.slice(1))
         function lineNote(title, prefix, summary, bullets, comments) {
           const n = createNote(title)
-          const value = (id) => $(prefix + id).value.trim()
+          const value = (id) => $(fieldId(prefix, id)).value.trim()
           n.line(fact("Date/time", fmtDateTime(value("DateTime"))))
           const by = value("PerformedBy")
           const sup = value("SupervisedBy")
@@ -4029,10 +3875,15 @@
             : [anesthetic, volume && `${volume} mL`].filter(Boolean).join(" ")
         const attemptsValue = (attempts) =>
           attempts && `${attempts} attempt${attempts === "1" ? "" : "s"}`
-        const consentLine = (prefix, risks, timeout, alternatives = getChecks(prefix + "Alternatives")) =>
+        const consentLine = (
+          prefix,
+          risks,
+          timeout,
+          alternatives = getChecks(fieldId(prefix, "Alternatives")),
+        ) =>
           fact(
             "Consent",
-            consentValue(getRadio(prefix + "Consent"), getRadio(prefix + "ConsentBy")),
+            consentValue(getRadio(fieldId(prefix, "Consent")), getRadio(fieldId(prefix, "ConsentBy"))),
             risks.length && `risks incl. ${joinNatural(risks)} discussed`,
             alternatives.length && `alternatives incl. ${joinNatural(alternatives)} discussed`,
             timeout && "time-out performed",
@@ -4070,6 +3921,8 @@
                 localValue(getRadio("alAnesthetic"), value("AnestheticVolume")),
                 getRadio("alGuidance"),
                 getRadio("alTechnique"),
+                checked("SkinNick") && "skin nick with scalpel",
+                checked("Dilated") && "tract dilated",
                 attemptsValue(value("Attempts")),
                 checked("WireRemoved") && "guidewire removed intact",
               ),
@@ -4126,6 +3979,8 @@
                 localValue(getRadio("cvcAnesthetic"), value("AnestheticVolume")),
                 getRadio("cvcGuidance"),
                 getRadio("cvcTechnique"),
+                checked("SkinNick") && "skin nick with scalpel",
+                checked("Dilated") && "tract dilated",
                 attemptsValue(value("Attempts")),
                 checked("WireRemoved") && "guidewire removed intact",
               ),
