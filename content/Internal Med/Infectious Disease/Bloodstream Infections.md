@@ -11,17 +11,26 @@ Dr. Coburn - NOT needed routinely
 	only need it in specific cases 
 		Staph aureus bactermia - need to rpt cx in 48-72h since needed to call it complicated vs uncomplicated
 Some variable practice between ID physicians
-### <u><mark style="background:rgba(240, 200, 0, 0.2)"># Staph aureus bactermia</mark></u>
-```
-# SAB approach
-- assess risk of metastatic infxn: key RFs = (1) community-onset, (2) +BCx ≥48h, (3) intracardiac device/prosth-valve; other RF: IVDU, valve dz, vascular graft, unknown source
 
-- look for source/portal of entry: IVDU, PIV w thrombophlebitis, CVC/line, SSTI, wounds
-- look for signs/sx of metastatic infxn (can also be the source):
-  - IE: CHF sx, new murmur, PR prolongation (periannular abscess)
-  - MSK: jt pain/swelling (septic arthritis), back pain/ spinal tenderness (spinal OM/epidural abscess)
-  - septic emboli: dyspnea/pleuritic CP (pulm), focal neuro deficits (CNS), abdo pain (splenic/renal)
-  - other: painful/swollen line site (septic thrombophlebitis), pain at prosthetic hardware
+---
+#### <u># Staph aureus bactermia</u>
+```
+# Staph aureus bacteremia
+- High risk for metastatic spread given ***
+- Repeat 48h bcx 
+- TTE
+- ECG 
+- IV vanco 1g (MRSA) or cefazolin 2g q8h (MSSA)
+```
+
+<u>SAB approach</u>
+assess risk of metastatic infxn: key RFs = (1) community-onset, (2) +BCx ≥48h, (3) intracardiac device/prosth-valve; other RF: IVDU, valve dz, vascular graft, unknown source
+	- look for source/portal of entry: IVDU, PIV w thrombophlebitis, CVC/line, SSTI, wounds
+	- look for signs/sx of metastatic infxn (can also be the source):
+	- IE: CHF sx, new murmur, PR prolongation (periannular abscess)
+	- MSK: jt pain/swelling (septic arthritis), back pain/ spinal tenderness (spinal OM/epidural abscess)
+	- septic emboli: dyspnea/pleuritic CP (pulm), focal neuro deficits (CNS), abdo pain (splenic/renal)
+	- other: painful/swollen line site (septic thrombophlebitis), pain at prosthetic hardware
 
 ix
 - BCx 2 sets at 48h after initial, if still +ve then 1–2 sets q24–48h until -ve
@@ -34,19 +43,22 @@ mx
 - auto ID consult
 - source control: remove (infected) lines, drain abscesses/collections, evaluate infected hardware (can be uninfected)
 - empiric IV vanco or ancef if don't suspect MRSA (since kills MSSA better, can always add vanco dose if unsure)
-  - MSSA → cefazolin / cloxacillin
-  - MRSA → vanco / daptomycin
+	MSSA → cefazolin / cloxacillin
+	MRSA → vanco / daptomycin
+
 A) Ø deep/metastatic focus after adequate Ix → 2wk 
 	NOTE: incl presence of prosthesis with confidence not infected eg. based on imaging
+
 B) Ø focus found BUT occult infxn not confidently excluded → consider >2wk (persistent +BCx, incomplete Ix, retained intracardiac device/vascular graft)
 	NOTE: CIED → TEE + ID/EP for extraction even if Ø proven device infxn 
 	(HRS: extraction indicated if lead infxn or persistent SAB >4d; reasonable otherwise)
 - confirmed deep/metastatic infxn → prolonged focus-specific Tx (often 4–6wk)
 - duration counts from 1st -ve BCx (or later source control)
-```
 
-gen info/ pearls - Dr. Coburn ID Oct 2026
-	- why do we care - 1) high mortality (as above), 2) sticky/ metastatic spread potential
+<u>gen info/ pearls </u>
+source: Dr. Coburn ID Oct 2026
+
+why do we care - 1) high mortality (as above), 2) sticky/ metastatic spread potential
 	- prevalence of endocarditis at time of diagnosis = 8% in community acquired SAB; 2% in nosocomial SAB 
 	- involvement of ID is associated with reduction of mortality (22% vs 17% in Toronto study); but now that medical services are equipped to manage SAB, unsure if it will still be same - this is why get auto ID consult 
 	- hard to clearly distinguish where it came from vs where it goes because one its in, it can just stick somewhere and then start seeding blood etc
@@ -80,7 +92,8 @@ mx
 		remove lines 
 		drain any SSTI collections
 
-### <u><mark style="background:rgba(240, 200, 0, 0.2)"># CoNS bactermia</mark></u>
+---
+#### <u># CoNS bactermia</u>
 ```
 # ? CoNS infection 
 - usually contaminant, esp if only 1 cx, 
@@ -121,8 +134,9 @@ Tx
 	1/2 to 2/3 of our CNST at UHN is cefazolin susceptible
 	CoNS can be methicillin resistant, so tx vanco initially prior to sens if think true infxn, sinai note says majority of cons sens to vanco but need to ask for susc testing
 	![[Bloodstream Infections-1791853302377.webp|241]]
-	
-### <u><mark style="background:rgba(240, 200, 0, 0.2)"># GNB bactermia</mark></u>
+
+---
+#### <u># GNB bactermia</u>
 Look for intraabdo, urinary source commonly 
 w/u
 	UA+cx, LEs, Abdo US too for biliary source or liver abscess if unclear, 
