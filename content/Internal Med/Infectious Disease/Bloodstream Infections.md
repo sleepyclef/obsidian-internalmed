@@ -24,6 +24,9 @@ Some variable practice between ID physicians
 ```
 
 <u>SAB approach</u>
+
+| ![[Bloodstream Infections-1795718114790.webp\|535]] | <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>![[Bloodstream Infections-1795718140740.webp\|187]] |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 assess risk of metastatic infxn: key RFs = (1) community-onset, (2) +BCx ≥48h, (3) intracardiac device/prosth-valve; other RF: IVDU, valve dz, vascular graft, unknown source
 	- look for source/portal of entry: IVDU, PIV w thrombophlebitis, CVC/line, SSTI, wounds
 	- look for signs/sx of metastatic infxn (can also be the source):
@@ -93,7 +96,7 @@ mx
 		drain any SSTI collections
 
 ---
-#### <u># CoNS bactermia</u>
+#### <u># CoNS/ CNST bactermia</u>
 ```
 # ? CoNS infection 
 - usually contaminant, esp if only 1 cx, 
