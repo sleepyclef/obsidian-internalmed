@@ -1,4 +1,5 @@
 @use "./variables.scss" as *;
+@use "./page-sheet.scss"; // note body as a page sheet, with `---` page breaks
 
 // put your custom CSS here!
 
@@ -9,18 +10,6 @@ html {
 
   @media all and not ($mobile) {
     font-size: 76.5%;
-  }
-}
-
-// Give the reading pane its own gutters between the sidebars. Include the
-// title and footer so they stay aligned with the article text.
-@media all and not ($mobile) {
-  .page[data-frame="default"] > #quartz-body {
-    > .center,
-    > footer {
-      box-sizing: border-box;
-      padding-inline: clamp(32px, 4vw, 64px);
-    }
   }
 }
 
