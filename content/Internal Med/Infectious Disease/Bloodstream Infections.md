@@ -13,7 +13,7 @@ Dr. Coburn - NOT needed routinely
 Some variable practice between ID physicians
 
 ---
-#### <u># Staph aureus bactermia</u>
+### <u>STAPH AUREUS BACTEREMIA</u>
 ```
 # Staph aureus bacteremia
 - High risk for metastatic spread given ***
@@ -23,10 +23,27 @@ Some variable practice between ID physicians
 - IV vanco 1g (MRSA) or cefazolin 2g q8h (MSSA)
 ```
 
-<u>SAB approach</u>
+general info
+	IDSA 2026 consensus statement framwork
+		![[Bloodstream Infections-1795718114790.webp|535]]
+		![[Bloodstream Infections-1795718140740.webp|187]]
+	why do we care - 1) high mortality (as above), 2) sticky/ metastatic spread potential
+		- prevalence of endocarditis at time of diagnosis = 8% in community acquired SAB; 2% in nosocomial SAB 
+		- involvement of ID is associated with reduction of mortality (22% vs 17% in Toronto study); but now that medical services are equipped to manage SAB, unsure if it will still be same - this is why get auto ID consult 
+		- hard to clearly distinguish where it came from vs where it goes because one its in, it can just stick somewhere and then start seeding blood etc
+		- note: staph aureus in blood CAN be a contaminant but the mortality is so high that we can't risk assuming this in some situations, so always treated as real
+	complicated vs uncomplicated - old classification
+		2011 IDSA guidelines, to be considered uncomplicated, all 5 have to be satisfied
+			1) no fever at 72h of tx; 2) bcx -ve 48-72h; 3) endocarditis excluded; 4) no prosthesis; 5) no metastitic infection
+			- if met this criteria, can tx for 2wk course rather than prolonged 4-6wk
+			- main purpose was if Ø meet this criteria then higher likelihood of occult deep infection or relapse 
+			- problem: comp included both patients w confirmed metastatic infxn and those with only RFs suggesting possible occult infxn (e.g.persistent bacteremia), even if no deep infection was found → both were treated with 4-6 weeks of antibiotics.
+		2026 IDSA got rid of this distinction of "complicated" and "uncomplicated" 
+			- Old: Risk factors for occult infection OR confirmed metastatic infection → classified as complicated → generally 4-6 weeks.
+			- New: Risk factors → more extensive Ix to exclude occult infection. If adequately excluded → 14 days, even in increased-risk SAB. Confirmed deep infection → prolonged Tx.
+				IDSA wording: "increased-risk SAB" = "SAB with at least one risk factor for infection of deep tissues, metastatic foci, or relapse"
+			- Important caveat: Risk factors can still influence duration when uncertainty remains, particularly persistent bacteremia ≥48h or an incomplete/inconclusive workup, where >14 days may be warranted.
 
-| ![[Bloodstream Infections-1795718114790.webp\|535]] | <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>![[Bloodstream Infections-1795718140740.webp\|187]] |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 assess risk of metastatic infxn: key RFs = (1) community-onset, (2) +BCx ≥48h, (3) intracardiac device/prosth-valve; other RF: IVDU, valve dz, vascular graft, unknown source
 	- look for source/portal of entry: IVDU, PIV w thrombophlebitis, CVC/line, SSTI, wounds
 	- look for signs/sx of metastatic infxn (can also be the source):
@@ -47,59 +64,28 @@ mx
 - source control: remove (infected) lines, drain abscesses/collections, evaluate infected hardware (can be uninfected)
 - empiric IV vanco or ancef if don't suspect MRSA (since kills MSSA better, can always add vanco dose if unsure)
 	MSSA → cefazolin / cloxacillin
-	MRSA → vanco / daptomycin
-
-A) Ø deep/metastatic focus after adequate Ix → 2wk 
-	NOTE: incl presence of prosthesis with confidence not infected eg. based on imaging
-
-B) Ø focus found BUT occult infxn not confidently excluded → consider >2wk (persistent +BCx, incomplete Ix, retained intracardiac device/vascular graft)
-	NOTE: CIED → TEE + ID/EP for extraction even if Ø proven device infxn 
-	(HRS: extraction indicated if lead infxn or persistent SAB >4d; reasonable otherwise)
-- confirmed deep/metastatic infxn → prolonged focus-specific Tx (often 4–6wk)
-- duration counts from 1st -ve BCx (or later source control)
-
-<u>gen info/ pearls </u>
-source: Dr. Coburn ID Oct 2026
-
-why do we care - 1) high mortality (as above), 2) sticky/ metastatic spread potential
-	- prevalence of endocarditis at time of diagnosis = 8% in community acquired SAB; 2% in nosocomial SAB 
-	- involvement of ID is associated with reduction of mortality (22% vs 17% in Toronto study); but now that medical services are equipped to manage SAB, unsure if it will still be same - this is why get auto ID consult 
-	- hard to clearly distinguish where it came from vs where it goes because one its in, it can just stick somewhere and then start seeding blood etc
-	- note: staph aureus in blood CAN be a contaminant but the mortality is so high that we can't risk assuming this in some situations, so always treated as real
-complicated vs uncomplicated - old classification
-	2011 IDSA guidelines, to be considered uncomplicated, all 5 have to be satisfied
-		1) no fever at 72h of tx; 2) bcx -ve 48-72h; 3) endocarditis excluded; 4) no prosthesis; 5) no metastitic infection
-		- if met this criteria, can tx for 2wk course rather than prolonged 4-6wk
-		- main purpose was if Ø meet this criteria then higher likelihood of occult deep infection or relapse 
-		- problem: comp included both patients w confirmed metastatic infxn and those with only RFs suggesting possible occult infxn (e.g.persistent bacteremia), even if no deep infection was found → both were treated with 4-6 weeks of antibiotics.
-	2026 IDSA got rid of this distinction of "complicated" and "uncomplicated" 
-		- Old: Risk factors for occult infection OR confirmed metastatic infection → classified as complicated → generally 4-6 weeks.
-		- New: Risk factors → more extensive Ix to exclude occult infection. If adequately excluded → 14 days, even in increased-risk SAB. Confirmed deep infection → prolonged Tx.
-			IDSA wording: "increased-risk SAB" = "SAB with at least one risk factor for infection of deep tissues, metastatic foci, or relapse"
-		- Important caveat: Risk factors can still influence duration when uncertainty remains, particularly persistent bacteremia ≥48h or an incomplete/inconclusive workup, where >14 days may be warranted.
-mx
-	MSSA 
-		Cefazolin or Cloxacillin 
 		SNAP trial = ancef vs clox; equivalent in terms of efficacy, clox more intolerance so less prefered (renal/AKI, cytopenia) 
 		beta lactam better at killing MSSA than vanco
 			so when get Staph aureus (and don't know which and it doesnt say presumptive MRSA) - need to decide if should give  can call lab and check PP2A negative, can look at MRSA swab, and if early in hosp then just give cefazolin
 			after first dose of cefazolin can also give one dose of vanco if unsure - important thing is they need the one that works best first 
-	duration
-		Ø metastatic/deep infxn after adequate Ix → 2wk 
-		Ø metastatic/ deep infxn + uninfected non-cardiac prosthesis → 2wk if adequately excluded
-		Ø metastatic/ deep infxn BUT occult infxn not confidently excluded  → consider >2wk (persistent +BCx, incomplete Ix, intracardiac device/vascular graft)
-		metastatic /deep infxn (IE, OM, septic arthr, infected hardware) → prolonged abx; guided by focus (often 4-6wk)
-			NOTE: infected line is typically the primary source/portal of entry of SAB, not a metastatic or deep-seated focus if removed.
+	MRSA → vanco / daptomycin
+- abx duration
+	A) Ø deep/metastatic focus after adequate Ix → 2wk 
+		NOTE: incl presence of prosthesis with confidence not infected eg. based on imaging
+	B)  concern/ confirmed metastitic focus → longer duration
+	- Ø focus found BUT occult infxn not confidently excluded → consider >2wk (persistent +BCx, incomplete Ix, retained intracardiac device/vascular graft)
+		NOTE: CIED → TEE + ID/EP for extraction even if Ø proven device infxn 
+		(HRS: extraction indicated if lead infxn or persistent SAB >4d; reasonable otherwise)
+		NOTE: infected line is typically the primary source/portal of entry of SAB, not a metastatic or deep-seated focus if removed.
 			BUT septic thrombophlebitis (infected thrombus associated w line) → deep/endovascular focus → prolonged Tx
-	other things to do 
-		remove lines 
-		drain any SSTI collections
+	- confirmed deep/metastatic infxn → prolonged focus-specific Tx (often 4–6wk)
+	- duration counts from 1st -ve BCx (or later source control)
 
 ---
-#### <u># CoNS/ CNST bactermia</u>
+### <u>CoNS/ CNST BACTEREMIA</u>
 ```
 # ? CoNS infection 
-- usually contaminant, esp if only 1 cx, 
+- usually contaminant, esp if only 1 cx
 - can cause true infxn if: indwelling hardware usually, or indolent endocarditis
 - does Ø cause PNA/pleural, cellulitis, intra-abdominal
 - S. lug is exception; can cause true sticky BSI in absence of hardware 
@@ -111,38 +97,47 @@ mx
 - remove infected line/ hardware (source control)
 ```
 
-Includes 100s of species, lots found on skin 
-	*S. epidermidis* — most clinically important; catheter/device infections. 
-	*S. hominis, S. haemolyticus, S. capitis* — skin commensals; opportunistic infections.
-    *S. saprophyticus* — uncomplicated cystitis, particularly in young women.
-    *S. lugdunensis* (aka Slug) — important exception: coagulase-negative but behaves more like S. aureus, including aggressive endocarditis.
-Not pathogenic and doesn't usually cause true infection
-	even if it does seed the blood transiently, it is unlikely to stay and cause a true blood stream infection 
-	main virulence factor is ability to form biofilms on foreign material
-CAN cause true infection if:
-	foreign material in body (CVC, valve, prosthetic joint, VP shunt etc)
-	sometimes also endcarditis (without foreign material)
-Have to decide if real or not 
-	If real then usually grumbling, insidious, likes foreign material 
-S lug is always real, treat it like staph aureus 
-	treated like Staph aureus 
-	can even be just from repeated blood work
-	look for metastatic foci - valves, back, knees, hips etc
-Does Ø cause infections like pneumonia, pleural, cellulitis, intraabdominal 
-	so if isolated in those contexts e.g. pleural fluid culture, then most likely is a contaminant and Ø causing true infection there
-	>CoNS isolated from sputum, respiratory secretions, superficial wounds, or pleural fluid is generally less convincing as a pathogen than CoNS isolated from a properly collected specimen associated with infected hardware
-If you do think it may be a true infection, eg. endocarditis, can ask lab to speciate it to see if the same specific CoNS species keeps growing
-Lab will not do sensitivity automatically if from blood, but will do for sterile fluid from other location eg. pleural fluid
-Tx
+general info
+	Includes 100s of species, lots found on skin 
+		*S. epidermidis* — most clinically important; catheter/device infections. 
+		*S. hominis, S. haemolyticus, S. capitis* — skin commensals; opportunistic infections.
+	    *S. saprophyticus* — uncomplicated cystitis, particularly in young women.
+	    *S. lugdunensis* (aka Slug) — important exception: coagulase-negative but behaves more like S. aureus, including aggressive endocarditis.
+	Not pathogenic and doesn't usually cause true infection
+		even if it does seed the blood transiently, it is unlikely to stay and cause a true blood stream infection 
+		main virulence factor is ability to form biofilms on foreign material
+	CAN cause true infection if:
+		foreign material in body (CVC, valve, prosthetic joint, VP shunt etc)
+		sometimes also endcarditis (without foreign material)
+	Have to decide if real or not 
+		If real then usually grumbling, insidious, likes foreign material 
+	S lug is always real, treat it like staph aureus 
+		treated like Staph aureus 
+		can even be just from repeated blood work
+		look for metastatic foci - valves, back, knees, hips etc
+	Does Ø cause infections like pneumonia, pleural, cellulitis, intraabdominal 
+		so if isolated in those contexts e.g. pleural fluid culture, then most likely is a contaminant and Ø causing true infection there
+		= CoNS isolated from sputum, respiratory secretions, superficial wounds, or pleural fluid is generally less convincing as a pathogen than CoNS isolated from a properly collected specimen associated with infected hardware
+
+ix 
+	By default, lab will not tell you which one it is (unless slug)
+		If you do think it may be a true infection, eg. endocarditis, can ask lab to speciate it to see if the same specific CoNS species keeps growing
+	Lab will also not do sensitivity automatically if from blood, but will do for sterile fluid from other location eg. pleural fluid
+
+tx
 	1/2 to 2/3 of our CNST at UHN is cefazolin susceptible
 	CoNS can be methicillin resistant, so tx vanco initially prior to sens if think true infxn, sinai note says majority of cons sens to vanco but need to ask for susc testing
 	![[Bloodstream Infections-1791853302377.webp|241]]
 
 ---
-#### <u># GNB bactermia</u>
-Look for intraabdo, urinary source commonly 
+### <u>GNB BACTEREMIA</u>
+
+general info
+	Look for intraabdo, urinary source commonly 
+
 w/u
 	UA+cx, LEs, Abdo US too for biliary source or liver abscess if unclear, 
+
 mx
 	CTX empirically if no hx MDR
 	BALANCE trial= predom GNB in study, 7d abx noninferior to 14d
