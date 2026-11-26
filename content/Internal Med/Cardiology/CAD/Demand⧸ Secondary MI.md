@@ -1,3 +1,6 @@
-<u>get</u>
-ASA, statin for CAD risk 
-Outpatient risk factor stratification for CAD in the context of likely underlying CAD
+```
+# Secondary MI 
+- ASA, statin (for CAD risk)
+- Outpatient risk stratification for CAD (in context of likely underlying CAD)
+```
+

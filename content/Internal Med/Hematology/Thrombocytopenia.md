@@ -1,3 +1,4 @@
+<u>Thrombocytopenia approach</u>
 100-150 mild; 50-99 mod; <50 severe
 Bld risk <50 w srg/ active bld; <30 mild trauma; <10 spont
 
@@ -69,6 +70,8 @@ HIT
 	start with fonda, cant use oral unless plt>150 and stable
 	if no thrombosis, anticoag for 4wks, can switch to apix once plt>150 (Dr. Dhamko says >50 okay, fonda can get expensive)
 	if thrombosis, anticoag for 3mo as per conventional VTE
+
+---
 
 ITP
 	r/o TMA, HIT, acute infxn, leukemia etc.

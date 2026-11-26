@@ -39,6 +39,8 @@ Klebsiella is universally resistant to ampicillin
 Ampicillin is the IV equivalent of Amoxicillin
 Amp-sulbactam is IV equivalent of Amox-clav; we now have IV amox-clav though
 
+---
+
 <u>Abx</u>
 Penicillins (gram-positive predominant)
 - Penicillin is mostly for strep, staph aureus produces penicillinase, also good for syphillis (T pallidium) 
@@ -87,6 +89,7 @@ Misc
 MRSA PO options = doxy best, septra, sometimes FQ but need to check susceptibility
 PsA PO option = only cipro
 
+---
 
 <u>Septic shock/ undifferentiated sepsis approach </u>
 Tazo/ vanco or Mero/ vanco covers lots of these boxes above (G+, G-, anaerobes that are easy and hard) 
@@ -106,6 +109,7 @@ Nec fasc
 SA bacteremia
 → outside of those syndromes, may take some time to think about the treatment; doesn't mean they don't need abx but can just take a bit more time
 
+---
 
 ![[Empiric Antibiotics-1792541695879.webp]]
 

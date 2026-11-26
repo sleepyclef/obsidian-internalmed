@@ -18,8 +18,6 @@ step 2 - PCI vs CABG?
 	MVD + EF ≤35% = CABG (as above for prognostic benefit)
 	MVD w LAD + DM = CABG regardless of SYNTAX/complexity (FREEDOM) 
 
---- 
-
 When to consider revascularization? 
 	a) to improve <u>survival</u>
 		1. <mark style="background:rgba(3, 135, 102, 0.2)">left main dz ≥50% </mark>

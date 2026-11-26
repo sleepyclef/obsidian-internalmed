@@ -1,4 +1,4 @@
-Ddx abdo pain in PD pt 
+<u>Ddx abdo pain in PD pt</u> 
 1. PD related - PD peritonitis, exit site 
 2. Surgical abdomen (esp if localized rather than diffuse) - appendicitis, cholecystitis, hernia etc.
 3. Medical abdomen 
@@ -6,7 +6,7 @@ Ddx abdo pain in PD pt 
 5. Structural - constipation 
 6. Vascular - ischemic colitis
 
-PD peritonitis dx 2/3 -> abdo pain, cloudy dialysate, +ve culture; effluent cell count WBC >100 or >50% neuts with or without positive cultures
+<u>PD peritonitis</u> dx 2/3 -> abdo pain, cloudy dialysate, +ve culture; effluent cell count WBC >100 or >50% neuts with or without positive cultures
 
 Gather PD details (#exchanges/d, last fill etc)
 Any residual urine output and > or <100cc/d
@@ -14,22 +14,22 @@ PD effluent clear or cloudy 
 Other infx sx 
 
 w/u
-CT AP
-Effluent cell count/diff, cx/stain 
-Exit site swab cx if drainage present 
-CBC, lytes, Cr, urea, Ca, PO4, albumin, total protein 
-VBG, lactate 
-Bcx, other cx if needed 
+	CT AP
+	Effluent cell count/diff, cx/stain 
+	Exit site swab cx if drainage present 
+	CBC, lytes, Cr, urea, Ca, PO4, albumin, total protein 
+	VBG, lactate 
+	Bcx, other cx if needed 
 
 mx
-Fluid resus if septic, midodrine PRN for BP 
-Empiric abx intra-peritoneal - cefaz + tobra or ceftaz +/- vanco 
-Systemic abx if other infxn eg. bacteremia
-Analgesia for peritonitis pain
+	Fluid resus if septic, midodrine PRN for BP 
+	Empiric abx intra-peritoneal - cefaz + tobra or ceftaz +/- vanco 
+	Systemic abx if other infxn eg. bacteremia
+	Analgesia for peritonitis pain
 
 PD pts usually instructed to bring in the first cloudy bag -> ?can use to send for studies
-If not possible, drained dialysate from patient is sent for C&S, Gram stain, and cell count with differential. 
-If patient does not have indwelling effluent (IPD or NIPD) order to be filled with min 1L and allow to dwell for minimum 2 hrs before sending sample.
+	If not possible, drained dialysate from patient is sent for C&S, Gram stain, and cell count with differential. 
+	If patient does not have indwelling effluent (IPD or NIPD) order to be filled with min 1L and allow to dwell for minimum 2 hrs before sending sample.
 
 Page PD nurse (UHN pager (416)715-9232) to collect sample and start PD peritonitis protocol - send for cell count/diff and stain/ culture
 Send exit site swab for culture if drainage present 

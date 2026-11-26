@@ -5,7 +5,6 @@ ASA 650mg TID or Ibuprofen 600mg TID
 Colchicine 1.2mg BID day 1 then 0.6mg BID (70kg)/ OD (<70kg) x3mo
 Pantoprazole 40mg OD x3mo
 Exercise (heavy) restriction x3mo/ sx resolution
-
 ```
 
 mx 

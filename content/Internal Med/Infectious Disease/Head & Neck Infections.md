@@ -13,6 +13,8 @@ mx
 
 [https://healthhb.co.nz/wp-content/uploads/2020/11/Tonsillitis-2020-V2.pdf](https://healthhb.co.nz/wp-content/uploads/2020/11/Tonsillitis-2020-V2.pdf)
 
+---
+
 Infectious mononucleosis
 ```
 # Mono
